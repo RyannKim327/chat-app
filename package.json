@@ -1,0 +1,16 @@
+{
+  "name": "grading-system",
+  "version": "0.0.1",
+  "description": "A simple web based Grading system",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "RyannKim327",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security"
+  }
+}

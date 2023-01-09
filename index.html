@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>So-called Grading System</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+				box-sizing: 0;
+				border: 0;
+				outline: 0;
+				user-select: none;
+			}
+			form{
+				background-color: #dedede;
+				margin: 1em;
+				overflow-x: auto;
+				padding: 0.5em;
+				border-radius: 0.75em;
+				
+			}
+			.insideTable{
+				max-width: 10em;
+				width: 10em;
+				overflow-x: hidden;
+			}
+			input[type='number'], input[type="text"]{
+				border: 1px #000000 solid;
+				border-radius: 1em;
+				padding: 0 0.5em;
+				margin: 0.25em;
+				width: 3em;
+			}
+			input[type="submit"]{
+				border: 1px #000000 solid;
+				border-radius: 1em;
+				padding: 0 1em;
+				margin: 0.25em;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="/send" method="POST">
+			<h3 style="text-align: center;">This is just a sample for my so-called grading system for teacher:</h3>
+			<table>
+				<tr>
+					<th>
+						<label for="studentid">Student ID:</label>
+					</th>
+					<td>
+						<input type="text" name="studentid" id="studentid">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<label for="grading">Grading:</label>
+					</th>
+					<td>
+						<input type="number" name="grading" id="grading">
+					</td>
+					<th>
+						<label for="exam">Examination:</label>
+					</th>
+					<td>
+						<input type="number" name="exam" id="exam">
+					</td>
+					
+				</tr>
+				<tr>
+					<th>
+						<label for="quiz">Quiz:</label>
+					</th>
+					<td>
+						<input type="number" id="quiz" name="quiz" onkeyup="_quiz_()">
+					</td>
+					<th>
+						<label for="acts">Activity:</label>
+					</th>
+					<td>
+						<input type="number" id="acts" name="activity" onkeyup="_activity_()">
+					</td>
+				</tr>
+			</table>
+			<table class="insideTable">
+				<tr id="quizHeader"></tr>
+				<tr id="quizes"></tr>
+			</table>
+			<table class="insideTable">
+				<tr id="actHeader"></tr>
+				<tr id="activity"></tr>
+			</table>
+			<input type="submit">
+		</form>
+	</body>
+	<script>
+		let id = (_name_) => {
+			return document.getElementById(_name_)
+		}
+		function _quiz_(){
+			let header = id("quizHeader")
+			let quizes = id("quizes")
+			let _quiz = parseInt(id("quiz").value)
+			let x = ""
+			let y = ""
+			for(let i = 0; i < _quiz; i++){
+				x += `<th>Quiz #${i + 1}</th>`
+				y += `<td><input type="number" name="quiz${i}" required>/<input type="number" name="qtotal${i}" placeholder="Total"></td>`
+			}
+			header.innerHTML = x
+			quizes.innerHTML = y
+		}
+		function _activity_(){
+			let header = id("actHeader")
+			let acts = id("activity")
+			let _act = parseInt(id("acts").value)
+			let x = ""
+			let y = ""
+			for(let i = 0; i < _act; i++){
+				x += `<th>Activity #${i + 1}</th>`
+				y += `<td><input type="number" name="act${i}" required>/<input type="number" name="atotal${i}" placeholder="Total"></td>`
+			}
+			header.innerHTML = x
+			acts.innerHTML = y
+		}
+	</script>
+</html>
