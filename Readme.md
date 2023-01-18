@@ -1,14 +1,11 @@
-### So-Called Grading System
+### Sample Chat App with ExpressJS, NodeJS
 #### MPOP Reverse II (Ryann Kim Sesgundo)
 ---
-> This is just a simple project that send data from the form, and can be retrieve thru it. By using the fetch in javascript, also the RestAPI method, you can easily gather some data and information you've inserted to the JSON (as database). This repository uses Expressjs ano NodeJS to perform the backend and JSON as database, to store some information gathered. Regarding th the front-end, it is just basically the HTML and Javascript with less CSS, which I'm struggling to design and to create some responsive designing.
+> This is just a simple web based so-called application that update everytime.
+---
+### Credits
+1. ChatGPT - for telling me kung saan ako nagkulang
 
 ---
-### How to start
-```Bash
-npm start
-```
-**OR**
-```Bash
-node index
-```
+### Issue Fixed before the first release
+1. Undefined req.body in ExpressJS

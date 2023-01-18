@@ -1,11 +1,14 @@
 {
-  "name": "grading-system",
+  "name": "chat-app",
   "version": "0.0.1",
-  "description": "A simple web based Grading system",
+  "description": "A simple web based chatting app idea",
   "main": "index.js",
   "scripts": {
-    "start": "node index"
+    "test": "node index"
   },
+  "keywords": [
+    "chat-app"
+  ],
   "author": "RyannKim327",
   "license": "ISC",
   "dependencies": {

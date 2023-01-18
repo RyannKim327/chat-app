@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>So-called Grading System</title>
+		<title>Document</title>
 		<style>
 			*{
 				margin: 0;
@@ -14,116 +14,99 @@
 				outline: 0;
 				user-select: none;
 			}
-			form{
-				background-color: #dedede;
+			.form{
 				margin: 1em;
-				overflow-x: auto;
-				padding: 0.5em;
-				border-radius: 0.75em;
-				
+				padding: 0.75em;
+				background-color: #dedede;
+				border-radius: 0.5em;
 			}
-			.insideTable{
-				max-width: 10em;
-				width: 10em;
-				overflow-x: hidden;
-			}
-			input[type='number'], input[type="text"]{
-				border: 1px #000000 solid;
-				border-radius: 1em;
-				padding: 0 0.5em;
+			.form input{
 				margin: 0.25em;
-				width: 3em;
-			}
-			input[type="submit"]{
-				border: 1px #000000 solid;
-				border-radius: 1em;
-				padding: 0 1em;
-				margin: 0.25em;
+				padding: 0.2em 1em;
+				border-radius: 0.5em;
+				background-color: #aaaaaa;
+				color: #ffffff;
+				font-weight: bolder;
 			}
 		</style>
 	</head>
 	<body>
-		<form action="/send" method="POST">
-			<h3 style="text-align: center;">This is just a sample for my so-called grading system for teacher:</h3>
+		<div id="login" class="form">
 			<table>
 				<tr>
 					<th>
-						<label for="studentid">Student ID:</label>
+						<label for="username">Username:</label>
 					</th>
 					<td>
-						<input type="text" name="studentid" id="studentid">
+						<input type="text" name="username" id="username" onkeyup="check()">
 					</td>
 				</tr>
 				<tr>
 					<th>
-						<label for="grading">Grading:</label>
+						<label for="password">Password:</label>
 					</th>
 					<td>
-						<input type="number" name="grading" id="grading">
+						<input type="password" name="password" id="password" onkeyup="check()">
 					</td>
-					<th>
-						<label for="exam">Examination:</label>
-					</th>
-					<td>
-						<input type="number" name="exam" id="exam">
-					</td>
-					
 				</tr>
 				<tr>
-					<th>
-						<label for="quiz">Quiz:</label>
-					</th>
-					<td>
-						<input type="number" id="quiz" name="quiz" onkeyup="_quiz_()">
-					</td>
-					<th>
-						<label for="acts">Activity:</label>
-					</th>
-					<td>
-						<input type="number" id="acts" name="activity" onkeyup="_activity_()">
+					<td colspan="2">
+						<input type="hidden" id="_login" value="Proceed" onclick="login()">
 					</td>
 				</tr>
 			</table>
-			<table class="insideTable">
-				<tr id="quizHeader"></tr>
-				<tr id="quizes"></tr>
-			</table>
-			<table class="insideTable">
-				<tr id="actHeader"></tr>
-				<tr id="activity"></tr>
-			</table>
-			<input type="submit">
-		</form>
+		</div>
 	</body>
 	<script>
+		let credentials = {
+			id: -1,
+			username: ""
+		}
 		let id = (_name_) => {
 			return document.getElementById(_name_)
 		}
-		function _quiz_(){
-			let header = id("quizHeader")
-			let quizes = id("quizes")
-			let _quiz = parseInt(id("quiz").value)
-			let x = ""
-			let y = ""
-			for(let i = 0; i < _quiz; i++){
-				x += `<th>Quiz #${i + 1}</th>`
-				y += `<td><input type="number" name="quiz${i}" required>/<input type="number" name="qtotal${i}" placeholder="Total"></td>`
+		function check(){
+			let username = id("username")
+			let password = id("password")
+			let _login = id("_login")
+			let user = username.value
+			let pass = password.value
+			if(user.length > 5 && pass.length > 8){
+				_login.type = "submit"
+			}else{
+				_login.type = "hidden"
 			}
-			header.innerHTML = x
-			quizes.innerHTML = y
 		}
-		function _activity_(){
-			let header = id("actHeader")
-			let acts = id("activity")
-			let _act = parseInt(id("acts").value)
-			let x = ""
-			let y = ""
-			for(let i = 0; i < _act; i++){
-				x += `<th>Activity #${i + 1}</th>`
-				y += `<td><input type="number" name="act${i}" required>/<input type="number" name="atotal${i}" placeholder="Total"></td>`
+		function login(){
+			let username = id("username")
+			let password = id("password")
+			let _login = id("login")
+			let user = username.value
+			let pass = password.value
+
+			if(user.length >= 5 && pass.length >= 8){
+				let json = {
+					"username": user,
+					"password": pass
+				}
+				console.log(json)
+				fetch('login', {
+					method: "POST",
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(json)
+				}).then(r => {
+					let data = r.json()
+					credentials.username = data.user
+					credentials.id = data.id
+					console.log(JSON.stringify(credentials))
+				}).then(data => {
+					console.log(data)
+				}).catch(e => {
+					alert(e)
+				})
 			}
-			header.innerHTML = x
-			acts.innerHTML = y
 		}
 	</script>
 </html>
