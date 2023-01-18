@@ -56,6 +56,9 @@
 				</tr>
 			</table>
 		</div>
+		<div id="chat" class="form" style="display: none;">
+			<p id="myname"></p>
+		</div>
 	</body>
 	<script>
 		let credentials = {
@@ -71,16 +74,17 @@
 			let _login = id("_login")
 			let user = username.value
 			let pass = password.value
-			if(user.length > 5 && pass.length > 8){
+			if(user.length >= 5 && pass.length >= 8){
 				_login.type = "submit"
 			}else{
 				_login.type = "hidden"
 			}
 		}
-		function login(){
+		async function login(){
 			let username = id("username")
 			let password = id("password")
 			let _login = id("login")
+			let _chat = id("chat")
 			let user = username.value
 			let pass = password.value
 
@@ -90,17 +94,23 @@
 					"password": pass
 				}
 				console.log(json)
-				fetch('login', {
+				await fetch('login', {
 					method: "POST",
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(json)
-				}).then(r => {
-					let data = r.json()
-					credentials.username = data.user
-					credentials.id = data.id
-					console.log(JSON.stringify(credentials))
+				}).then(async r => {
+					let data = await r.json()
+					if(data.exists){
+						credentials.username = data.user
+						credentials.id = data.id
+						_login.style.display = "none"
+						_chat.style.display = "block"
+						id("myname").textContent = `Welcome ${data.user}`
+					}else{
+						alert("Wrong username or password.")
+					}
 				}).then(data => {
 					console.log(data)
 				}).catch(e => {
