@@ -60,6 +60,22 @@ app.post("/login", body, (req, res) => {
 	res.send(JSON.stringify(json))
 })
 
+app.post("/send", body, (req, res) => {
+	let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
+	let user = req.body.username
+	let txt = req.body.txt
+	let json = {
+		result: true
+	}
+	let data = {
+		user,
+		txt
+	}
+	db.chats.push(data)
+	fs.writeFileSync("data.json", JSON.stringify(db), "utf-8")
+	return json
+})
+
 app.listen(PORT, () => {
 	console.log(`Currently listening to PORT: ${PORT}`)
 })

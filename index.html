@@ -28,6 +28,10 @@
 				color: #ffffff;
 				font-weight: bolder;
 			}
+			#chat ul{
+				list-style: none;
+				margin: 1em 0;
+			}
 		</style>
 	</head>
 	<body>
@@ -58,8 +62,11 @@
 		</div>
 		<div id="chat" class="form" style="display: none;">
 			<p id="myname"></p>
-			<input type="search" id="chatmate">
-			<ul id="lists"></ul>
+			<ul id="lists" style="max-height: 10em;"></ul>
+			<span>
+				<input type="text" id="chats">
+				<input type="button" value="SEND" onclick="send()">
+			</span>
 		</div>
 	</body>
 	<script>
@@ -81,22 +88,6 @@
 			}else{
 				_login.type = "hidden"
 			}
-		}
-
-		async function startFetch(){
-			try{
-				let get = await fetch('/check').then(r => { return r.json() }).catch(e => { console.error(e) })
-				let li = ""
-				let l = get.lists
-				for(let i in l){
-					li += `<li>${l[i]}</li>`
-				}
-				li += ""
-				id("lists").innerHTML = li
-			}catch(e){
-				console.error(e)
-			}
-			startFetch()
 		}
 
 		async function login(){
@@ -137,6 +128,41 @@
 					alert(e)
 				})
 			}
+		}
+		async function startFetch(){
+			try{
+				let get = await fetch('/check').then(r => { return r.json() }).catch(e => { console.error(e) })
+				let li = ""
+				let l = get.lists
+				let j = 0
+				for(let i = l.length - 1; i >= 0 && j < 10; i--){
+					li += `<li>${l[i].user} - ${l[i].txt}</li>`
+					j++
+				}
+				li += ""
+				id("lists").innerHTML = li
+			}catch(e){
+				
+			}
+			setTimeout(startFetch(), 500)
+		}
+		async function send(){
+			let txt = id("chats").value
+			let username = credentials.username
+			if(txt.length > 2){
+				let json = {
+					username,
+					txt
+				}
+				await fetch("/send", {
+					method: "POST",
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(json)
+				})
+			}
+			txt.value = ""
 		}
 	</script>
 </html>
