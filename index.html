@@ -58,6 +58,8 @@
 		</div>
 		<div id="chat" class="form" style="display: none;">
 			<p id="myname"></p>
+			<input type="search" id="chatmate">
+			<ul id="lists"></ul>
 		</div>
 	</body>
 	<script>
@@ -80,6 +82,23 @@
 				_login.type = "hidden"
 			}
 		}
+
+		async function startFetch(){
+			try{
+				let get = await fetch('/check').then(r => { return r.json() }).catch(e => { console.error(e) })
+				let li = ""
+				let l = get.lists
+				for(let i in l){
+					li += `<li>${l[i]}</li>`
+				}
+				li += ""
+				id("lists").innerHTML = li
+			}catch(e){
+				console.error(e)
+			}
+			startFetch()
+		}
+
 		async function login(){
 			let username = id("username")
 			let password = id("password")
@@ -108,6 +127,7 @@
 						_login.style.display = "none"
 						_chat.style.display = "block"
 						id("myname").textContent = `Welcome ${data.user}`
+						startFetch()
 					}else{
 						alert("Wrong username or password.")
 					}
