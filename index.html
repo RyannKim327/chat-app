@@ -13,6 +13,7 @@
 				border: 0;
 				outline: 0;
 				user-select: none;
+				color: black !important;
 			}
 			.form{
 				margin: 1em;
@@ -27,10 +28,16 @@
 				background-color: #aaaaaa;
 				color: #ffffff;
 				font-weight: bolder;
+				color: white !important;
 			}
 			#chat ul{
 				list-style: none;
 				margin: 1em 0;
+			}
+			#lists{
+				height: 25em;
+				max-height: 25em;
+				overflow-y: scroll;
 			}
 		</style>
 	</head>
@@ -62,7 +69,7 @@
 		</div>
 		<div id="chat" class="form" style="display: none;">
 			<p id="myname"></p>
-			<ul id="lists" style="max-height: 70em;"></ul>
+			<ul id="lists"></ul>
 			<span>
 				<input type="text" id="chats">
 			</span>
@@ -137,19 +144,22 @@
 				_chat.style.display = "block"
 			}
 			try{
-				let get = await fetch('/check').then(r => { return r.json() }).catch(e => { console.error(e) })
+				let get = await fetch('/check').then(r => { return r.json() }).catch(e => {})
 				let li = ""
 				let l = get.lists
 				let j = 0
 				for(let i = l.length - 1; i >= 0 && j < 50; i--){
-					li += `<li>${l[i].user}: ${l[i].txt}</li>`
+					let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
+					let msg = l[i].txt.replace("\<", "&lt;").replace("\>", "&gt;")
+					if(gex.test(msg)){
+						msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
+					}
+					li += `<li>${l[i].user}: ${msg}</li>`
 					j++
 				}
 				li += ""
 				id("lists").innerHTML = li
-			}catch(e){
-				
-			}
+			}catch(e){}
 			setTimeout(startFetch(), 750)
 		}
 		function input(){
@@ -175,7 +185,7 @@
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(json)
-				})
+				}).then(r => {}).catch(e => {})
 			}
 			txt.value = ""
 		}

@@ -68,14 +68,30 @@ app.post("/send", body, (req, res) => {
 	let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
 	let user = req.body.username
 	let txt = req.body.txt
-	let json = {
-		result: true
+	let json = {}
+	if(txt == "/clear" && user.toLowerCase() == "ryannkim327"){
+		json = [
+				{
+					"user": "Welcome Bot",
+					"txt":"Hello Guys"
+				},{
+					"user": "Welcome Bot",
+					"txt": "So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this."
+				},{
+					"user": "Welcome Bot",
+					"txt": "BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 10 latest messages from different people, so that, expect that this message will be gone soon."}
+			]
+		db.chats = json
+	}else{
+		json = {
+			result: true
+		}
+		let data = {
+			user,
+			txt
+		}
+		db.chats.push(data)
 	}
-	let data = {
-		user,
-		txt
-	}
-	db.chats.push(data)
 	fs.writeFileSync("data.json", JSON.stringify(db), "utf-8")
 	return json
 })
