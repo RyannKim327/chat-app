@@ -70,27 +70,52 @@ app.post("/send", body, (req, res) => {
 	let id = parseInt(req.body.id)
 	let user = req.body.username
 	let txt = req.body.txt
+	let bad = /(tanga|bobo|gago|ulol|olol|ulul|olul|tangina)\b/i
 	let json = {}
-	if(txt == "/clear" && id == 0){
-		json = [
+	if(txt.startsWith("!") && id == 0){
+		let ban = /!ban ([\w]+)/i
+		let unban = /!unban ([\w]+)/i
+		if(txt == "!clear"){
+			json = [
 				{
 					"user": "Welcome Bot",
 					"txt":"Hello Guys!!!"
 				},{
 					"user": "Welcome Bot",
-					"txt": "So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 10 latest messages from different people, so that, expect that this message will be gone soon."
+					"txt": "So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon."
 				}
 			]
-		db.chats = json
+			db.chats = json
+		}else if(ban.test(txt)){
+			let usr = txt.match(ban)[1]
+			db.ban += `${usr.toLowerCase()}, `
+		}else if(unban.test(txt)){
+			let usr = txt.match(unban)[1]
+			db.ban = db.ban.replace(`${usr.toLowerCase()}, `, "")
+			let data = {
+				user: "Rule Regulator Bot",
+				txt: `User ${usr} is now unbanned, you may now chat again with us.`
+			}
+			db.chats.push(data)
+		}
 	}else{
-		json = {
-			result: true
+		if(bad.test(txt) && id != 0){
+			let data = {
+				user: "Rule Regulator Bot",
+				txt: `User ${user} is automatically muted for the moment, please watch your words to avoid this issue.`
+			}
+			db.ban += `${user.toLowerCase()}, `
+			db.chats.push(data)
+		}else if(!db.ban.includes(user.toLowerCase())){
+			json = {
+				result: true
+			}
+			let data = {
+				user,
+				txt
+			}
+			db.chats.push(data)
 		}
-		let data = {
-			user,
-			txt
-		}
-		db.chats.push(data)
 	}
 	fs.writeFileSync("data.json", JSON.stringify(db), "utf-8")
 	return json

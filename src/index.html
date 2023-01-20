@@ -44,6 +44,18 @@
 				max-height: 25em;
 				overflow-y: scroll;
 			}
+			.bottom{
+				position: absolute;
+				bottom: 1em;
+				left: 1em;
+				right: 1em;
+			}
+			.bottom input{
+				width: 100%;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+			}
 		</style>
 	</head>
 	<body>
@@ -75,10 +87,10 @@
 		<div id="chat" class="form" style="display: none;">
 			<p id="myname"></p>
 			<ul id="lists"></ul>
-			<span>
-				<input type="text" id="chats">
-			</span>
 		</div>
+		<span class="form bottom">
+			<input type="text" id="chats" placeholder="Your message here">
+		</span>
 	</body>
 	<script>
 		let id = (_name_) => {
@@ -88,6 +100,7 @@
 			id: -1,
 			username: ""
 		}
+		let refresh = 0
 		let Scookie = (__name__) => {
 			let cook = document.cookie
 			let name = `${__name__}=`	
@@ -189,7 +202,7 @@
 				_chat.style.display = "block"
 			}
 			try{
-				let get = await fetch('/check').then(r => { return r.json() }).catch(e => {})
+				let get = await fetch('/check').then(async r => { return await r.json() }).catch(e => {})
 				let li = ""
 				let l = get.lists
 				let j = 0
@@ -202,7 +215,7 @@
 					li += `<li>${l[i].user}: ${msg}</li>`
 					j++
 				}
-				if(l[l.length - 1].user == credentials.username && credentials.username.toLowerCase() != "ryannkim327"){
+				if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && credentials.username.toLowerCase() != "ryannkim327"){
 					id("chats").style.display = "none"
 				}else{
 					id("chats").style.display = "inline"
@@ -210,7 +223,13 @@
 				li += ""
 				id("lists").innerHTML = li
 			}catch(e){}
-			setTimeout(startFetch(), 750)
+			if(refresh <= 10){
+				refresh++
+				setTimeout(startFetch(), 1000)
+			}else{
+				refresh = 0
+				setTimeout(startFetch(), 10000)
+			}
 		}
 		function input(){
 			let chat = id("chats")
