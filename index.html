@@ -13,7 +13,7 @@
 				border: 0;
 				outline: 0;
 				user-select: none;
-				color: black !important;
+				color: #000000 !important;
 			}
 			.form{
 				margin: 1em;
@@ -28,7 +28,10 @@
 				background-color: #aaaaaa;
 				color: #ffffff;
 				font-weight: bolder;
-				color: white !important;
+				color: #ffffff !important;
+			}
+			.form input::placeholder{
+				color: #ffffff;
 			}
 			#chat ul{
 				list-style: none;
@@ -49,7 +52,7 @@
 						<label for="username">Username:</label>
 					</th>
 					<td>
-						<input type="text" name="username" id="username" onkeyup="check()">
+						<input type="text" name="username" id="username" onkeyup="check()" placeholder="Atleast 5 characters long">
 					</td>
 				</tr>
 				<tr>
@@ -57,7 +60,7 @@
 						<label for="password">Password:</label>
 					</th>
 					<td>
-						<input type="password" name="password" id="password" onkeyup="check()">
+						<input type="password" name="password" id="password" onkeyup="check()" placeholder="Atleast 8 characters long">
 					</td>
 				</tr>
 				<tr>
@@ -122,6 +125,7 @@
 						credentials.username = data.user
 						credentials.id = data.id
 						_login.style.display = "none"
+						_login.innerHTML = ""
 						_chat.style.display = "block"
 						id("myname").textContent = `Welcome ${data.user}`
 						input()
@@ -148,7 +152,7 @@
 				let li = ""
 				let l = get.lists
 				let j = 0
-				for(let i = l.length - 1; i >= 0 && j < 50; i--){
+				for(let i = l.length - 1; i >= 0 && j < 25; i--){
 					let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
 					let msg = l[i].txt.replace("\<", "&lt;").replace("\>", "&gt;")
 					if(gex.test(msg)){
