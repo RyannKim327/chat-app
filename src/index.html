@@ -4,8 +4,10 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Document</title>
-		<style>
+		<title>Welcome to my chat app</title>
+		<meta name="og:title" content="Welcome to my chat app">
+		<meta name="og:description" content="A simple web application developed with HTML, CSS, Javascript, NodeJS and ExpressJS">
+		<style type="text/css">
 			*{
 				margin: 0;
 				padding: 0;
@@ -79,12 +81,45 @@
 		</div>
 	</body>
 	<script>
+		let id = (_name_) => {
+			return document.getElementById(_name_)
+		}
 		let credentials = {
 			id: -1,
 			username: ""
 		}
-		let id = (_name_) => {
-			return document.getElementById(_name_)
+		let Scookie = (__name__) => {
+			let cook = document.cookie
+			let name = `${__name__}=`	
+			let decode = decodeURIComponent(cook)
+			let spl = decode.split(";")
+			for(let i in spl){
+				let kie = spl[i]
+				while(kie[0] == " "){
+					kie = kie.substring(1)
+				}
+				if(kie.indexOf(name) == 0){
+					return kie.substring(name.length, kie.length)
+				}
+			}
+			return ""
+		}
+		if(Scookie("username") != ""){
+			let username = id("username")
+			let password = id("password")
+			let _login = id("login")
+			let _chat = id("chat")
+			
+			credentials.username = Scookie("username")
+			credentials.id = parseInt(Scookie("id"))
+			_login.style.display = "none"
+			_login.innerHTML = ""
+			_chat.style.display = "block"
+			id("myname").textContent = `Welcome ${credentials.username}`
+			input()
+			startFetch()
+		}else{
+			check()
 		}
 		function check(){
 			let username = id("username")
@@ -122,12 +157,20 @@
 				}).then(async r => {
 					let data = await r.json()
 					if(data.exists){
+						let cookie = (__name__, __data__) => {
+							const date = new Date()
+							date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
+							let xp = `expires=${date.toUTCString()}`
+							document.cookie = `${__name__}=${__data__};${xp};path=/`
+						}
 						credentials.username = data.user
 						credentials.id = data.id
 						_login.style.display = "none"
 						_login.innerHTML = ""
 						_chat.style.display = "block"
 						id("myname").textContent = `Welcome ${data.user}`
+						cookie("username", data.user)
+						cookie("id", data.id)
 						input()
 						startFetch()
 					}else{
@@ -135,13 +178,11 @@
 					}
 				}).then(data => {
 					console.log(data)
-				}).catch(e => {
-					alert(e)
-				})
+				}).catch(e => {})
 			}
 		}
 		async function startFetch(){
-			if(credentials.username == ""){
+			if(credentials.id == 0){
 				let _login = id("login")
 				let _chat = id("chat")
 				_login.style.display = "none"
@@ -181,10 +222,12 @@
 			})
 		}
 		async function send(){
+			let _id = credentials.id
 			let txt = id("chats").value
 			let username = credentials.username
 			if(txt.length > 2){
 				let json = {
+					id: _id,
 					username,
 					txt
 				}

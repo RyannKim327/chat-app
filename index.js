@@ -10,9 +10,10 @@ const body = parser.urlencoded({ extended: true })
 const PORT = process.env.PORT | 5000 | 3000
 
 app.use(parser.json())
+app.use(express.static(`${__dirname}/public`))
 
 app.get("/", (req, res) => {
-	res.sendFile(`${__dirname}/index.html`)
+	res.sendFile(`${__dirname}/src/index.html`)
 })
 
 app.get("/check", (req, res) => {
@@ -66,10 +67,11 @@ app.post("/login", body, (req, res) => {
 
 app.post("/send", body, (req, res) => {
 	let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
+	let id = parseInt(req.body.id)
 	let user = req.body.username
 	let txt = req.body.txt
 	let json = {}
-	if(txt == "/clear" && user.toLowerCase() == "ryannkim327"){
+	if(txt == "/clear" && id == 0){
 		json = [
 				{
 					"user": "Welcome Bot",
