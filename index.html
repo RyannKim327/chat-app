@@ -161,6 +161,11 @@
 					li += `<li>${l[i].user}: ${msg}</li>`
 					j++
 				}
+				if(l[l.length - 1].user == credentials.username && credentials.username.toLowerCase() != "ryannkim327"){
+					id("chats").style.display = "none"
+				}else{
+					id("chats").style.display = "inline"
+				}
 				li += ""
 				id("lists").innerHTML = li
 			}catch(e){}
