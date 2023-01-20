@@ -35,10 +35,6 @@
 			.form input::placeholder{
 				color: #ffffff;
 			}
-			#chat ul{
-				list-style: none;
-				margin: 1em 0;
-			}
 			#lists{
 				height: 25em;
 				max-height: 25em;
@@ -55,6 +51,12 @@
 				box-sizing: border-box;
 				-moz-box-sizing: border-box;
 				-webkit-box-sizing: border-box;
+			}
+			.chats{
+				text-align: justify;
+			}
+			.msg{
+				display: inline-block;
 			}
 		</style>
 	</head>
@@ -86,7 +88,7 @@
 		</div>
 		<div id="chat" class="form" style="display: none;">
 			<p id="myname"></p>
-			<ul id="lists"></ul>
+			<div id="lists"></div>
 		</div>
 		<span class="form bottom">
 			<input type="text" id="chats" placeholder="Your message here">
@@ -203,7 +205,7 @@
 			}
 			try{
 				let get = await fetch('/check').then(async r => { return await r.json() }).catch(e => {})
-				let li = ""
+				let li = "<table>"
 				let l = get.lists
 				let j = 0
 				for(let i = l.length - 1; i >= 0 && j < 25; i--){
@@ -212,7 +214,7 @@
 					if(gex.test(msg)){
 						msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
 					}
-					li += `<li>${l[i].user}: ${msg}</li>`
+					li += `<tr><td class="chats">${l[i].user}:</td> <td class="chats msg">${msg}</td></tr>`
 					j++
 				}
 				if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && credentials.username.toLowerCase() != "ryannkim327"){
@@ -220,7 +222,7 @@
 				}else{
 					id("chats").style.display = "inline"
 				}
-				li += ""
+				li += "</table>"
 				id("lists").innerHTML = li
 			}catch(e){}
 			if(refresh <= 10){
