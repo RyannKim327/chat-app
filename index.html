@@ -62,10 +62,9 @@
 		</div>
 		<div id="chat" class="form" style="display: none;">
 			<p id="myname"></p>
-			<ul id="lists" style="max-height: 10em;"></ul>
+			<ul id="lists" style="max-height: 70em;"></ul>
 			<span>
 				<input type="text" id="chats">
-				<input type="button" value="SEND" onclick="send()">
 			</span>
 		</div>
 	</body>
@@ -118,6 +117,7 @@
 						_login.style.display = "none"
 						_chat.style.display = "block"
 						id("myname").textContent = `Welcome ${data.user}`
+						input()
 						startFetch()
 					}else{
 						alert("Wrong username or password.")
@@ -130,13 +130,19 @@
 			}
 		}
 		async function startFetch(){
+			if(username == ""){
+				let _login = id("login")
+				let _chat = id("chat")
+				_login.style.display = "none"
+				_chat.style.display = "block"
+			}
 			try{
 				let get = await fetch('/check').then(r => { return r.json() }).catch(e => { console.error(e) })
 				let li = ""
 				let l = get.lists
 				let j = 0
-				for(let i = l.length - 1; i >= 0 && j < 10; i--){
-					li += `<li>${l[i].user} - ${l[i].txt}</li>`
+				for(let i = l.length - 1; i >= 0 && j < 50; i--){
+					li += `<li>${l[i].user}: ${l[i].txt}</li>`
 					j++
 				}
 				li += ""
@@ -144,7 +150,16 @@
 			}catch(e){
 				
 			}
-			setTimeout(startFetch(), 500)
+			setTimeout(startFetch(), 750)
+		}
+		function input(){
+			let chat = id("chats")
+			chat.addEventListener("keyup", (event) => {
+				if(event.keyCode === 13){
+					send()
+					chat.value = ""
+				}
+			})
 		}
 		async function send(){
 			let txt = id("chats").value

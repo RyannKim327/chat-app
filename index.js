@@ -26,7 +26,7 @@ app.get("/check", (req, res) => {
 
 app.post("/login", body, (req, res) => {
 	let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
-	let user = req.body.username
+	let user = req.body.username.replace(/\s/gi, "_")
 	let pass = enc(req.body.password)
 	let json = {
 		exists: false
@@ -39,6 +39,10 @@ app.post("/login", body, (req, res) => {
 			username: user,
 			password: pass
 		}
+		db.chats.push({
+			user: "Welcome Bot",
+			txt: `Welcome to Chatapp ${user}`
+		})
 		fs.writeFileSync('data.json', JSON.stringify(db), "utf-8")
 		json = {
 			exists: true,
