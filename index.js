@@ -83,7 +83,7 @@ app.post("/send", body, (req, res) => {
 			let ban = /!ban ([\w]+)/i
 			let unban = /!unban ([\w]+)/i
 			if(txt == "!clear"){
-				json = [
+				_json = [
 					{
 						"user": "Welcome",
 						"rank": "bot",
@@ -94,7 +94,7 @@ app.post("/send", body, (req, res) => {
 						"txt": "So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon."
 					}
 				]
-				db.chats = json
+				db.chats = _json
 			}else if(ban.test(txt)){
 				let usr = txt.match(ban)[1]
 				db.ban += `${usr.toLowerCase()}, `
@@ -107,6 +107,9 @@ app.post("/send", body, (req, res) => {
 					"txt": `User ${usr} is now unbanned, you may now chat again with us.`
 				}
 				db.chats.push(data)
+			}
+			json = {
+				exists: true
 			}
 		}else{
 			if(bad.test(txt) && id != 0){
