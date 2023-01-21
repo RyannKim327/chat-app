@@ -13,6 +13,20 @@ const PORT = process.env.PORT | 5000 | 3000
 app.use(parser.json())
 app.use('/static', express.static(path.join(__dirname + "/audio")))
 
+let ranks = (score) => {
+	if(score < 100){
+		return "observant"
+	}else if(score < 250){
+		return "shy"
+	}else if(score < 500){
+		return "lowkey"
+	}else if(score < 1000){
+		return "talkative"
+	}else{
+		return "sociative"
+	}
+}
+
 app.get("/", (req, res) => {
 	res.sendFile(`${__dirname}/src/index.html`)
 })
@@ -40,7 +54,8 @@ app.post("/login", body, (req, res) => {
 			id,
 			username: user,
 			password: pass,
-			rank: "normal"
+			rank: "observant",
+			pts: 0
 		}
 		db.chats.push({
 			user: "Welcome Bot",
@@ -121,6 +136,10 @@ app.post("/send", body, (req, res) => {
 				db.ban += `${user.toLowerCase()}, `
 				db.chats.push(data)
 			}else if(!db.ban.includes(user.toLowerCase())){
+				if(db.users[user.toLowerCase()].rank != "admin"){
+					db.users[user.toLowerCase()].pts += 1
+					db.users[user.toLowerCase()].rank = ranks(db.users[user.toLowerCase()].pts)
+				}
 				json = {
 					exists: true
 				}
