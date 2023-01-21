@@ -213,6 +213,7 @@
 				let get = await fetch('/check').then(r => { return r.json() }).catch(e => {})
 				let li = "<table>"
 				let l = get.lists.chats
+				let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
 				let j = 0
 				for(let i = l.length - 1; i >= 0 && j < 25; i--){
 					let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
@@ -231,7 +232,7 @@
 					li += `<tr><th class="chats top">${user} ${ranks}</th><td>:</td> <td class="chats msg">${msg}</td></tr>`
 					j++
 				}
-				if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && credentials.id != 0){
+				if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && (usrRank != "admin" && usrRank != "moderator")){
 					id("chats").style.display = "none"
 				}else{
 					id("chats").style.display = "inline"
