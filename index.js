@@ -12,6 +12,7 @@ const PORT = process.env.PORT | 5000 | 3000
 
 app.use(parser.json())
 app.use('/static', express.static(path.join(__dirname + "/audio")))
+app.use('/ext', express.static(path.join(__dirname + "/src")))
 
 let ranks = (score) => {
 	if(score < 100){
