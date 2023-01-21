@@ -136,7 +136,7 @@ app.post("/send", body, (req, res) => {
 				db.ban += `${user.toLowerCase()}, `
 				db.chats.push(data)
 			}else if(!db.ban.includes(user.toLowerCase())){
-				if(db.users[user.toLowerCase()].rank != "admin" || db.users[user.toLowerCase()].rank != "moderator"){
+				if(db.users[user.toLowerCase()].rank != "admin" && db.users[user.toLowerCase()].rank != "moderator"){
 					let r = db.users[user.toLowerCase()].rank
 					db.users[user.toLowerCase()].pts += 1
 					db.users[user.toLowerCase()].rank = ranks(db.users[user.toLowerCase()].pts)
