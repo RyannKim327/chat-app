@@ -109,37 +109,45 @@ async function startFetch(){
 		_chat.style.display = "block"
 	}
 	try{
-		let get = await fetch('/check').then(r => { return r.json() }).catch(e => {})
-		let li = "<table>"
-		let l = get.lists.chats
-		let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
-		let j = 0
-		for(let i = l.length - 1; i >= 0 && j < 25; i--){
-			let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
-			let msg = l[i].txt.replace("\<", "&lt;").replace("\>", "&gt;")
-			let user = l[i].user
-			let date = new Date(l[i].time)
-			let time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
-			let ranks = ""
-			if(get.lists.users[user.toLowerCase()] != undefined){
-				ranks = `[${get.lists.users[user.toLowerCase()].rank}]`
+		await fetch('/check').then(r => r.json()).then(get => {
+			let li = ""
+			let l = get.lists.chats
+			let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
+			let j = 0
+			for(let i = l.length - 1; i >= 0 && j < 25; i--){
+				let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
+				let msg = l[i].txt.replace("\<", "&lt;").replace("\>", "&gt;")
+				let user = l[i].user
+				let date = new Date(l[i].time)
+				let time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+				let ranks = ""
+				let odd = ((i % 2) == 0) ? "odd" : "even"
+				if(get.lists.users[user.toLowerCase()] != undefined){
+					ranks = `[${get.lists.users[user.toLowerCase()].rank}]`
+				}
+				if(l[i].rank != undefined){
+					ranks = `[${l[i].rank}]`
+				}
+				if(gex.test(msg)){
+					msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
+				}
+				if(credentials.username.toLowerCase() == user.toLowerCase()){
+					li += `<p class="chats you" title="${time}">${msg}</p>`
+				}else{
+					li += `<p class="name">${user} ${ranks}: <label class="time">[${time}]</labe></p><p class="chats" title="${time}">${msg}</p>`
+				}
+				j++
 			}
-			if(l[i].rank != undefined){
-				ranks = `[${l[i].rank}]`
+			if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && (usrRank != "admin" && usrRank != "moderator")){
+				id("chats").style.display = "none"
+			}else{
+				id("chats").style.display = "inline"
 			}
-			if(gex.test(msg)){
-				msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
-			}
-			li += `<tr><th class="chats top">${user} ${ranks}</th><td>:</td> <td class="chats msg">${msg}</td><td>${time}</td></tr>`
-			j++
-		}
-		if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && (usrRank != "admin" && usrRank != "moderator")){
-			id("chats").style.display = "none"
-		}else{
-			id("chats").style.display = "inline"
-		}
-		li += "</table>"
-		id("lists").innerHTML = li
+			li += ""
+			id("lists").innerHTML = li
+		}).catch(e => {
+			console.log(`${e}`)
+		})
 	}catch(e){}
 	if(refresh <= 10){
 		refresh++

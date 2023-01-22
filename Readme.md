@@ -63,4 +63,10 @@ app.get("/", (req, res) => {
 ```HTML
 <link rel="stylesheet" href="/source/styles.css">
 ```
-> You may also use the script here. Same method as this example.
+> You may also use the script here. Same method as this example. The logic behindi this program is to use the API method to get the data from the server of the website, and call it thru the fetch method. In this case, the backend and the frontend connects to each other. I use JSON as database of the program, to easily manage thru nosq; method.
+
+---
+> Wanna be one of us, kindly join with us by clicking the link, attached to this repository.
+---
+### Disclaimer
+> This program is developed to enhance my knowledge, regarding in web development, also to enhance and to expand my knowledge in programming. This program also helps me not just to look for what I know, but to seek more.

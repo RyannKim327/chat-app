@@ -17,24 +17,28 @@
 	margin: 0.25em;
 	padding: 0.2em 1em;
 	border-radius: 0.5em;
-	background-color: #aaaaaa;
-	color: #ffffff;
+	background-color: #dedede;
+	box-shadow: 3px 3px 5px #333333,
+	-1px -1px 3px #333333;
 	font-weight: bolder;
-	color: #ffffff !important;
+	font-family: 'Times New Roman', Times, serif;
+	color: #000000 !important;
 }
 .form input::placeholder{
-	color: #ffffff;
+	color: #000000;
 }
 #lists{
-	height: 25em;
-	max-height: 25em;
+	max-height: 20em;
 	overflow-y: scroll;
+}
+#myname{
+	margin-bottom: 1em;
 }
 .bottom{
 	position: absolute;
-	bottom: 1em;
-	left: 1em;
-	right: 1em;
+	bottom: 0.1em;
+	left: 0.1em;
+	right: 0.1em;
 }
 .bottom input{
 	width: 100%;
@@ -43,11 +47,39 @@
 	-webkit-box-sizing: border-box;
 }
 .chats{
-	text-align: justify;
-}
-.msg{
+	width: 75%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	text-align: left;
+	margin: 0.25em 0.5em;
+	padding: 0.1em 0.75em;
+	border-radius: 1em;
+	overflow-x: hidden;
+	background-color: #ffffff;
 	display: inline-block;
+	word-wrap: break-word;
 }
-.top{
-	vertical-align: top;
+.chats:active, .chats:hover{
+	background-color: #333333;
+	color: #ffffff !important;
+}
+.alignyou{
+	text-align: right;
+}
+.you{
+	margin-left: 24%;
+	text-align: right;
+	background-color: wheat;
+}
+.you:active, .you:hover{
+	background-color: coral;
+}
+.name{
+	font-weight: bolder;
+	font-size: smaller;
+}
+.name .time{
+	font-size: xx-small;
+	font-family: 'Courier New', Courier, monospace;
 }
