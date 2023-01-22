@@ -29,3 +29,38 @@ npm install body-parser
 ```Bash
 npm install fs
 ```
+
+---
+### Solutions:
+1. use the ("body-parser").json as middleware in app.use
+```NodeJS
+const express = require("express")
+const app = express()
+const body = require("body-parser")
+
+const parser = body.urlencoded({ extended: true })
+
+app.use(body.json())
+
+app.post("/", parser, (req, res) => {
+	let data = req.body
+})
+```
+2. Setup external files to be include, by also using of middleware and app.use
+
+**NodeJS**
+```NodeJS
+const express = require("express")
+const app = express()
+
+app.use('/source', express.static(path.join(__dirname + "/styles")))
+
+app.get("/", (req, res) => {
+	res.sendFile(`${__dirname}/src/index.html`)
+})
+```
+**HTML**
+```HTML
+<link rel="stylesheet" href="/source/styles.css">
+```
+> You may also use the script here. Same method as this example.

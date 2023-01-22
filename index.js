@@ -3,7 +3,6 @@ const fs = require("fs")
 const parser = require("body-parser")
 const path = require("path")
 const enc = require("./utils/encrypt")
-const e = require("express")
 
 const app = express()
 const body = parser.urlencoded({ extended: true })
