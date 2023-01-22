@@ -118,6 +118,8 @@ async function startFetch(){
 			let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
 			let msg = l[i].txt.replace("\<", "&lt;").replace("\>", "&gt;")
 			let user = l[i].user
+			let date = new Date(l[i].time)
+			let time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
 			let ranks = ""
 			if(get.lists.users[user.toLowerCase()] != undefined){
 				ranks = `[${get.lists.users[user.toLowerCase()].rank}]`
@@ -128,7 +130,7 @@ async function startFetch(){
 			if(gex.test(msg)){
 				msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
 			}
-			li += `<tr><th class="chats top">${user} ${ranks}</th><td>:</td> <td class="chats msg">${msg}</td></tr>`
+			li += `<tr><th class="chats top">${user} ${ranks}</th><td>:</td> <td class="chats msg">${msg}</td><td>${time}</td></tr>`
 			j++
 		}
 		if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && (usrRank != "admin" && usrRank != "moderator")){

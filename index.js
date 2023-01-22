@@ -84,6 +84,7 @@ app.post("/login", body, (req, res) => {
 })
 
 app.post("/send", body, (req, res) => {
+	let date = new Date()
 	let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
 	let id = parseInt(req.body.id)
 	let user = req.body.username
@@ -103,11 +104,13 @@ app.post("/send", body, (req, res) => {
 					{
 						"user": "Welcome",
 						"rank": "bot",
-						"txt":"Hello Guys!!!"
+						"txt":"Hello Guys!!!",
+						"time": date.getTime()
 					},{
 						"user": "Welcome",
 						"rank": "bot",
-						"txt": "So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon."
+						"txt": "So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon.",
+						"time": date.getTime()
 					}
 				]
 				db.chats = _json
@@ -120,7 +123,8 @@ app.post("/send", body, (req, res) => {
 				let data = {
 					"user": "Rule Regulator",
 					"rank": "bot",
-					"txt": `User ${usr} is now unbanned, you may now chat again with us.`
+					"txt": `User ${usr} is now unbanned, you may now chat again with us.`,
+					"time": date.getTime()
 				}
 				db.chats.push(data)
 			}
@@ -132,7 +136,8 @@ app.post("/send", body, (req, res) => {
 				let data = {
 					"user": "Rule Regulator",
 					"rank": "bot",
-					"txt": `User ${user} is automatically muted for the moment, please watch your words to avoid this issue.`
+					"txt": `User ${user} is automatically muted for the moment, please watch your words to avoid this issue.`,
+					"time": date.getTime()
 				}
 				db.ban += `${user.toLowerCase()}, `
 				db.chats.push(data)
@@ -145,7 +150,8 @@ app.post("/send", body, (req, res) => {
 						let data = {
 							"user": "Ranker",
 							"rank": "bot",
-							"txt": `Congrats ${user} you are now promoted as ${db.users[user.toLowerCase()].rank} user`
+							"txt": `Congrats ${user} you are now promoted as ${db.users[user.toLowerCase()].rank} user`,
+							"time": date.getTime()
 						}
 						db.chats.push(data)
 					}
@@ -155,7 +161,8 @@ app.post("/send", body, (req, res) => {
 				}
 				let data = {
 					user,
-					txt
+					txt,
+					"time": date.getTime()
 				}
 				db.chats.push(data)
 			}
