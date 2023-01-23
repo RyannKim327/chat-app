@@ -116,14 +116,14 @@ app.post("/send", body, (req, res) => {
 						"rank": "bot",
 						"txt":"Hello Guys!!!",
 						"time": date.getTime(),
-						"reply": reply_id
+						"reply": -1
 					},{
 						"id": 2,
 						"user": "Welcome",
 						"rank": "bot",
 						"txt": "So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon.",
 						"time": date.getTime(),
-						"reply": reply_id
+						"reply": -1
 					}
 				]
 				db.chats = _json
@@ -139,7 +139,7 @@ app.post("/send", body, (req, res) => {
 					"rank": "bot",
 					"txt": `User ${usr} is now unbanned, you may now chat again with us.`,
 					"time": date.getTime(),
-					"reply": reply_id
+					"reply": -1
 				}
 				db.chats.push(data)
 			}
@@ -154,7 +154,7 @@ app.post("/send", body, (req, res) => {
 					"rank": "bot",
 					"txt": `User ${user} is automatically muted for the moment, please watch your words to avoid this issue.`,
 					"time": date.getTime(),
-					"reply": reply_id
+					"reply": -1
 				}
 				db.ban += `${user.toLowerCase()}, `
 				db.chats.push(data)
@@ -170,7 +170,7 @@ app.post("/send", body, (req, res) => {
 							"rank": "bot",
 							"txt": `Congrats ${user} you are now promoted as ${db.users[user.toLowerCase()].rank} user`,
 							"time": date.getTime(),
-							"reply": reply_id
+							"reply": -1
 						}
 						db.chats.push(data)
 					}

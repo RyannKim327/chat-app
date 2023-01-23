@@ -8,6 +8,7 @@ let credentials = {
 let reply_id = -1
 let refresh = 0
 let _db
+let users_db
 let Scookie = (__name__) => {
 	let cook = document.cookie
 	let name = `${__name__}=`	
@@ -115,6 +116,7 @@ async function startFetch(){
 			let li = ""
 			let l = get.lists.chats
 			let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
+			users_db = get.lists.users
 			_db = l
 			let j = 0
 			for(let i = l.length - 1; i >= 0 && j < 25; i--){
@@ -172,9 +174,19 @@ async function startFetch(){
 function input(){
 	let chat = id("chats")
 	chat.addEventListener("keyup", (event) => {
+		let self = users_db[credentials.username.toLowerCase()]
+		let input = chat.value.toLowerCase()
 		if(event.keyCode === 13){
 			send()
 			chat.value = ""
+		}
+		if(self.rank == "admin"){
+			if(input.startsWith("!")){
+				let data = input.split(" ")
+				if(input.startsWith("!ban")){
+					self
+				}
+			}
 		}
 	})
 }
@@ -182,7 +194,7 @@ async function send(){
 	let _id = credentials.id
 	let txt = id("chats").value
 	let username = credentials.username
-	if(txt.length > 2){
+	if(txt.length > 1){
 		let json = {
 			id: _id,
 			username,
@@ -221,8 +233,11 @@ async function send(){
 	txt.value = ""
 	reply_id = -1
 	id("reply").textContent = ""
+	id("reply").style.display = "none"
 }
 function reply_it(_msg_id_){
 	reply_id = _msg_id_
 	id("reply").textContent = `${_db[reply_id - 1].user}: ${_db[reply_id - 1].txt}`
+	id("reply").style.display = "block"
+	id("chats").focus()
 }
