@@ -180,6 +180,7 @@ function input(){
 			send()
 			chat.value = ""
 		}
+		/*
 		if(self.rank == "admin"){
 			if(input.startsWith("!")){
 				let data = input.split(" ")
@@ -188,6 +189,7 @@ function input(){
 				}
 			}
 		}
+		*/
 	})
 }
 async function send(){
@@ -239,5 +241,11 @@ function reply_it(_msg_id_){
 	reply_id = _msg_id_
 	id("reply").textContent = `${_db[reply_id - 1].user}: ${_db[reply_id - 1].txt}`
 	id("reply").style.display = "block"
+	id("chats").focus()
+}
+function clearReply(){
+	reply_id = -1
+	id("reply").textContent = ""
+	id("reply").style.display = "none"
 	id("chats").focus()
 }
