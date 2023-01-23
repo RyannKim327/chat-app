@@ -45,6 +45,8 @@ app.post("/login", body, (req, res) => {
 	let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
 	let user = req.body.username.replace(/\s/gi, "_")
 	let pass = enc(req.body.password)
+	let reply_id = -1
+	let msg_id = db.chats.length + 1
 	let json = {
 		exists: false
 	}
@@ -59,9 +61,11 @@ app.post("/login", body, (req, res) => {
 			pts: 0
 		}
 		db.chats.push({
+			id: msg_id,
 			user: "Welcome Bot",
 			txt: `Welcome to Chatapp ${user}`,
-			time: date.getTime()
+			time: date.getTime(),
+			reply: reply_id
 		})
 		fs.writeFileSync('data.json', JSON.stringify(db), "utf-8")
 		json = {
@@ -90,8 +94,12 @@ app.post("/send", body, (req, res) => {
 	let id = parseInt(req.body.id)
 	let user = req.body.username
 	let txt = req.body.txt
+	let reply_id = -1
 	let bad = /(tanga|bobo|gago|ulol|olol|ulul|olul|tangina)\b/i
+	let msg_id = db.chats.length + 1
 	let json = {}
+	if(req.body.reply_id != undefined)
+		reply_id = req.body.reply_id
 	if(db.users[user.toLowerCase()] == undefined){
 		json = {
 			exists: false
@@ -103,15 +111,19 @@ app.post("/send", body, (req, res) => {
 			if(txt == "!clear"){
 				_json = [
 					{
+						"id": 1,
 						"user": "Welcome",
 						"rank": "bot",
 						"txt":"Hello Guys!!!",
-						"time": date.getTime()
+						"time": date.getTime(),
+						"reply": reply_id
 					},{
+						"id": 2,
 						"user": "Welcome",
 						"rank": "bot",
 						"txt": "So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon.",
-						"time": date.getTime()
+						"time": date.getTime(),
+						"reply": reply_id
 					}
 				]
 				db.chats = _json
@@ -122,10 +134,12 @@ app.post("/send", body, (req, res) => {
 				let usr = txt.match(unban)[1]
 				db.ban = db.ban.replace(`${usr.toLowerCase()}, `, "")
 				let data = {
+					"id": msg_id,
 					"user": "Rule Regulator",
 					"rank": "bot",
 					"txt": `User ${usr} is now unbanned, you may now chat again with us.`,
-					"time": date.getTime()
+					"time": date.getTime(),
+					"reply": reply_id
 				}
 				db.chats.push(data)
 			}
@@ -135,10 +149,12 @@ app.post("/send", body, (req, res) => {
 		}else{
 			if(bad.test(txt) && id != 0){
 				let data = {
+					"id": msg_id,
 					"user": "Rule Regulator",
 					"rank": "bot",
 					"txt": `User ${user} is automatically muted for the moment, please watch your words to avoid this issue.`,
-					"time": date.getTime()
+					"time": date.getTime(),
+					"reply": reply_id
 				}
 				db.ban += `${user.toLowerCase()}, `
 				db.chats.push(data)
@@ -149,10 +165,12 @@ app.post("/send", body, (req, res) => {
 					db.users[user.toLowerCase()].rank = ranks(db.users[user.toLowerCase()].pts)
 					if(r != db.users[user.toLowerCase()].rank){
 						let data = {
+							"id": msg_id,
 							"user": "Ranker",
 							"rank": "bot",
 							"txt": `Congrats ${user} you are now promoted as ${db.users[user.toLowerCase()].rank} user`,
-							"time": date.getTime()
+							"time": date.getTime(),
+							"reply": reply_id
 						}
 						db.chats.push(data)
 					}
@@ -161,9 +179,11 @@ app.post("/send", body, (req, res) => {
 					exists: true
 				}
 				let data = {
+					"id": msg_id,
 					user,
 					txt,
-					"time": date.getTime()
+					"time": date.getTime(),
+					"reply": reply_id
 				}
 				db.chats.push(data)
 			}

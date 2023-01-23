@@ -5,7 +5,9 @@ let credentials = {
 	id: -1,
 	username: ""
 }
+let reply_id = -1
 let refresh = 0
+let _db
 let Scookie = (__name__) => {
 	let cook = document.cookie
 	let name = `${__name__}=`	
@@ -113,6 +115,7 @@ async function startFetch(){
 			let li = ""
 			let l = get.lists.chats
 			let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
+			_db = l
 			let j = 0
 			for(let i = l.length - 1; i >= 0 && j < 25; i--){
 				let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
@@ -131,10 +134,19 @@ async function startFetch(){
 				if(gex.test(msg)){
 					msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
 				}
-				if(credentials.username.toLowerCase() == user.toLowerCase()){
-					li += `<p class="chats you" title="${time}">${msg}</p>`
+				if(l[i].reply < 0){
+					if(credentials.username.toLowerCase() == user.toLowerCase()){
+						li += `<p class="chats you" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+					}else{
+						li += `<p class="name">${user} ${ranks}: <label class="time">[${time}]</labe></p><p class="chats" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+					}
 				}else{
-					li += `<p class="name">${user} ${ranks}: <label class="time">[${time}]</labe></p><p class="chats" title="${time}">${msg}</p>`
+					let r_id = l[i].reply
+					if(credentials.username.toLowerCase() == user.toLowerCase()){
+						li += `<p class="name nreply">: <label class="time">[${time}]</label> ${user} ${ranks} replied to ${l[r_id - 1].user}</p><p class="reply ryou">${l[r_id - 1].txt}</p><p class="chats you" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+					}else{
+						li += `<p class="name">${user} ${ranks} replied to ${l[r_id - 1].user}: <label class="time">[${time}]</label></p><p class="reply">${l[r_id - 1].txt}</p><p class="chats" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+					}
 				}
 				j++
 			}
@@ -149,12 +161,12 @@ async function startFetch(){
 			console.log(`${e}`)
 		})
 	}catch(e){}
-	if(refresh <= 10){
+	if(refresh < 10){
 		refresh++
-		setTimeout(startFetch(), 1000)
+		setTimeout(startFetch, 1000)
 	}else{
 		refresh = 0
-		setTimeout(startFetch(), 10000)
+		setTimeout(startFetch, 5000)
 	}
 }
 function input(){
@@ -174,7 +186,8 @@ async function send(){
 		let json = {
 			id: _id,
 			username,
-			txt
+			txt,
+			reply_id
 		}
 		await fetch("/send", {
 			method: "POST",
@@ -206,4 +219,10 @@ async function send(){
 		}).catch(e => {})
 	}
 	txt.value = ""
+	reply_id = -1
+	id("reply").textContent = ""
+}
+function reply_it(_msg_id_){
+	reply_id = _msg_id_
+	id("reply").textContent = `${_db[reply_id - 1].user}: ${_db[reply_id - 1].txt}`
 }

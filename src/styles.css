@@ -46,7 +46,7 @@
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
-.chats{
+.chats, .reply, .ryou, #reply{
 	width: 75%;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -64,7 +64,7 @@
 	background-color: #333333;
 	color: #ffffff !important;
 }
-.you{
+.you, .ryou{
 	margin-left: 24%;
 	text-align: right;
 	background-color: wheat;
@@ -79,4 +79,26 @@
 .name .time{
 	font-size: xx-small;
 	font-family: 'Courier New', Courier, monospace;
+}
+#reply{
+	width: 100%;
+	background-color: rgba(33, 33, 33, 0.5);
+	color: #ffffff !important;
+	font-weight: bold;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: small;
+	max-lines: 1;
+	overflow-x: hidden;
+}
+.nreply{
+	margin-right: 0.5em;
+	text-align: right;
+}
+.reply{
+	background-color: rgba(33, 33, 33, 0.5);
+	color: #ffffff !important;
+	font-weight: bold;
+	opacity: 0.5;	
+	margin-bottom: -0.5em;
+	max-lines: 2;
 }
