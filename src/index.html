@@ -7,11 +7,12 @@
 		<title>Welcome to my chat app</title>
 		<meta name="og:title" content="Welcome to my chat app">
 		<meta name="og:description" content="A simple web application developed with HTML, CSS, Javascript, NodeJS and ExpressJS">
-		<link rel="stylesheet" href="/ext/styles.css">
+		<link rel="stylesheet" href="/externals/styles.css">
 	</head>
 	<body>
-		<div id="login" class="form">
+		<div id="login" class="form" align="center">
 			<table>
+				<caption><h3 class="foot">Welcome to my chat-app</h3></caption>
 				<tr>
 					<th>
 						<label for="username">Username:</label>
@@ -34,6 +35,7 @@
 					</td>
 				</tr>
 			</table>
+			<h5 class="foot">Developed by RyannKim327 of MPOP Reverse II</h5>
 		</div>
 		<div id="chat" class="form" style="display: none;">
 			<p id="myname"></p>
@@ -43,7 +45,7 @@
 			<p id="reply" onclick="clearReply()"></p>
 			<input type="text" id="chats" placeholder="Your message here" autofocus="true">
 		</span>
-		<!--audio autoplay="autoplay" controls src="/static/Nakakamiss.ogg"></audio-->
+		<!--audio autoplay="autoplay" controls src="/res/Nakakamiss.ogg"></audio-->
 	</body>
-	<script src="/ext/script.js"></script>
+	<script src="/externals/script.js"></script>
 </html>

@@ -174,22 +174,10 @@ async function startFetch(){
 function input(){
 	let chat = id("chats")
 	chat.addEventListener("keyup", (event) => {
-		let self = users_db[credentials.username.toLowerCase()]
-		let input = chat.value.toLowerCase()
 		if(event.keyCode === 13){
 			send()
 			chat.value = ""
 		}
-		/*
-		if(self.rank == "admin"){
-			if(input.startsWith("!")){
-				let data = input.split(" ")
-				if(input.startsWith("!ban")){
-					self
-				}
-			}
-		}
-		*/
 	})
 }
 async function send(){

@@ -21,11 +21,27 @@
 	box-shadow: 3px 3px 5px #333333,
 	-1px -1px 3px #333333;
 	font-weight: bolder;
+	border: 0.1em transparent ridge;
 	font-family: 'Times New Roman', Times, serif;
 	color: #000000 !important;
 }
 .form input::placeholder{
 	color: #000000;
+}
+.form #_login{
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.form input:hover, .form input:active{
+	box-shadow: 3px 3px 5px transparent,
+	-1px -1px 3px transparent;
+	box-shadow: none;
+	border: 0.1em #333333 ridge;
+}
+.foot{
+	margin: 1em;
 }
 #lists{
 	min-height: 10em;
