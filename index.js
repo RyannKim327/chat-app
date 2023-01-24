@@ -108,6 +108,7 @@ app.post("/send", body, (req, res) => {
 		if(txt.startsWith("!") && id == 0){
 			let ban = /!ban ([\w]+)/i
 			let unban = /!unban ([\w]+)/i
+			let mods = /!mod ([\w]+)/i
 			if(txt == "!clear"){
 				_json = [
 					{
@@ -129,19 +130,61 @@ app.post("/send", body, (req, res) => {
 				db.chats = _json
 			}else if(ban.test(txt)){
 				let usr = txt.match(ban)[1]
-				db.ban += `${usr.toLowerCase()}, `
+				if(!db.ban.includes(usr)){
+					db.ban += `${usr.toLowerCase()}, `
+				}
 			}else if(unban.test(txt)){
 				let usr = txt.match(unban)[1]
-				db.ban = db.ban.replace(`${usr.toLowerCase()}, `, "")
-				let data = {
-					"id": msg_id,
-					"user": "Rule Regulator",
-					"rank": "bot",
-					"txt": `User ${usr} is now unbanned, you may now chat again with us.`,
-					"time": date.getTime(),
-					"reply": -1
+				if(db.ban.includes(usr)){
+					db.ban = db.ban.replace(`${usr.toLowerCase()}, `, "")
+					let data = {
+						"id": msg_id,
+						"user": "Rule Regulator",
+						"rank": "bot",
+						"txt": `User ${usr} is now unbanned, you may now chat again with us.`,
+						"time": date.getTime(),
+						"reply": -1
+					}
+					db.chats.push(data)
 				}
-				db.chats.push(data)
+			}else if(mods.test(txt)){
+				let usr = txt.match(mods)[1]
+				let _usr = db.users[usr.toLowerCase()]
+				if(_usr == undefined){
+					let data = {
+						"id": msg_id,
+						"user": "Ranker",
+						"rank": "bot",
+						"txt": `User doesn't exists to the database`,
+						"time": date.getTime(),
+						"reply": -1
+					}
+					db.chats.push(data)
+				}else{
+					if(_usr.rank != "admin" && _usr.rank != "moderator"){
+						_usr.rank = "moderator"
+						_usr.pts = -18
+						let data = {
+							"id": msg_id,
+							"user": "Ranker",
+							"rank": "bot",
+							"txt": `User ${usr} is now promoted as a moderator.`,
+							"time": date.getTime(),
+							"reply": -1
+						}
+						db.chats.push(data)
+					}else{
+						let data = {
+							"id": msg_id,
+							"user": "Ranker",
+							"rank": "bot",
+							"txt": `The user can't be promoted.`,
+							"time": date.getTime(),
+							"reply": -1
+						}
+						db.chats.push(data)
+					}
+				}
 			}
 			json = {
 				exists: true

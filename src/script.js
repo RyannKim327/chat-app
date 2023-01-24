@@ -237,3 +237,18 @@ function clearReply(){
 	id("reply").style.display = "none"
 	id("chats").focus()
 }
+function logout(){
+	let cookie = (__name__, __data__) => {
+		const date = new Date()
+		date.setTime(date.getTime())
+		let xp = `expires=${date.toUTCString()}`
+		document.cookie = `${__name__}=${__data__};${xp};path=/`
+	}
+	cookie("username", "")
+	cookie("id", -1)
+	credentials = {
+		username: "",
+		id: -1
+	}
+	location.reload()
+}
