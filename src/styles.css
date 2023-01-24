@@ -114,9 +114,17 @@
 }
 .reply{
 	background-color: rgba(33, 33, 33, 0.5);
-	color: #ffffff !important;
+	color: #000000 !important;
 	font-weight: bold;
 	opacity: 0.5;	
 	margin-bottom: -0.5em;
 	max-lines: 2;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	padding-bottom: 0.25em;
+	margin-bottom: -0.5em;
+}
+._reply{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
