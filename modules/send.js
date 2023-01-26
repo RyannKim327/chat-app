@@ -38,7 +38,7 @@ module.exports = (app, body) => {
 				let ban = /!ban ([\w]+)/i
 				let unban = /!unban ([\w]+)/i
 				let mods = /!mod ([\w]+)/i
-				if(txt == "!clear"){
+				if(/!clear/i.test(txt)){
 					_json = [
 						{
 							"id": 1,
