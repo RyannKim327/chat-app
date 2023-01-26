@@ -136,6 +136,7 @@ async function startFetch(){
 				if(gex.test(msg)){
 					msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
 				}
+				msg = msg.replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;")
 				if(l[i].reply < 0){
 					if(credentials.username.toLowerCase() == user.toLowerCase()){
 						li += `<p class="chats you" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
@@ -152,10 +153,12 @@ async function startFetch(){
 				}
 				j++
 			}
-			if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && (usrRank != "admin" && usrRank != "moderator")){
-				id("chats").style.display = "none"
-			}else{
-				id("chats").style.display = "inline"
+			if(l.length < 1){
+				if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && (usrRank != "admin" && usrRank != "moderator")){
+					id("chats").style.display = "none"
+				}else{
+					id("chats").style.display = "inline"
+				}
 			}
 			li += ""
 			id("lists").innerHTML = li
