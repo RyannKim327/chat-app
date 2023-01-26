@@ -1,6 +1,28 @@
 const fs = require("fs")
 const enc = require("./../utils/encrypt")
 
+const num = (nth) => {
+	let pos = ""
+	if(nth >= 10 && nth < 20){
+		pos = `${nth}th`
+	}else{
+		switch(nth){
+			case 1:
+				pos = `${nth}st`
+			break
+			case 2:
+				pos = `${nth}nd`
+			break
+			case 3:
+				pos = `${nth}rd`
+			break
+			default:
+				pos = `${nth}th`
+		}
+	}
+	return pos
+}
+
 module.exports = (app, body) => {	
 	app.post("/login", body, (req, res) => {
 		let date = new Date()
@@ -25,7 +47,7 @@ module.exports = (app, body) => {
 			db.chats.push({
 				id: msg_id,
 				user: "Welcome Bot",
-				txt: `Welcome to Chatapp ${user}`,
+				txt: `Welcome to Chatapp ${user}, you're the ${num(id + 1)} member here. Enjoy your staying here.`,
 				time: date.getTime(),
 				reply: reply_id
 			})
