@@ -34,6 +34,14 @@ app.get("/", (req, res) => {
 	res.sendFile(`${__dirname}/src/index.html`)
 })
 
+app.get("/sitemap", (req, res) => {
+	res.sendFile(`${__dirname}/sitemap.xml`)
+})
+
+app.get("/googled6414eb05fe0d88f.html", (req, res) => {
+	res.send(process.env.seo)
+})
+
 app.get("/check", (req, res) => {
 	let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
 	let lists = db
