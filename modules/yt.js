@@ -29,8 +29,8 @@ module.exports = async (title) => {
 				data.pipe(file)
 				file.on("end", () => {
 					console.log("Done")
-					msg = info.title
 				})
+				msg = info.title
 			}
 		}
 	}
