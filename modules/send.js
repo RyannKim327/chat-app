@@ -37,18 +37,16 @@ module.exports = (app, body) => {
 			if(txt.startsWith("!")){
 				let play = /!play ([\w\W]+)/i
 				if(play.test(txt)){
-					let music = await yt(txt.match(play)[1])
-					if(music != undefined){
-						_json = {
-							"id": msg_id,
-							"user": "Music",
-							"rank": "bot",
-							"txt": music,
-							"time": date.getTime(),
-							"reply": -1
-						}
-						db.chats.push(_json)
+					await yt(msg_id + 1, user, date, txt.match(play)[1])
+					_json = {
+						"id": msg_id,
+						"user": "Music",
+						"rank": "bot",
+						"txt": "A moment please...",
+						"time": date.getTime(),
+						"reply": -1
 					}
+					db.chats.push(_json)
 				}
 			}
 			if(txt.startsWith("!") && id == 0){
@@ -61,7 +59,7 @@ module.exports = (app, body) => {
 							"id": 1,
 							"user": "Welcome",
 							"rank": "bot",
-							"txt": "Greetings!!!:newline::tab:So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon.",
+							"txt": "Greetings!!!:newline::tab:So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon. Regardint to the music command, it is still in progression of development as the feature of this application, so that we were hoping that one day we can fix the bug regarding this. To use the command just message !play<space>your_song. Thank you",
 							"time": date.getTime(),
 							"reply": -1
 						}
