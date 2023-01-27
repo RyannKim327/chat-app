@@ -128,3 +128,10 @@
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+#audio{
+	height: 1em;
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}

@@ -1,5 +1,5 @@
 const fs = require("fs")
-
+const yt = require("./yt")
 
 let ranks = (score) => {
 	if(score < 100){
@@ -17,7 +17,7 @@ let ranks = (score) => {
 
 
 module.exports = (app, body) => {
-	app.post("/send", body, (req, res) => {
+	app.post("/send", body, async (req, res) => {
 		let date = new Date()
 		let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
 		let id = parseInt(req.body.id)
@@ -34,6 +34,23 @@ module.exports = (app, body) => {
 				exists: false
 			}
 		}else{
+			if(txt.startsWith("!")){
+				let play = /!play ([\w\W]+)/i
+				if(play.test(txt)){
+					let music = await yt(txt.match(play)[1])
+					if(music != undefined){
+						_json = {
+							"id": msg_id,
+							"user": "Music",
+							"rank": "bot",
+							"txt": music,
+							"time": date.getTime(),
+							"reply": -1
+						}
+						db.chats.push(_json)
+					}
+				}
+			}
 			if(txt.startsWith("!") && id == 0){
 				let ban = /!ban ([\w]+)/i
 				let unban = /!unban ([\w]+)/i
