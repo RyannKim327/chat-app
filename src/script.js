@@ -257,3 +257,12 @@ function logout(){
 	}
 	location.reload()
 }
+
+function audio(){
+	let au = id("audio")
+	if(au.style.display == "none"){
+		au.style.display = "block"
+	}else{
+		au.style.display = "none"
+	}
+}
