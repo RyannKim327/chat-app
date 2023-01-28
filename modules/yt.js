@@ -53,6 +53,7 @@ module.exports = async (msg_id, user, date, title) => {
 						"reply": -1
 					}
 					db.chats.push(_json)
+					db.music = info.title
 					fs.writeFileSync("data.json", JSON.stringify(db), "utf-8")
 				})
 			}

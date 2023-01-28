@@ -118,6 +118,7 @@ async function startFetch(){
 			let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
 			users_db = get.lists.users
 			_db = l
+			id("music_title").textContent = `Now Playing: ${get.lists.music}`
 			let j = 0
 			for(let i = l.length - 1; i >= 0 && j < 25; i--){
 				let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
