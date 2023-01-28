@@ -25,6 +25,7 @@
 19. Added date for chats
 20. Make a style like messenger
 21. Admin can promote a user to moderator if he wants
+22. Music command using !play<space>sing_title, with music bot
 
 ---
 ### Credits
@@ -53,6 +54,11 @@ npm install body-parser
 **FS**
 ```Bash
 npm install fs
+```
+
+**Youtubei.js**
+```Bash
+npm install youtubei.js
 ```
 
 ---

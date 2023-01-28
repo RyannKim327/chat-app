@@ -37,7 +37,6 @@ module.exports = (app, body) => {
 			if(txt.startsWith("!")){
 				let play = /!play ([\w\W]+)/i
 				if(play.test(txt)){
-					await yt(msg_id + 1, user, date, txt.match(play)[1])
 					_json = {
 						"id": msg_id,
 						"user": "Music",
@@ -47,6 +46,7 @@ module.exports = (app, body) => {
 						"reply": -1
 					}
 					db.chats.push(_json)
+					yt(msg_id, user, date, txt.match(play)[1])
 				}
 			}
 			if(txt.startsWith("!") && id == 0){

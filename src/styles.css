@@ -141,7 +141,7 @@
 @media only screen and (max-width: 760px){
 	#audio{
 		display: none;
-		height: 3em;
+		height: 3em	;
 	}
 	#showAudio{
 		display: inline;
