@@ -154,6 +154,41 @@ body{
 #showAudio{
 	display: none;
 }
+#loading{
+	border-radius: 100%;
+	background-image: linear-gradient(to bottom left, var(--hover-text), transparent);
+	width: 5em;
+	padding: 5em;
+	animation: animate 5s alternate infinite;
+}
+@-webkit-keyframes animate{
+	from{
+		rotate: 0%;
+	}to{
+		rotate: 100%;
+	}
+}
+@-o-keyframes animate{
+	from{
+		rotate: 0%;
+	}to{
+		rotate: 100%;
+	}
+}
+@-moz-keyframes animate{
+	from{
+		rotate: 0%;
+	}to{
+		rotate: 100%;
+	}
+}
+@keyframes animate{
+	from{
+		rotate: 0%;
+	}to{
+		rotate: 100%;
+	}
+}
 @media only screen and (max-width: 760px){
 	#audio{
 		display: none;

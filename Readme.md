@@ -26,6 +26,7 @@
 20. Make a style like messenger
 21. Admin can promote a user to moderator if he wants
 22. Music command using !play<space>sing_title, with music bot
+23. Loading screen (beta test) for no messages
 
 ---
 ### Credits
