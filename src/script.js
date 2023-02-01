@@ -7,7 +7,7 @@ let credentials = {
 }
 let reply_id = -1
 let refresh = 0
-let _db
+let _db = {}
 let users_db
 let Scookie = (__name__) => {
 	let cook = document.cookie
@@ -169,6 +169,9 @@ async function startFetch(){
 			console.log(`${e}`)
 		})
 	}catch(e){}
+	if(_db == {}){
+		id("chats").innerHTML = "div id='loading'> </div>"
+	}
 	if(refresh < 10){
 		refresh++
 		setTimeout(startFetch, 1000)
