@@ -95,8 +95,11 @@ app.get("/", (req, res) => {
 ```HTML
 <link rel="stylesheet" href="/source/styles.css">
 ```
-> You may also use the script here. Same method as this example. The logic behindi this program is to use the API method to get the data from the server of the website, and call it thru the fetch method. In this case, the backend and the frontend connects to each other. I use JSON as database of the program, to easily manage thru nosq; method.
-
+> You may also use the script here. Same method as this example. The logic behindi this program is to use the API method to get the data from the server of the website, and call it thru the fetch method. In this case, the backend and the frontend connects to each other. I use JSON as database of the program, to easily manage thru nosql method. If every that you want to use this project, just add the audio folder, which is excluded to this repository.
+---
+### Soon to be added
+1. Multiple theme (monokai and default with other editor based themes).
+2. Loading from no message.
 ---
 > Wanna be one of us, kindly join with us by clicking the link, attached to this repository.
 ---
