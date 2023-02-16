@@ -170,7 +170,7 @@ async function startFetch(){
 		})
 	}catch(e){}
 	if(_db == {}){
-		id("chats").innerHTML = "div id='loading'> </div>"
+		id("chats").innerHTML = "<div id='loading'> </div>"
 	}
 	if(refresh < 10){
 		refresh++
