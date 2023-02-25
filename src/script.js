@@ -172,13 +172,6 @@ async function startFetch(){
 	if(_db == {}){
 		id("chats").innerHTML = "<div id='loading'> </div>"
 	}
-	if(refresh < 10){
-		refresh++
-		setTimeout(startFetch, 1000)
-	}else{
-		refresh = 0
-		setTimeout(startFetch, 5000)
-	}
 }
 function input(){
 	let chat = id("chats")
@@ -270,3 +263,5 @@ function audio(){
 		au.style.display = "none"
 	}
 }
+
+setInterval(startFetch, 1000)
