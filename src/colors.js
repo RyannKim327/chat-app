@@ -38,5 +38,15 @@ let colors = {
 		"input-background": "#9e0000",
 		"input-color": "#ffffff",
 		"chat-color": "#000000"
+	},
+	"yellow": {
+		"body-background": "#eaecad",
+		"body-color": "#000000",
+		"base-background": "#eeee4c",
+		"reply-background": "#ffff5e",
+		"reply-color": "#bbaa00",
+		"input-background": "#9e9e00",
+		"input-color": "#ffffff",
+		"chat-color": "#000000"
 	}
 }
