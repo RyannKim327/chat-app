@@ -1,149 +1,84 @@
+:root{
+	--body-background: #adecad;
+	--base-background: #4cee4c;
+	--input-background: #009e00;
+	--input-color: #ffffff;
+}
 *{
 	margin: 0;
 	padding: 0;
 	box-sizing: 0;
 	border: 0;
-	outline: 0;
 	user-select: none;
-	color: #000000 !important;
+	outline: 0;
 }
+
+body{
+	background-color: var(--body-background);
+}
+
 .form{
-	margin: 1em;
+	background-color: var(--base-background);
+	margin: 0.5em;
 	padding: 0.75em;
-	background-color: #dedede;
-	border-radius: 0.5em;
+	border-radius: 0.25em;
 }
+
 .form input{
-	margin: 0.25em;
-	padding: 0.2em 1em;
-	border-radius: 0.5em;
-	background-color: #dedede;
-	box-shadow: 3px 3px 5px #333333,
-	-1px -1px 3px #333333;
-	font-weight: bolder;
-	border: 0.1em transparent ridge;
+	background-color: var(--input-background);
+	color: var(--input-color);
+	padding: 0 0.5em;
 	font-family: 'Times New Roman', Times, serif;
-	color: #000000 !important;
+	border-radius: 0.5em;
 }
-.form input::placeholder{
-	color: #000000;
-}
-.form #_login{
-	width: 100%;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-}
-.form input:hover, .form input:active{
-	box-shadow: 3px 3px 5px transparent,
-	-1px -1px 3px transparent;
-	box-shadow: none;
-	border: 0.1em #333333 ridge;
-}
-.foot{
-	margin: 1em;
-}
+
 #lists{
-	min-height: 10em;
+	display: flex;
+	flex-direction: column;
 	max-height: 20em;
 	overflow-y: scroll;
 }
-#myname{
-	margin-bottom: 1em;
+
+#lists .name{
+	font-family: 'Times New Roman', Times, serif;
+	font-variant: small-caps;
+	font-size: x-small;
+	font-weight: bold;
 }
+
+#lists .chats{
+	background-color: var(--body-background);
+	max-width: 75%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-radius: 0.5em;
+	padding: 0.25em;
+	margin: 0.25em 0;
+}
+
+#lists .you{
+	align-self: flex-end;
+}
+
 .bottom{
-	position: absolute;
-	bottom: 0.1em;
-	left: 0.1em;
-	right: 0.1em;
+	position: fixed;
+	bottom: 0.5em;
+	left: 0.5em;
+	right: 0.5em;
 }
-.bottom input{
+
+.bottom input, .form input[type='submit']{
 	width: 100%;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
-.chats, .reply, .ryou, #reply{
-	width: 75%;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	text-align: left;
-	margin: 0.25em 0.5em;
-	padding: 0.1em 0.75em;
-	border-radius: 1em;
-	overflow-x: hidden;
-	background-color: #ffffff;
-	display: inline-block;
-	word-wrap: break-word;
+
+.form input::placeholder{
+	color: var(--input-color);
 }
-.chats:active, .chats:hover{
-	background-color: #333333;
-	color: #ffffff !important;
-}
-.you, .ryou{
-	margin-left: 24%;
-	text-align: right;
-	background-color: wheat;
-}
-.you:active, .you:hover{
-	background-color: coral;
-}
-.name{
-	font-weight: bolder;
-	font-size: smaller;
-}
-.name .time{
-	font-size: xx-small;
-	font-family: 'Courier New', Courier, monospace;
-}
-#reply{
+audio{
 	width: 100%;
-	display: none;
-	background-color: rgba(33, 33, 33, 0.5);
-	color: #ffffff !important;
-	font-weight: bold;
-	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-	font-size: small;
-	max-lines: 1;
-	overflow-x: hidden;
-}
-.nreply{
-	margin-right: 0.5em;
-	text-align: right;
-}
-.reply{
-	background-color: rgba(33, 33, 33, 0.5);
-	color: #000000 !important;
-	font-weight: bold;
-	opacity: 0.5;	
-	margin-bottom: -0.5em;
-	max-lines: 2;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	padding-bottom: 0.25em;
-	margin-bottom: -0.5em;
-}
-._reply{
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-}
-#audio{
-	height: 1em;
-	width: 100%;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-}
-#showAudio{
-	display: none;
-}
-@media only screen and (max-width: 760px){
-	#audio{
-		display: none;
-		height: 3em	;
-	}
-	#showAudio{
-		display: inline;
-	}
+	height: 0.75em;
 }
