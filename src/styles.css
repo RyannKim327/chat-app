@@ -46,7 +46,7 @@ body{
 	font-weight: bold;
 }
 
-#lists .chats{
+#lists .chats, #lists .reply{
 	background-color: var(--body-background);
 	max-width: 75%;
 	box-sizing: border-box;
@@ -57,7 +57,11 @@ body{
 	margin: 0.25em 0;
 }
 
-#lists .you{
+#lists .reply{
+	background-color: var(--input-background);
+}
+
+#lists .you, #lists .ryou, #lists .nreply{
 	align-self: flex-end;
 }
 
