@@ -264,4 +264,19 @@ function audio(){
 	}
 }
 
+let setColors = (theme_name) => {
+	theme_name = theme_name.toLowerCase()
+	if(colors[theme_name] != undefined){
+		const root = document.querySelector(":root").style
+		root.setProperty("--body-background", `${colors[theme_name]["body-background"]}`)
+		root.setProperty("--base-background", `${colors[theme_name]["base-background"]}`)
+		root.setProperty("--reply-background", `${colors[theme_name]["reply-background"]}`)
+		root.setProperty("--reply-color", `${colors[theme_name]["reply-color"]}`)
+		root.setProperty("--input-background", `${colors[theme_name]["input-background"]}`)
+		root.setProperty("--input-color", `${colors[theme_name]["input-color"]}`)
+	}
+}
+
+setColors("default")
+
 setInterval(startFetch, 1000)
