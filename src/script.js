@@ -177,8 +177,13 @@ function input(){
 	let chat = id("chats")
 	chat.addEventListener("keyup", (event) => {
 		if(event.keyCode === 13){
-			send()
-			chat.value = ""
+			if(/!theme ([\w]+)/.test(chat.value)){
+				setColors(chat.value.match(/!theme ([\w]+)/)[1])
+				chat.value = ""
+			}else{
+				send()
+				chat.value = ""
+			}
 		}
 	})
 }
@@ -229,7 +234,7 @@ async function send(){
 }
 function reply_it(_msg_id_){
 	reply_id = _msg_id_
-	id("reply").textContent = `${_db[reply_id - 1].user}: ${_db[reply_id - 1].txt}`
+	id("reply").textContent = `${_db[reply_id - 1].user}: ${_db[reply_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "").replace(/:tab:/g, "").replace(/:reload:/gi, "").substring(0, 500)}`
 	id("reply").style.display = "block"
 	id("chats").focus()
 }
