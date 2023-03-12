@@ -37,6 +37,7 @@ body{
 	flex-direction: column;
 	max-height: 20em;
 	overflow-y: scroll;
+	padding: 0.5em;
 }
 
 #lists .name{
@@ -85,4 +86,16 @@ body{
 audio{
 	width: 100%;
 	height: 0.75em;
+}
+
+::-webkit-scrollbar{
+	width: 0.5em;
+}
+::-webkit-scrollbar-track{
+	border-radius: 1em;
+	background-color: var(--input-background);
+}
+::-webkit-scrollbar-thumb{
+	border-radius: 1em;
+	background-color: var(--body-background);
 }
