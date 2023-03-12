@@ -264,4 +264,15 @@ function audio(){
 	}
 }
 
+let mID = () => {
+	let machine = localStorage.getItem("machine")
+	if(!machine){
+		machine = crypto.randomUUID()
+		localStorage.setItem("machine", machine)
+	}
+	return machine
+}
+
+alert(mID())
+
 setInterval(startFetch, 1000)

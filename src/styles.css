@@ -1,7 +1,13 @@
 :root{
+	/*
 	--body-background: #adecad;
 	--base-background: #4cee4c;
 	--input-background: #009e00;
+	--input-color: #ffffff;
+	*/
+	--body-background: #ecadad;
+	--base-background: #ee4c4c;
+	--input-background: #9e0000;
 	--input-color: #ffffff;
 }
 *{
@@ -84,8 +90,13 @@ body{
 	color: var(--input-color);
 }
 audio{
+	color: var(--input-background) !important;
 	width: 100%;
 	height: 0.75em;
+}
+
+#showAudio{
+	display: none;
 }
 
 ::-webkit-scrollbar{
@@ -98,4 +109,10 @@ audio{
 ::-webkit-scrollbar-thumb{
 	border-radius: 1em;
 	background-color: var(--body-background);
+}
+
+@media only screen and (max-width: 768px) {
+	::-webkit-scrollbar{
+		width: 0.25em;
+	}
 }
