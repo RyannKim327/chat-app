@@ -59,7 +59,7 @@ module.exports = (app, body) => {
 							"id": 1,
 							"user": "Welcome",
 							"rank": "bot",
-							"txt": "Greetings!!!:newline::tab:So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon. Regardint to the music command, it is still in progression of development as the feature of this application, so that we were hoping that one day we can fix the bug regarding this. To use the command just message !play<space>your_song. Thank you",
+							"txt": "Greetings!!!:newline::tab:So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon. Regarding to the music command, it is still in progression of development as the feature of this application, so that we were hoping that one day we can fix the bug regarding this. To use the command just message !play<space>your_song. Thank you",
 							"time": date.getTime(),
 							"reply": -1
 						}
@@ -71,7 +71,7 @@ module.exports = (app, body) => {
 						db.ban += `${usr.toLowerCase()}, `
 					}
 				}else if(unban.test(txt)){
-					let usr = txt.match(unban)[1]
+					let usr = txt.match(unban)[1].toLowerCase()
 					if(db.ban.includes(usr)){
 						db.ban = db.ban.replace(`${usr.toLowerCase()}, `, "")
 						let data = {
