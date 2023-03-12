@@ -178,7 +178,7 @@ function input(){
 	chat.addEventListener("keyup", (event) => {
 		if(event.keyCode === 13){
 			if(/!theme ([\w]+)/.test(chat.value)){
-				setColors(chat.value.match(/!theme ([\w]+)/)[1])
+				setThemes(chat.value.match(/!theme ([\w]+)/)[1])
 				chat.value = ""
 			}else{
 				send()
@@ -270,7 +270,7 @@ function audio(){
 }
 
 let setColors = (theme_name) => {
-	theme_name = theme_name.toLowerCase()
+	theme_name = theme_name.toLowerCase()	
 	if(colors[theme_name] != undefined){
 		const root = document.querySelector(":root").style
 		root.setProperty("--body-background", `${colors[theme_name]["body-background"]}`)
@@ -279,9 +279,21 @@ let setColors = (theme_name) => {
 		root.setProperty("--reply-color", `${colors[theme_name]["reply-color"]}`)
 		root.setProperty("--input-background", `${colors[theme_name]["input-background"]}`)
 		root.setProperty("--input-color", `${colors[theme_name]["input-color"]}`)
+		root.setProperty("--chat-color", `${colors[theme_name]["chat-color"]}`)
 	}
 }
 
-setColors("default")
+function setThemes(theme_name){
+	let cookie = (__name__, __data__) => {
+		const date = new Date()
+		date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
+		let xp = `expires=${date.toUTCString()}`
+		document.cookie = `${__name__}=${__data__};${xp};path=/`
+	}
+	cookie("theme", theme_name)
+	setColors(theme_name)
+}
+
+setColors(Scookie("theme"))
 
 setInterval(startFetch, 1000)
