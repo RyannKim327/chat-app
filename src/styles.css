@@ -7,6 +7,7 @@
 	*/
 	--body-background: #ecadad;
 	--base-background: #ee4c4c;
+	--reply-background: #ff5e5e;
 	--input-background: #9e0000;
 	--input-color: #ffffff;
 }
@@ -53,7 +54,7 @@ body{
 	font-weight: bold;
 }
 
-#lists .chats, #lists .reply{
+#lists .chats, #lists .reply, #reply{
 	background-color: var(--body-background);
 	max-width: 75%;
 	box-sizing: border-box;
@@ -65,7 +66,9 @@ body{
 }
 
 #lists .reply{
-	background-color: var(--input-background);
+	background-color: var(--reply-background);
+	color: var(--input-color);
+	margin-bottom: -0.5em;
 }
 
 #lists .you, #lists .ryou, #lists .nreply{
@@ -89,6 +92,13 @@ body{
 .form input::placeholder{
 	color: var(--input-color);
 }
+
+#reply{
+	display: none;
+	width: 100%;
+	max-width: 100%;
+}
+
 audio{
 	color: var(--input-background) !important;
 	width: 100%;

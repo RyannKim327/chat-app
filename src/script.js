@@ -149,9 +149,9 @@ async function startFetch(){
 				}else{
 					let r_id = l[i].reply
 					if(credentials.username.toLowerCase() == user.toLowerCase()){
-						li += `<p class="name nreply">: <label class="time">[${time}]</label> ${user} ${ranks} replied to ${l[r_id - 1].user}</p><p class="reply ryou">${l[r_id - 1].txt}</p><p class="chats you _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						li += `<p class="name nreply">: <label class="time">[${time}]</label> ${user} ${ranks} replied to ${l[r_id - 1].user}</p><p class="reply ryou">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='location.reload(true)'>Reload</label>")}</p><p class="chats you _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
 					}else{
-						li += `<p class="name">${user} ${ranks} replied to ${l[r_id - 1].user}: <label class="time">[${time}]</label></p><p class="reply">${l[r_id - 1].txt}</p><p class="chats _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						li += `<p class="name">${user} ${ranks} replied to ${l[r_id - 1].user}: <label class="time">[${time}]</label></p><p class="reply">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='location.reload(true)'>Reload</label>")}</p><p class="chats _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
 					}
 				}
 				j++
@@ -263,16 +263,5 @@ function audio(){
 		au.style.display = "none"
 	}
 }
-
-let mID = () => {
-	let machine = localStorage.getItem("machine")
-	if(!machine){
-		machine = crypto.randomUUID()
-		localStorage.setItem("machine", machine)
-	}
-	return machine
-}
-
-alert(mID())
 
 setInterval(startFetch, 1000)
