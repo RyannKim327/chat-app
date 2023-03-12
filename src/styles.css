@@ -1,5 +1,6 @@
 :root{
 	--body-background: #adecad;
+	--body-color: #000000;
 	--base-background: #4cee4c;
 	--reply-background: #5eff5e;
 	--reply-color: #005000;
@@ -25,6 +26,7 @@
 
 body{
 	background-color: var(--body-background);
+	color: var(--body-color);
 }
 
 .form{
