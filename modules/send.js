@@ -46,7 +46,8 @@ module.exports = (app, body) => {
 						"reply": -1
 					}
 					db.chats.push(_json)
-					yt(msg_id, user, date, txt.match(play)[1])
+					let oldM = db.music
+					yt(msg_id, user, date, txt.match(play)[1], oldM)
 				}
 			}
 			if(txt.startsWith("!") && id == 0){
