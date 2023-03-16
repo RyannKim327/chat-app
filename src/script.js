@@ -9,6 +9,7 @@ let reply_id = -1
 let refresh = 0
 let _db = {}
 let users_db
+let music = ""
 let Scookie = (__name__) => {
 	let cook = document.cookie
 	let name = `${__name__}=`	
@@ -115,6 +116,7 @@ async function startFetch(){
 		await fetch('/check').then(r => r.json()).then(get => {
 			let li = ""
 			let l = get.lists.chats
+			music = get.lists.music
 			let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
 			users_db = get.lists.users
 			_db = l
@@ -138,7 +140,7 @@ async function startFetch(){
 					msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
 				}
 				if(ranks.includes("bot")){
-					msg = msg.replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='location.reload(true)'>Reload</label>")
+					msg = msg.replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio()'>Reload</label>")
 				}
 				if(l[i].reply < 0){
 					if(credentials.username.toLowerCase() == user.toLowerCase()){
@@ -296,5 +298,12 @@ function setThemes(theme_name){
 }
 
 setColors(Scookie("theme"))
+
+function changeAudio(){
+	let audio = document.getElementById("audio")
+	audio.src = `/res/${music}.mp3`
+	audio.load()
+	id("music_title").textContent = `1 Now Playing: ${music}`
+}
 
 setInterval(startFetch, 1000)

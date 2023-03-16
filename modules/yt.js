@@ -1,9 +1,7 @@
-const { info } = require("console")
-const e = require("express")
 const fs = require("fs")
 const yt = require("youtubei.js")
 
-module.exports = async (msg_id, user, date, title) => {
+module.exports = async (msg_id, user, date, title, oldTitle) => {
 	let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
 	let youtube = await new yt()
 	let result = await youtube.search(title)
@@ -31,10 +29,10 @@ module.exports = async (msg_id, user, date, title) => {
 				}
 				db.chats.push(_json)
 			}else{
-				if(fs.existsSync(`${__dirname}/../audio/audio.mp3`)){
-					fs.unlink(`${__dirname}/../audio/audio.mp3`, (e) => {})
+				if(fs.existsSync(`${__dirname}/../audio/${info.title}.mp3`)){
+					fs.unlink(`${__dirname}/../audio/${info.title}.mp3`, (e) => {})
 				}
-				let file = fs.createWriteStream('audio/audio.mp3')
+				let file = fs.createWriteStream(`audio/${info.title}.mp3`)
 				let data = await youtube.download(info.id, {
 					format: "mp4",
 					quality: "tiny",
@@ -60,4 +58,7 @@ module.exports = async (msg_id, user, date, title) => {
 		}
 	}
 	fs.writeFileSync("data.json", JSON.stringify(db), "utf-8")
+	if(fs.existsSync(`${__dirname}/../audio/${oldTitle}.mp3`)){
+		fs.unlink(`${__dirname}/../audio/${oldTitle}.mp3`, (e) => {})
+	}
 }
