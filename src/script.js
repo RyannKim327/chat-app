@@ -306,4 +306,6 @@ function changeAudio(){
 	id("music_title").textContent = `1 Now Playing: ${music}`
 }
 
+changeAudio()
+
 setInterval(startFetch, 1000)
