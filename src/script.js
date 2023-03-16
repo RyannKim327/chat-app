@@ -41,6 +41,7 @@ if(Scookie("username") != ""){
 	id("myname").textContent = `Welcome ${credentials.username}`
 	input()
 	startFetch()
+	changeAudio()
 }else{
 	check()
 }
@@ -97,6 +98,7 @@ async function login(){
 				cookie("id", data.id)
 				input()
 				startFetch()
+				changeAudio()
 			}else{
 				alert("Wrong username or password.")
 			}
@@ -299,13 +301,20 @@ function setThemes(theme_name){
 
 setColors(Scookie("theme"))
 
+window.onload = () => {
+	let audio = document.getElementById("audio")
+	audio.src = `/res/${music}.mp3`
+	audio.load()
+	id("music_title").textContent = `Now Playing: ${music}`
+	audio.play()
+}
+
 function changeAudio(){
 	let audio = document.getElementById("audio")
 	audio.src = `/res/${music}.mp3`
 	audio.load()
 	id("music_title").textContent = `1 Now Playing: ${music}`
+	audio.play()
 }
-
-changeAudio()
 
 setInterval(startFetch, 1000)
