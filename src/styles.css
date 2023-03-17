@@ -1,12 +1,14 @@
 :root{
-	--body-background: #adecad;
+	--body-background: #fafbfc;
 	--body-color: #000000;
-	--base-background: #4cee4c;
-	--reply-background: #5eff5e;
-	--reply-color: #005000;
-	--input-background: #009e00;
+	--base-background: #aaabac;
+	--reply-background: #5a5b5c;
+	--reply-color: #ffffff;
+	--input-background: #131320;
 	--input-color: #ffffff;
 	--chat-color: #000000;
+	--you-background: #131320;
+	--you-color: #ffffff;
 	/*
 	--body-background: #ecadad;
 	--base-background: #ee4c4c;
@@ -80,6 +82,11 @@ body{
 
 #lists .you, #lists .ryou, #lists .nreply{
 	align-self: flex-end;
+}
+
+#lists .you{
+	background-color: var(--you-background);
+	color: var(--you-color);
 }
 
 .bottom{

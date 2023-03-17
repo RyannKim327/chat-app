@@ -285,6 +285,8 @@ let setColors = (theme_name) => {
 		root.setProperty("--input-background", `${colors[theme_name]["input-background"]}`)
 		root.setProperty("--input-color", `${colors[theme_name]["input-color"]}`)
 		root.setProperty("--chat-color", `${colors[theme_name]["chat-color"]}`)
+		root.setProperty("--you-background", `${colors[theme_name]["you-background"]}`)
+		root.setProperty("--you-color", `${colors[theme_name]["you-color"]}`)
 	}
 }
 
