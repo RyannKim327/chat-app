@@ -312,8 +312,10 @@ window.onload = () => {
 	id("play").onclick = () => {
 		if(audio.paused){
 			audio.play()
+			id("play").textContent = "Pause"
 		}else{
 			audio.pause()
+			id("play").textContent = "Play"
 		}
 	}
 }
