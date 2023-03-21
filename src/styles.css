@@ -84,11 +84,20 @@ body{
 	align-self: flex-end;
 }
 
+#lists .chats a{
+	font-weight: bold;
+	color: var(--chat-color);
+}
+
 #lists .you{
 	background-color: var(--you-background);
 	color: var(--you-color);
 }
 
+#lists .you a{
+	font-weight: bold;
+	color: var(--you-color);
+}
 .bottom{
 	position: fixed;
 	bottom: 0.5em;
@@ -132,6 +141,10 @@ audio{
 
 #showAudio{
 	display: none;
+}
+
+#audio_progress{
+	text-align: center;
 }
 
 ::-webkit-scrollbar{

@@ -268,6 +268,8 @@ function logout(){
 		username: "",
 		id: -1
 	}
+	id("audio").pause()
+	id("audio").currentTime = 0
 	location.reload()
 }
 
@@ -364,13 +366,16 @@ function setDur(){
 	let pattern = ""
 	let formula = (audio.currentTime / audio.duration) * 100
 	for(let x = 0; x < 100; x++){
+		if((x % 50) == 0){
+			pattern += "<br>"
+		}
 		if(x < formula){
-			pattern += " # "
+			pattern += "#"
 		}else{
-			pattern += " . "
+			pattern += "-"
 		}
 	}
-	id("audio_progress").textContent = pattern
+	id("audio_progress").innerHTML = pattern
 }
 
 setInterval(startFetch, 1000)
