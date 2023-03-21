@@ -122,7 +122,13 @@ async function startFetch(){
 			let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
 			users_db = get.lists.users
 			_db = l
-			id("music_title").textContent = `Now Playing: ${get.lists.music}`
+			let audio = id("audio")
+			let dur = audio.currentTime
+			let secs = Math.floor(dur % 60)
+			let mins = Math.floor(dur / 60)
+			dur %= 60
+			let hrs = Math.floor(hrs / 60)
+			id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${get.lists.music}`
 			let j = 0
 			for(let i = l.length - 1; i >= 0 && j < 25; i--){
 				let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
@@ -307,7 +313,12 @@ window.onload = () => {
 	let audio = document.getElementById("audio")
 	audio.src = `/res/${music}.mp3`
 	audio.load()
-	id("music_title").textContent = `Now Playing: ${music}`
+	let dur = audio.currentTime
+	let secs = Math.floor(dur % 60)
+	let mins = Math.floor(dur / 60)
+	dur %= 60
+	let hrs = Math.floor(dur / 60)
+	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music}`
 	id("play").textContent = (audio.paused) ? "Play" : "Pause"
 	id("play").onclick = () => {
 		if(audio.paused){
@@ -318,8 +329,13 @@ window.onload = () => {
 			id("play").textContent = "Play"
 		}
 	}
-	audio.ontimeupdate = () => {
-		id("music_title").textContent = `Now Playing [${audio.currentTime}]: ${music}`
+	audio.ondurationchange = () => {
+		let dur = audio.currentTime
+		let secs = Math.floor(dur % 60)
+		let mins = Math.floor(dur / 60)
+		dur %= 60
+		let hrs = Math.floor(dur / 60)
+		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music}`	
 	}
 	audio.addEventListener("ended", () => {
 		id("play").textContent = "Play"
@@ -330,7 +346,12 @@ function changeAudio(){
 	let audio = document.getElementById("audio")
 	audio.src = `/res/${music}.mp3`
 	audio.load()
-	id("music_title").textContent = `1 Now Playing: ${music}`
+	let dur = audio.currentTime
+	let secs = Math.floor(dur % 60)
+	let mins = Math.floor(dur / 60)
+	dur %= 60
+	let hrs = Math.floor(dur / 60)
+	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music}`
 	audio.play()
 }
 
