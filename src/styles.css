@@ -123,6 +123,11 @@ body{
 	margin: 0 0.5em;
 }
 
+#music_progress{
+	text-align: justify;
+	width: 100%;
+}
+
 audio{
 	color: var(--input-background) !important;
 	display: none;
