@@ -318,6 +318,12 @@ window.onload = () => {
 			id("play").textContent = "Play"
 		}
 	}
+	audio.ontimeupdate = () => {
+		id("music_title").textContent = `Now Playing [${audio.currentTime}]: ${music}`
+	}
+	audio.addEventListener("ended", () => {
+		id("play").textContent = "Play"
+	})
 }
 
 function changeAudio(){
