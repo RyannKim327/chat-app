@@ -41,8 +41,11 @@
 		<div id="chat" class="form" style="display: none;">
 			<label id="showAudio" onclick="audio()">Audio</label>
 			<p id="myname" onclick="logout()"></p>
-			<p id="music_title"></p>
-			<audio id="audio" controls></audio>
+			<div class="musicPanel">
+				<p id="music_title"></p>
+				<p id="play">Play</p>
+				<audio id="audio" controls></audio>
+			</div>
 			<div id="lists"></div>
 		</div>
 		<span id="cform" class="form bottom" style="display: none;">

@@ -308,7 +308,14 @@ window.onload = () => {
 	audio.src = `/res/${music}.mp3`
 	audio.load()
 	id("music_title").textContent = `Now Playing: ${music}`
-	audio.play()
+	id("play").textContent = (audio.paused) ? "Play" : "Pause"
+	id("play").onclick = () => {
+		if(audio.paused){
+			audio.play()
+		}else{
+			audio.pause()
+		}
+	}
 }
 
 function changeAudio(){
