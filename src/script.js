@@ -347,6 +347,20 @@ window.onload = () => {
 	})
 }
 
+window.onkeydown = (e) => {
+	let audio = document.getElementById("audio")
+	let chat = id("chats")
+	if(e.keyCode === 32 && chat != document.activeElement){
+		if(audio.paused){
+			audio.play()
+			id("play").textContent = "Pause"
+		}else{
+			audio.pause()
+			id("play").textContent = "Play"
+		}
+	}
+}
+
 function changeAudio(){
 	let audio = document.getElementById("audio")
 	audio.src = `/res/${music}.mp3`
