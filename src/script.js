@@ -352,7 +352,12 @@ window.onload = () => {
 				audio.play()
 				loopAllowance--
 			}, 500)
-		}	
+		}
+		if(audio.paused){
+			id("play").textContent = "Pause"
+		}else{
+			id("play").textContent = "Play"
+		}
 		setDur()
 	}
 	audio.addEventListener("ended", () => {
@@ -405,7 +410,7 @@ function setDur(){
 			pattern += ""
 		}
 	}
-	pattern += Math.round((audio.currentTime / audio.duration) * 10000) / 100 + "%"
+	pattern += "<br>" + Math.round((audio.currentTime / audio.duration) * 10000) / 100 + "%"
 	id("audio_progress").innerHTML = pattern
 }
 
