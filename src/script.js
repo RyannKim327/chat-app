@@ -314,6 +314,7 @@ setColors(Scookie("theme"))
 
 window.onload = () => {
 	let audio = document.getElementById("audio")
+	let isLooping = false
 	audio.src = `/res/${music}.mp3`
 	audio.load()
 	let dur = audio.currentTime
@@ -333,13 +334,22 @@ window.onload = () => {
 			id("play").textContent = "Play"
 		}
 	}
-	audio.ondurationchange = () => {
+	id("loop").onclick = () => {
+		isLooping = !isLooping
+		id("loop").textContent = isLooping ? "Now in loop" : "Not in Loop"
+	}
+	audio.ontimeupdate = () => {
 		let dur = audio.currentTime
 		let secs = Math.floor(dur % 60)
 		let mins = Math.floor(dur / 60)
 		dur %= 60
 		let hrs = Math.floor(dur / 60)
-		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music}`	
+		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music}`
+		if((audio.duration <= audio.currentTime) && isLooping){
+			setTimeout(() => {
+				audio.play()
+			}, 500)
+		}	
 		setDur()
 	}
 	audio.addEventListener("ended", () => {

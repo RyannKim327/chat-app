@@ -120,7 +120,7 @@ body{
 	flex-direction: row;
 }
 
-.musicPanel #play{
+.musicPanel #play, .musicPanel #loop{
 	cursor: pointer;
 	margin: 0 0.5em;
 }
