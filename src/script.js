@@ -384,11 +384,12 @@ function setDur(){
 			pattern += "<br>"
 		}
 		if(x < formula){
-			pattern += "#"
-		}else{
 			pattern += "-"
+		}else{
+			pattern += ""
 		}
 	}
+	pattern += Math.round((audio.currentTime / audio.duration) * 10000) / 100 + "%"
 	id("audio_progress").innerHTML = pattern
 }
 
