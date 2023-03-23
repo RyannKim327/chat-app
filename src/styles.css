@@ -140,6 +140,11 @@ audio{
 	text-align: center;
 }
 
+.rload{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 ::-webkit-scrollbar{
 	width: 0.5em;
 }
