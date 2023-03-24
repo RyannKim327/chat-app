@@ -1,17 +1,13 @@
 let id = (_name_) => {
 	return document.getElementById(_name_)
 }
-let credentials = {
-	id: -1,
-	username: ""
+let setCookie = (__name__, __data__) => {
+	const date = new Date()
+	date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
+	let xp = `expires=${date.toUTCString()}`
+	document.cookie = `${__name__}=${__data__};${xp};path=/`
 }
-let reply_id = -1
-let refresh = 0
-let _db = {}
-let users_db
-let loopAllowance = 5
-let music = ""
-let Scookie = (__name__) => {
+let	getCookie = (__name__) => {
 	let cook = document.cookie
 	let name = `${__name__}=`	
 	let decode = decodeURIComponent(cook)
@@ -27,14 +23,26 @@ let Scookie = (__name__) => {
 	}
 	return ""
 }
-if(Scookie("username") != ""){
+
+let credentials = {
+	id: -1,
+	username: ""
+}
+let reply_id = -1
+let refresh = 0
+let _db = {}
+let users_db
+let loopAllowance = 5
+let music = ""
+
+if(getCookie("username") != ""){
 	let username = id("username")
 	let password = id("password")
 	let _login = id("login")
 	let _chat = id("chat")
 	
-	credentials.username = Scookie("username")
-	credentials.id = parseInt(Scookie("id"))
+	credentials.username = setCookie("username")
+	credentials.id = parseInt(setCookie("id"))
 	_login.style.display = "none"
 	_login.innerHTML = ""
 	_chat.style.display = "block"
@@ -82,12 +90,6 @@ async function login(){
 		}).then(async r => {
 			let data = await r.json()
 			if(data.exists){
-				let cookie = (__name__, __data__) => {
-					const date = new Date()
-					date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
-					let xp = `expires=${date.toUTCString()}`
-					document.cookie = `${__name__}=${__data__};${xp};path=/`
-				}
 				credentials.username = data.user
 				credentials.id = data.id
 				_login.style.display = "none"
@@ -95,8 +97,8 @@ async function login(){
 				_chat.style.display = "block"
 				id("cform").style.display = "block"
 				id("myname").textContent = `Welcome ${data.user}`
-				cookie("username", data.user)
-				cookie("id", data.id)
+				setCookie("username", data.user)
+				setCookie("id", data.id)
 				input()
 				startFetch()
 				changeAudio()
@@ -219,14 +221,8 @@ async function send(){
 		}).then(async r => {
 			let data = await r.json()
 			if(!data.exists){
-				let cookie = (__name__, __data__) => {
-					const date = new Date()
-					date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
-					let xp = `expires=${date.toUTCString()}`
-					document.cookie = `${__name__}=${__data__};${xp};path=/`
-				}
-				cookie("username", "")
-				cookie("id", -1)
+				setCookie("username", "")
+				setCookie("id", -1)
 				let _login = id("login")
 				let _chat = id("chat")
 				_login.style.display = "block"
@@ -257,14 +253,8 @@ function clearReply(){
 	id("chats").focus()
 }
 function logout(){
-	let cookie = (__name__, __data__) => {
-		const date = new Date()
-		date.setTime(date.getTime())
-		let xp = `expires=${date.toUTCString()}`
-		document.cookie = `${__name__}=${__data__};${xp};path=/`
-	}
-	cookie("username", "")
-	cookie("id", -1)
+	setCookie("username", "")
+	setCookie("id", -1)
 	credentials = {
 		username: "",
 		id: -1
@@ -301,19 +291,12 @@ let setColors = (theme_name) => {
 }
 
 function setThemes(theme_name){
-	let cookie = (__name__, __data__) => {
-		const date = new Date()
-		date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
-		let xp = `expires=${date.toUTCString()}`
-		document.cookie = `${__name__}=${__data__};${xp};path=/`
-	}
-	cookie("theme", theme_name)
+	setCookie("theme", theme_name)
 	setColors(theme_name)
 }
 
-setColors(Scookie("theme"))
-
 window.onload = () => {
+	setColors(getCookie("theme"))
 	let audio = document.getElementById("audio")
 	let isLooping = false
 	audio.src = `/res/${music}.mp3`
