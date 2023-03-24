@@ -36,13 +36,10 @@ let loopAllowance = 5
 let music = ""
 
 if(getCookie("username") != ""){
-	let username = id("username")
-	let password = id("password")
 	let _login = id("login")
 	let _chat = id("chat")
-	
-	credentials.username = setCookie("username")
-	credentials.id = parseInt(setCookie("id"))
+	credentials.username = getCookie("username")
+	credentials.id = parseInt(getCookie("id"))
 	_login.style.display = "none"
 	_login.innerHTML = ""
 	_chat.style.display = "block"
