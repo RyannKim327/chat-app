@@ -76,6 +76,13 @@
             "password": "21982056232220562422213420562176",
             "rank": "observant",
             "pts": 0
+        },
+        "chais": {
+            "id": 11,
+            "username": "Chais",
+            "password": "234323734149231324182418231311281128",
+            "rank": "observant",
+            "pts": 1
         }
     },
     "chats": [
@@ -110,13 +117,49 @@
         },
         {
             "id": 5,
+            "user": "Welcome Bot",
+            "txt": "Welcome to Chatapp Chais, you're the 12th member here. Enjoy your staying here.",
+            "time": 1679647791767,
+            "reply": -1
+        },
+        {
+            "id": 6,
+            "user": "RyannKim327",
+            "txt": "hello po",
+            "time": 1679647858737,
+            "reply": -1
+        },
+        {
+            "id": 7,
+            "user": "Chais",
+            "txt": "So what should we do here? HAHAHA",
+            "time": 1679648049076,
+            "reply": -1
+        },
+        {
+            "id": 8,
+            "user": "RyannKim327",
+            "txt": "nothing?",
+            "time": 1679648103810,
+            "reply": 7
+        },
+        {
+            "id": 9,
             "user": "Music",
             "rank": "bot",
-            "txt": "2 Hours Hillsong Worship Praise Songs Nonstop ✝️ Top Hillsong Songs For Prayers Medley 2020:newline:Requested by RyannKim327:newline: :reload:",
-            "time": 1679487532836,
+            "txt": "Locked Out Of Heaven X Easy On Me (Bruno Mars, Adele) [Jr Stit Mashup] TIKTOK #2021Recap:newline:Requested by RyannKim327:newline: :reload:",
+            "time": 1679648602240,
+            "reply": -1
+        },
+        {
+            "id": 10,
+            "user": "Music",
+            "rank": "bot",
+            "txt": "Locked Out Of Heaven X Easy On Me (Bruno Mars, Adele) [Jr Stit Mashup] TIKTOK #2021Recap:newline:Requested by RyannKim327:newline: :reload:",
+            "time": 1679648845050,
             "reply": -1
         }
     ],
     "ban": "carl_andrew, kenneth, kennethperez, carlandrew, ",
-    "music": "2 Hours Hillsong Worship Praise Songs Nonstop ✝️ Top Hillsong Songs For Prayers Medley 2020"
+    "music": "Locked_Out_Of_Heaven_X_Easy_On_Me_(Bruno_Mars,_Adele)_[Jr_Stit_Mashup]_TIKTOK_2021Recap"
 }

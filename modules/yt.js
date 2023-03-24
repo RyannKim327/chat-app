@@ -29,10 +29,10 @@ module.exports = async (msg_id, user, date, title, oldTitle) => {
 				}
 				db.chats.push(_json)
 			}else{
-				if(fs.existsSync(`${__dirname}/../audio/${info.title}.mp3`)){
-					fs.unlink(`${__dirname}/../audio/${info.title}.mp3`, (e) => {})
+				if(fs.existsSync(`${__dirname}/../audio/${info.title.replace(/\s/gi, "_").replace(/#/gi,"")}.mp3`)){
+					fs.unlink(`${__dirname}/../audio/${info.title.replace(/\s/gi, "_").replace(/#/gi,"")}.mp3`, (e) => {})
 				}
-				let file = fs.createWriteStream(`audio/${info.title}.mp3`)
+				let file = fs.createWriteStream(`audio/${info.title.replace(/\s/gi, "_").replace(/\#/gi,"")}.mp3`)
 				let data = await youtube.download(info.id, {
 					format: "mp4",
 					quality: "tiny",
@@ -51,7 +51,7 @@ module.exports = async (msg_id, user, date, title, oldTitle) => {
 						"reply": -1
 					}
 					db.chats.push(_json)
-					db.music = info.title
+					db.music = info.title.replace(/\s/gi, "_").replace(/\#/gi,"")
 					fs.writeFileSync("data.json", JSON.stringify(db), "utf-8")
 				})
 			}

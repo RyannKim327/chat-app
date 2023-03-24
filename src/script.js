@@ -9,6 +9,7 @@ let reply_id = -1
 let refresh = 0
 let _db = {}
 let users_db
+let loopAllowance = 5
 let music = ""
 let Scookie = (__name__) => {
 	let cook = document.cookie
@@ -315,7 +316,6 @@ setColors(Scookie("theme"))
 window.onload = () => {
 	let audio = document.getElementById("audio")
 	let isLooping = false
-	let loopAllowance = 5
 	audio.src = `/res/${music}.mp3`
 	audio.load()
 	let dur = audio.currentTime
@@ -354,9 +354,9 @@ window.onload = () => {
 			}, 500)
 		}
 		if(audio.paused){
-			id("play").textContent = "Pause"
-		}else{
 			id("play").textContent = "Play"
+		}else{
+			id("play").textContent = "Pause"
 		}
 		setDur()
 	}
@@ -371,10 +371,10 @@ window.onkeydown = (e) => {
 	if(e.keyCode === 32 && chat != document.activeElement){
 		if(audio.paused){
 			audio.play()
-			id("play").textContent = "Pause"
+			id("play").textContent = "Play"
 		}else{
 			audio.pause()
-			id("play").textContent = "Play"
+			id("play").textContent = "Pause"
 		}
 	}
 }
@@ -382,6 +382,7 @@ window.onkeydown = (e) => {
 function changeAudio(){
 	let audio = document.getElementById("audio")
 	audio.src = `/res/${music}.mp3`
+	loopAllowance = 5
 	audio.load()
 	let dur = audio.currentTime
 	let secs = Math.floor(dur % 60)
