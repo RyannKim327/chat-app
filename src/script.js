@@ -337,6 +337,9 @@ window.onkeydown = (e) => {
 			audio.pause()
 			id("play").textContent = "Pause"
 		}
+		if(isLooping && loopAllowance <= 0){
+			loopAllowance = 5
+		}
 	}
 }
 
