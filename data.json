@@ -81,8 +81,8 @@
             "id": 11,
             "username": "Chais",
             "password": "234323734149231324182418231311281128",
-            "rank": "observant",
-            "pts": 1
+            "rank": "moderator",
+            "pts": -18
         }
     },
     "chats": [
@@ -158,8 +158,39 @@
             "txt": "Locked Out Of Heaven X Easy On Me (Bruno Mars, Adele) [Jr Stit Mashup] TIKTOK #2021Recap:newline:Requested by RyannKim327:newline: :reload:",
             "time": 1679648845050,
             "reply": -1
+        },
+        {
+            "id": 11,
+            "user": "RyannKim327",
+            "txt": "We do having some errors regarding to the program, so that, I still trying to make it better so that I can debug it, also to have collaborators. If you're willing tho, kindly go to my github link, which is attached on the Hello World facebook page.",
+            "time": 1679650775051,
+            "reply": -1
+        },
+        {
+            "id": 12,
+            "user": "Ranker",
+            "rank": "bot",
+            "txt": "User chais is now promoted as a moderator.",
+            "time": 1679650838484,
+            "reply": -1
+        },
+        {
+            "id": 13,
+            "user": "Music",
+            "rank": "bot",
+            "txt": "Leave Me Astounded - Planetshakers (Worship with Lyrics) (Best Worship with Tears):newline:Requested by RyannKim327:newline: :reload:",
+            "time": 1679667145529,
+            "reply": -1
+        },
+        {
+            "id": 14,
+            "user": "Music",
+            "rank": "bot",
+            "txt": "Planetshakers - Made for Worship:newline:Requested by RyannKim327:newline: :reload:",
+            "time": 1679667515501,
+            "reply": -1
         }
     ],
     "ban": "carl_andrew, kenneth, kennethperez, carlandrew, ",
-    "music": "Locked_Out_Of_Heaven_X_Easy_On_Me_(Bruno_Mars,_Adele)_[Jr_Stit_Mashup]_TIKTOK_2021Recap"
+    "music": "Planetshakers_-_Made_for_Worship"
 }
