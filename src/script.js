@@ -292,6 +292,9 @@ window.onload = () => {
 			audio.pause()
 			id("play").textContent = "Play"
 		}
+		if(isLooping && loopAllowance <= 0){
+			loopAllowance = 5
+		}
 	}
 	id("loop").onclick = () => {
 		isLooping = !isLooping
