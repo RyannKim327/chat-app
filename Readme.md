@@ -25,13 +25,8 @@
 19. Added date for chats
 20. Make a style like messenger
 21. Admin can promote a user to moderator if he wants
-22. Music command using !play song_title, with music bot
+22. Music command using !play<space>sing_title, with music bot
 23. Loading screen (beta test) for no messages
-24. Fixed Music Error
-25. Added Music Duration Percentage
-26. Added Custom Duration for progress
-27. Loop with maximum of 5 loops
-28. Play and Pause through text
 
 ---
 ### Credits
@@ -109,4 +104,4 @@ app.get("/", (req, res) => {
 > Wanna be one of us, kindly join with us by clicking the link, attached to this repository.
 ---
 ### Disclaimer
-> This program is developed to enhance my knowledge, regarding in web development, also to enhance and to expand my knowledge in programming. This program also helps me not just to look for what I know, but to seek more. The development is still in progress, if ever you wanted to join with us, [kindly go to this link](https://chatapp.mpoprevii.repl.co). Also, we are open for the idea if you see anything, that may help us to improve the platform, specially the security features for all users.
+> This program is developed to enhance my knowledge, regarding in web development, also to enhance and to expand my knowledge in programming. This program also helps me not just to look for what I know, but to seek more. The development is still in progress, if ever you wanted to join with us, [kindly go to this link](https://chatapp.mpoprevii.repl.co).
