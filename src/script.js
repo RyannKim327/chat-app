@@ -128,7 +128,7 @@ async function startFetch(){
 			let mins = Math.floor(dur / 60)
 			dur %= 60
 			let hrs = Math.floor(dur / 60)
-			id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${get.lists.music}`
+			id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${get.lists.music.replace(/_/gi, " ")}`
 			setDur()
 			let j = 0
 			for(let i = l.length - 1; i >= 0 && j < 25; i--){
