@@ -1,6 +1,7 @@
 let id = (_name_) => {
 	return document.getElementById(_name_)
 }
+
 let credentials = {
 	id: -1,
 	username: ""
@@ -9,31 +10,14 @@ let reply_id = -1
 let refresh = 0
 let _db = {}
 let users_db
+let loopAllowance = 5
 let music = ""
-let Scookie = (__name__) => {
-	let cook = document.cookie
-	let name = `${__name__}=`	
-	let decode = decodeURIComponent(cook)
-	let spl = decode.split(";")
-	for(let i in spl){
-		let kie = spl[i]
-		while(kie[0] == " "){
-			kie = kie.substring(1)
-		}
-		if(kie.indexOf(name) == 0){
-			return kie.substring(name.length, kie.length)
-		}
-	}
-	return ""
-}
-if(Scookie("username") != ""){
-	let username = id("username")
-	let password = id("password")
+
+if(getCookie("username") != ""){
 	let _login = id("login")
 	let _chat = id("chat")
-	
-	credentials.username = Scookie("username")
-	credentials.id = parseInt(Scookie("id"))
+	credentials.username = getCookie("username")
+	credentials.id = parseInt(getCookie("id"))
 	_login.style.display = "none"
 	_login.innerHTML = ""
 	_chat.style.display = "block"
@@ -81,12 +65,6 @@ async function login(){
 		}).then(async r => {
 			let data = await r.json()
 			if(data.exists){
-				let cookie = (__name__, __data__) => {
-					const date = new Date()
-					date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
-					let xp = `expires=${date.toUTCString()}`
-					document.cookie = `${__name__}=${__data__};${xp};path=/`
-				}
 				credentials.username = data.user
 				credentials.id = data.id
 				_login.style.display = "none"
@@ -94,8 +72,8 @@ async function login(){
 				_chat.style.display = "block"
 				id("cform").style.display = "block"
 				id("myname").textContent = `Welcome ${data.user}`
-				cookie("username", data.user)
-				cookie("id", data.id)
+				setCookie("username", data.user)
+				setCookie("id", data.id)
 				input()
 				startFetch()
 				changeAudio()
@@ -122,7 +100,14 @@ async function startFetch(){
 			let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
 			users_db = get.lists.users
 			_db = l
-			id("music_title").textContent = `Now Playing: ${get.lists.music}`
+			let audio = id("audio")
+			let dur = audio.currentTime
+			let secs = Math.floor(dur % 60)
+			let mins = Math.floor(dur / 60)
+			dur %= 60
+			let hrs = Math.floor(dur / 60)
+			id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${get.lists.music.replace(/_/gi, " ")}`
+			setDur()
 			let j = 0
 			for(let i = l.length - 1; i >= 0 && j < 25; i--){
 				let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
@@ -142,7 +127,7 @@ async function startFetch(){
 					msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
 				}
 				if(ranks.includes("bot")){
-					msg = msg.replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio()'>Reload</label>")
+					msg = msg.replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio()' class='rload'>Reload</label>")
 				}
 				if(l[i].reply < 0){
 					if(credentials.username.toLowerCase() == user.toLowerCase()){
@@ -153,9 +138,9 @@ async function startFetch(){
 				}else{
 					let r_id = l[i].reply
 					if(credentials.username.toLowerCase() == user.toLowerCase()){
-						li += `<p class="name nreply">: <label class="time">[${time}]</label> ${user} ${ranks} replied to ${l[r_id - 1].user}</p><p class="reply ryou">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='location.reload(true)'>Reload</label>")}</p><p class="chats you _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						li += `<p class="name nreply">: <label class="time">[${time}]</label> ${user} ${ranks} replied to ${l[r_id - 1].user}</p><p class="reply ryou">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio()' class='rload'>Reload</label>")}</p><p class="chats you _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
 					}else{
-						li += `<p class="name">${user} ${ranks} replied to ${l[r_id - 1].user}: <label class="time">[${time}]</label></p><p class="reply">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='location.reload(true)'>Reload</label>")}</p><p class="chats _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						li += `<p class="name">${user} ${ranks} replied to ${l[r_id - 1].user}: <label class="time">[${time}]</label></p><p class="reply">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio()' class='rload'>Reload</label>")}</p><p class="chats _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
 					}
 				}
 				j++
@@ -211,14 +196,8 @@ async function send(){
 		}).then(async r => {
 			let data = await r.json()
 			if(!data.exists){
-				let cookie = (__name__, __data__) => {
-					const date = new Date()
-					date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
-					let xp = `expires=${date.toUTCString()}`
-					document.cookie = `${__name__}=${__data__};${xp};path=/`
-				}
-				cookie("username", "")
-				cookie("id", -1)
+				setCookie("username", "")
+				setCookie("id", -1)
 				let _login = id("login")
 				let _chat = id("chat")
 				_login.style.display = "block"
@@ -249,18 +228,14 @@ function clearReply(){
 	id("chats").focus()
 }
 function logout(){
-	let cookie = (__name__, __data__) => {
-		const date = new Date()
-		date.setTime(date.getTime())
-		let xp = `expires=${date.toUTCString()}`
-		document.cookie = `${__name__}=${__data__};${xp};path=/`
-	}
-	cookie("username", "")
-	cookie("id", -1)
+	setCookie("username", "")
+	setCookie("id", -1)
 	credentials = {
 		username: "",
 		id: -1
 	}
+	id("audio").pause()
+	id("audio").currentTime = 0
 	location.reload()
 }
 
@@ -291,29 +266,73 @@ let setColors = (theme_name) => {
 }
 
 function setThemes(theme_name){
-	let cookie = (__name__, __data__) => {
-		const date = new Date()
-		date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000))
-		let xp = `expires=${date.toUTCString()}`
-		document.cookie = `${__name__}=${__data__};${xp};path=/`
-	}
-	cookie("theme", theme_name)
+	setCookie("theme", theme_name)
 	setColors(theme_name)
 }
 
-setColors(Scookie("theme"))
-
 window.onload = () => {
+	setColors(getCookie("theme"))
 	let audio = document.getElementById("audio")
+	let isLooping = false
 	audio.src = `/res/${music}.mp3`
 	audio.load()
-	id("music_title").textContent = `Now Playing: ${music}`
+	let dur = audio.currentTime
+	let secs = Math.floor(dur % 60)
+	let mins = Math.floor(dur / 60)
+	dur %= 60
+	let hrs = Math.floor(dur / 60)
+	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
+	setDur()
 	id("play").textContent = (audio.paused) ? "Play" : "Pause"
 	id("play").onclick = () => {
 		if(audio.paused){
 			audio.play()
+			id("play").textContent = "Pause"
 		}else{
 			audio.pause()
+			id("play").textContent = "Play"
+		}
+	}
+	id("loop").onclick = () => {
+		isLooping = !isLooping
+		id("loop").textContent = isLooping ? "Now in loop" : "Not in Loop"
+		loopAllowance = 5
+	}
+	audio.ontimeupdate = () => {
+		let dur = audio.currentTime
+		let secs = Math.floor(dur % 60)
+		let mins = Math.floor(dur / 60)
+		dur %= 60
+		let hrs = Math.floor(dur / 60)
+		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
+		if((audio.duration <= audio.currentTime) && isLooping && loopAllowance > 1){
+			setTimeout(() => {
+				audio.play()
+				loopAllowance--
+			}, 500)
+		}
+		if(audio.paused){
+			id("play").textContent = "Play"
+		}else{
+			id("play").textContent = "Pause"
+		}
+		setDur()
+	}
+	audio.addEventListener("ended", () => {
+		id("play").textContent = "Play"
+	})
+}
+
+window.onkeydown = (e) => {
+	let audio = document.getElementById("audio")
+	let chat = id("chats")
+	if(e.keyCode === 32 && chat != document.activeElement){
+		if(audio.paused){
+			audio.play()
+			id("play").textContent = "Play"
+		}else{
+			audio.pause()
+			id("play").textContent = "Pause"
 		}
 	}
 }
@@ -321,9 +340,37 @@ window.onload = () => {
 function changeAudio(){
 	let audio = document.getElementById("audio")
 	audio.src = `/res/${music}.mp3`
+	loopAllowance = 5
 	audio.load()
-	id("music_title").textContent = `1 Now Playing: ${music}`
+	let dur = audio.currentTime
+	let secs = Math.floor(dur % 60)
+	let mins = Math.floor(dur / 60)
+	dur %= 60
+	let hrs = Math.floor(dur / 60)
+	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
 	audio.play()
+	setTimeout(() => {
+		clearReply()
+	}, 100)
+	setDur()
+}
+
+function setDur(){
+	let audio = document.getElementById("audio")
+	let pattern = ""
+	let formula = (audio.currentTime / audio.duration) * 100
+	for(let x = 0; x < 100; x++){
+		if((x % 50) == 0){
+			pattern += "<br>"
+		}
+		if(x < formula){
+			pattern += "-"
+		}else{
+			pattern += ""
+		}
+	}
+	pattern += "<br>" + Math.round((audio.currentTime / audio.duration) * 10000) / 100 + "%"
+	id("audio_progress").innerHTML = pattern
 }
 
 setInterval(startFetch, 1000)

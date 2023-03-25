@@ -43,9 +43,13 @@
 			<p id="myname" onclick="logout()"></p>
 			<div class="musicPanel">
 				<p id="music_title"></p>
-				<p id="play">Play</p>
 				<audio id="audio" controls></audio>
 			</div>
+			<div class="musicPanel">
+				<p id="play">Play</p>
+				<p id="loop">Not in loop</p>
+			</div>
+			<p id="audio_progress"></p>
 			<div id="lists"></div>
 		</div>
 		<span id="cform" class="form bottom" style="display: none;">
@@ -54,6 +58,7 @@
 		</span>
 		<!--audio autoplay="autoplay" controls src="/res/Nakakamiss.ogg"></audio-->
 	</body>
+	<script src="/externals/cookies.js"></script>
 	<script src="/externals/colors.js"></script>
 	<script src="/externals/script.js"></script>
 </html>
