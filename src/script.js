@@ -283,14 +283,14 @@ window.onload = () => {
 	let hrs = Math.floor(dur / 60)
 	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
 	setDur()
-	id("play").textContent = (audio.paused) ? "Play" : "Pause"
+	id("play").innerHTML = (audio.paused) ? "<i class='fa-solid fa-play fa-2xs'></i>" : "<i class='fa-solid fa-pause fa-2xs'></i>"
 	id("play").onclick = () => {
 		if(audio.paused){
 			audio.play()
-			id("play").textContent = "Pause"
+			id("play").innerHTML = "<i class='fa-solid fa-pause fa-2xs'></i>"
 		}else{
 			audio.pause()
-			id("play").textContent = "Play"
+			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs'></i>"
 		}
 		if(isLooping && loopAllowance <= 0){
 			loopAllowance = 5
@@ -298,7 +298,7 @@ window.onload = () => {
 	}
 	id("loop").onclick = () => {
 		isLooping = !isLooping
-		id("loop").textContent = isLooping ? "Now in loop" : "Not in Loop"
+		id("loop").innerHTML = isLooping ? "<i class='fa-solid fa-arrows-spin fa-2xs'></i>" : "<i class='fa-solid fa-arrows-right fa-2xs'></i>"
 		loopAllowance = 5
 	}
 	audio.ontimeupdate = () => {
@@ -315,14 +315,14 @@ window.onload = () => {
 			}, 500)
 		}
 		if(audio.paused){
-			id("play").textContent = "Play"
+			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs'></i>"
 		}else{
-			id("play").textContent = "Pause"
+			id("play").innerHTML = "<i class='fa-solid fa-pause fa-2xs'></i>"
 		}
 		setDur()
 	}
 	audio.addEventListener("ended", () => {
-		id("play").textContent = "Play"
+		id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs'></i>"
 	})
 }
 
@@ -332,10 +332,10 @@ window.onkeydown = (e) => {
 	if(e.keyCode === 32 && chat != document.activeElement){
 		if(audio.paused){
 			audio.play()
-			id("play").textContent = "Play"
+			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs'></i>"
 		}else{
 			audio.pause()
-			id("play").textContent = "Pause"
+			id("play").innerHTML = "<i class='fa-solid fa-pause fa-2xs'></i>"
 		}
 		if(isLooping && loopAllowance <= 0){
 			loopAllowance = 5
@@ -363,20 +363,8 @@ function changeAudio(){
 
 function setDur(){
 	let audio = document.getElementById("audio")
-	let pattern = ""
 	let formula = (audio.currentTime / audio.duration) * 100
 	let progess = id("audio_progress")
-	for(let x = 0; x < 100; x++){
-		if((x % 50) == 0){
-			pattern += "<br>"
-		}
-		if(x < formula){
-			pattern += "-"	
-		}else{
-			pattern += ""
-		}
-	}
-	pattern += "<br>" + Math.round((audio.currentTime / audio.duration) * 10000) / 100 + "%"
 	if(formula < 3){
 		progess.style.width = "3%"
 	}else{
