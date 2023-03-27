@@ -365,18 +365,24 @@ function setDur(){
 	let audio = document.getElementById("audio")
 	let pattern = ""
 	let formula = (audio.currentTime / audio.duration) * 100
+	let progess = id("audio_progress")
 	for(let x = 0; x < 100; x++){
 		if((x % 50) == 0){
 			pattern += "<br>"
 		}
 		if(x < formula){
-			pattern += "-"
+			pattern += "-"	
 		}else{
 			pattern += ""
 		}
 	}
 	pattern += "<br>" + Math.round((audio.currentTime / audio.duration) * 10000) / 100 + "%"
-	id("audio_progress").innerHTML = pattern
+	if(formula < 3){
+		progess.style.width = "3%"
+	}else{
+		progess.style.width = `${formula}%`
+	}
+	progess.innerHTML = Math.round((audio.currentTime / audio.duration) * 10000) / 100 + "%"
 }
 
 setInterval(startFetch, 1000)

@@ -45,6 +45,7 @@ body{
 	max-height: 20em;
 	overflow-y: scroll;
 	padding: 0.5em;
+	margin-top: 1em;
 }
 
 #lists .name{
@@ -136,8 +137,20 @@ audio{
 	display: none;
 }
 
+.baseProgress{
+	background-color: var(--input-background);
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: 1em;
+}
+
 #audio_progress{
-	text-align: center;
+	background-color: var(--body-background);
+	text-align: right;
+	font-size: x-small;
+	border-radius: 1em;
+	padding: 0.5em;
+	box-sizing: border-box;
 }
 
 .rload{
