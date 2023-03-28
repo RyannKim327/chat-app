@@ -283,14 +283,14 @@ window.onload = () => {
 	let hrs = Math.floor(dur / 60)
 	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
 	setDur()
-	id("play").innerHTML = (audio.paused) ? "<i class='fa-solid fa-play fa-2xs'></i>" : "<i class='fa-solid fa-pause fa-2xs'></i>"
+	id("play").innerHTML = (audio.paused) ? "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>" : "<i class='fa-solid fa-pause fa-2xs'></i>"
 	id("play").onclick = () => {
 		if(audio.paused){
 			audio.play()
 			id("play").innerHTML = "<i class='fa-solid fa-pause fa-2xs'></i>"
 		}else{
 			audio.pause()
-			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs'></i>"
+			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>"
 		}
 		if(isLooping && loopAllowance <= 0){
 			loopAllowance = 5
@@ -298,7 +298,8 @@ window.onload = () => {
 	}
 	id("loop").onclick = () => {
 		isLooping = !isLooping
-		id("loop").innerHTML = isLooping ? "<i class='fa-solid fa-arrows-spin fa-2xs'></i>" : "<i class='fa-solid fa-arrows-right fa-2xs'></i>"
+		id("loop").innerHTML = isLooping ? "<i class='fa-solid fa-arrows-spin fa-2xs fa-spin'></i>" : "<i class='fa-solid fa-arrows-right fa-2xs'></i>"
+		id("loop").title = isLooping ? "Looping" : "Single Loop"
 		loopAllowance = 5
 	}
 	audio.ontimeupdate = () => {
@@ -310,19 +311,19 @@ window.onload = () => {
 		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
 		if((audio.duration <= audio.currentTime) && isLooping && loopAllowance > 1){
 			setTimeout(() => {
-				audio.play()
+				audio.play()	
 				loopAllowance--
 			}, 500)
 		}
 		if(audio.paused){
-			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs'></i>"
+			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>"
 		}else{
 			id("play").innerHTML = "<i class='fa-solid fa-pause fa-2xs'></i>"
 		}
 		setDur()
 	}
 	audio.addEventListener("ended", () => {
-		id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs'></i>"
+		id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>"
 	})
 }
 
@@ -332,7 +333,7 @@ window.onkeydown = (e) => {
 	if(e.keyCode === 32 && chat != document.activeElement){
 		if(audio.paused){
 			audio.play()
-			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs'></i>"
+			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>"
 		}else{
 			audio.pause()
 			id("play").innerHTML = "<i class='fa-solid fa-pause fa-2xs'></i>"
