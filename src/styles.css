@@ -186,11 +186,11 @@ audio{
 }
 ::-webkit-scrollbar-track{
 	border-radius: 1em;
-	background-color: var(--input-background);
+	background-color: var(--audio-progress-background);
 }
 ::-webkit-scrollbar-thumb{
 	border-radius: 1em;
-	background-color: var(--body-background);
+	background-color: var(--audio-progress-color);
 }
 
 @media only screen and (max-width: 768px) {
