@@ -298,7 +298,7 @@ window.onload = () => {
 	}
 	id("loop").onclick = () => {
 		isLooping = !isLooping
-		id("loop").innerHTML = isLooping ? "<i class='fa-solid fa-arrows-spin fa-2xs fa-spin'></i>" : "<i class='fa-solid fa-arrows-right fa-2xs'></i>"
+		id("loop").innerHTML = isLooping ? "<i class='fa-solid fa-arrows-spin fa-2xs fa-spin'></i>" : "<i class='fa-solid fa-arrow-right fa-2xs'></i>"
 		id("loop").title = isLooping ? "Looping" : "Single Loop"
 		loopAllowance = 5
 	}
