@@ -1,15 +1,17 @@
 let colors = {
 	"dark": {
-		"body-background": "#222222",
+		"body-background": "#131320",
 		"body-color": "#ffffff",
-		"base-background": "#2f2f2f",
-		"reply-background": "#2f2f2f",
-		"reply-color": "#A6E22D",
-		"input-background": "#2f2f2f",
-		"input-color": "#FFFFFF",
-		"chat-color": "#66D9EF",
-		"you-background": "#fafbfc",
-		"you-color": "#000000"
+		"base-background": "#303050",
+		"reply-background": "#99131320",
+		"reply-color": "#ffffff",
+		"input-background": "#131320",
+		"input-color": "#ffffff",
+		"chat-color": "#ffffff",
+		"you-background": "#121230",
+		"you-color": "#ffffff",
+		"audio-progress-background": "#131320",
+		"audio-progress-color": "#ffffff"
 	},
 	"default": {
 		"body-background": "#fafbfc",
@@ -21,7 +23,9 @@ let colors = {
 		"input-color": "#ffffff",
 		"chat-color": "#000000",
 		"you-background": "#121230",
-		"you-color": "#ffffff"
+		"you-color": "#ffffff",
+		"audio-progress-background": "#131320",
+		"audio-progress-color": "#fafbfc"
 	},
 	"green": {
 		"body-background": "#adecad",
@@ -33,7 +37,23 @@ let colors = {
 		"input-color": "#ffffff",
 		"chat-color": "#000000",
 		"you-background": "#009000",
-		"you-color": "#ffffff"
+		"you-color": "#ffffff",
+		"audio-progress-background": "#adecad",
+		"audio-progress-color": "#009e00"
+	},
+	"monokai": {
+		"body-background": "#222222",
+		"body-color": "#ffffff",
+		"base-background": "#2f2f2f",
+		"reply-background": "#2f2f2f",
+		"reply-color": "#A6E22D",
+		"input-background": "#2f2f2f",
+		"input-color": "#FFFFFF",
+		"chat-color": "#66D9EF",
+		"you-background": "#fafbfc",
+		"you-color": "#000000",
+		"audio-progress-background": "#222222",
+		"audio-progress-color": "#2f2f2f"
 	},
 	"red": {
 		"body-background": "#ecadad",
@@ -45,7 +65,9 @@ let colors = {
 		"input-color": "#ffffff",
 		"chat-color": "#000000",
 		"you-background": "#900000",
-		"you-color": "#ffffff"
+		"you-color": "#ffffff",
+		"audio-progress-background": "#ecadad",
+		"audio-progress-color": "#9e0000"
 	},
 	"yellow": {
 		"body-background": "#eaecad",
@@ -57,6 +79,8 @@ let colors = {
 		"input-color": "#ffffff",
 		"chat-color": "#000000",
 		"you-background": "#905000",
-		"you-color": "#ffffff"
+		"you-color": "#ffffff",
+		"audio-progress-background": "#eaecad",
+		"audio-progress-color": "#9e9e00"
 	}
 }

@@ -1,6 +1,1 @@
-{
-    "users": {},
-    "chats": [],
-    "ban": "",
-    "music": ""
-}
+{"users":{"ryannkim327":{"id":1,"username":"RyannKim327","password":"192146414352850443747098504403464146414352","rank":"observant","pts":1}},"chats":[{"id":1,"user":"Welcome Bot","txt":"Welcome to Chatapp RyannKim327, you're the 1st member here. Enjoy your staying here.","time":1680128077897,"reply":-1},{"id":2,"user":"RyannKim327","txt":"sdsds","time":1680128088827,"reply":1}],"ban":"","music":""}

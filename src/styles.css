@@ -10,6 +10,8 @@
 	--chat-color: #000000;
 	--you-background: #131320;
 	--you-color: #ffffff;
+	--audio-progress-background: #131320;
+	--audio-progress-color: #fafbfc;
 }
 *{
 	margin: 0;
@@ -152,14 +154,15 @@ audio{
 }
 
 .baseProgress{
-	background-color: var(--input-background);
+	background-color: var(--audio-progress-background);
 	width: 100%;
 	box-sizing: border-box;
 	border-radius: 1em;
 }
 
 #audio_progress{
-	background-color: var(--body-background);
+	background-color: var(--audio-progress-color);
+	color: var(--audio-progress-background);
 	display: flex;
 	flex-direction: row;
 	align-items: center;

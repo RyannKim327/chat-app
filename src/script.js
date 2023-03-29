@@ -262,6 +262,8 @@ let setColors = (theme_name) => {
 		root.setProperty("--chat-color", `${colors[theme_name]["chat-color"]}`)
 		root.setProperty("--you-background", `${colors[theme_name]["you-background"]}`)
 		root.setProperty("--you-color", `${colors[theme_name]["you-color"]}`)
+		root.setProperty("--audio-progress-background", `${colors[theme_name]["audio-progress-background"]}`)
+		root.setProperty("--audio-progress-color", `${colors[theme_name]["audio-progress-color"]}`)
 	}
 }
 
@@ -366,8 +368,8 @@ function setDur(){
 	let audio = document.getElementById("audio")
 	let formula = (audio.currentTime / audio.duration) * 100
 	let progess = id("audio_progress")
-	if(formula < 3){
-		progess.style.width = "3%"
+	if(formula < 10){
+		progess.style.width = "10%"
 	}else{
 		progess.style.width = `${formula}%`
 	}

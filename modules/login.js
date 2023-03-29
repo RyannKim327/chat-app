@@ -47,7 +47,7 @@ module.exports = (app, body) => {
 			db.chats.push({
 				id: msg_id,
 				user: "Welcome Bot",
-				txt: `Welcome to Chatapp ${user}, you're the ${num(id + 1)} member here. Enjoy your staying here.`,
+				txt: `Welcome to Chatapp ${user}, you're the ${num(id == 1 ? 1 : (id + 1))} member here. Enjoy your staying here.`,
 				time: date.getTime(),
 				reply: reply_id
 			})
