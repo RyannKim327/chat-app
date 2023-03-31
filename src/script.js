@@ -294,7 +294,7 @@ window.onload = () => {
 			audio.pause()
 			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>"
 		}
-		if(isLooping && loopAllowance <= 0){
+		if(isLooping && loopAllowance <= 1){
 			loopAllowance = 5
 		}
 	}
