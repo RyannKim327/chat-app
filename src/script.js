@@ -12,6 +12,7 @@ let _db = {}
 let users_db
 let loopAllowance = 5
 let music = ""
+let old_music = ""
 
 if(getCookie("username") != ""){
 	let _login = id("login")
@@ -106,7 +107,7 @@ async function startFetch(){
 			let mins = Math.floor(dur / 60)
 			dur %= 60
 			let hrs = Math.floor(dur / 60)
-			id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${get.lists.music.replace(/_/gi, " ")}`
+			//id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${get.lists.music.replace(/_/gi, " ")}`
 			setDur()
 			let j = 0
 			for(let i = l.length - 1; i >= 0 && j < 25; i--){
@@ -283,6 +284,7 @@ window.onload = () => {
 	let mins = Math.floor(dur / 60)
 	dur %= 60
 	let hrs = Math.floor(dur / 60)
+	old_music = music
 	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
 	setDur()
 	id("play").innerHTML = (audio.paused) ? "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>" : "<i class='fa-solid fa-pause fa-2xs'></i>"
@@ -310,7 +312,7 @@ window.onload = () => {
 		let mins = Math.floor(dur / 60)
 		dur %= 60
 		let hrs = Math.floor(dur / 60)
-		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
+		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${old_music.replace(/_/gi, " ")}`
 		if((audio.duration <= audio.currentTime) && isLooping && loopAllowance > 1){
 			setTimeout(() => {
 				audio.play()	
@@ -357,6 +359,7 @@ function changeAudio(){
 	dur %= 60
 	let hrs = Math.floor(dur / 60)
 	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
+	old_music = music
 	audio.play()
 	setTimeout(() => {
 		clearReply()
