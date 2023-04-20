@@ -45,9 +45,13 @@ body{
 #lists{
 	display: flex;
 	flex-direction: column;
-	overflow-y: scroll;
 	padding: 0.5em;
 	margin-top: 1em;
+	height: 85%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	overflow-y: scroll;
 }
 
 #lists .name{
