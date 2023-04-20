@@ -45,7 +45,6 @@ body{
 #lists{
 	display: flex;
 	flex-direction: column;
-	max-height: 20em;
 	overflow-y: scroll;
 	padding: 0.5em;
 	margin-top: 1em;
@@ -69,6 +68,10 @@ body{
 	padding: 0.25em 0.5em;
 	margin: 0.25em 0;
 	color: var(--chat-color);
+}
+
+#chat{
+	height: 85vh;
 }
 
 #reply{
