@@ -1,9 +1,5 @@
 node_modules/*
-
 .replit
-
 replit.nix
-
 audio/*
-
 data.json
