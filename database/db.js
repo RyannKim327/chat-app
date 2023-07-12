@@ -15,6 +15,7 @@ class db{
 				userID INTEGER,
 				sendFrom INTEGER,
 				sendTo INTEGER,
+				globalLevel INTEGER,
 				message VARCHAR(1000),
 				date VARCHAR(100)
 			)`)
