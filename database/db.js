@@ -13,6 +13,7 @@ class db{
 			this.database.run(`CREATE TABLE IF NOT EXISTS chats (
 				ID INTEGER PRIMARY KEY,
 				userID INTEGER,
+				sendFrom INTEGER,
 				sendTo INTEGER,
 				message VARCHAR(1000),
 				date VARCHAR(100)
@@ -52,6 +53,58 @@ class db{
 				}
 			})
 		})
+	}
+	getTotalUsers(res){
+		this.database.serialize(() => {
+			this.database.get(`SELECT COUNT(*) FROM users`, [], (e, r) => {
+				if(e){
+					res.send(JSON.stringify({
+						"status": 500,
+						"message": `Errpr ${e}`
+					}))
+				}else{
+					res.send(JSON.stringify({
+						"status": 200,
+						"messaage": r
+					}))
+				}
+			})
+		})
+	}
+	getAllMessages(res, idF, idT = 0){
+		if(idT == 0){
+			this.database.serialize(() => {
+				this.database.get(`SELECT * FROM chats WHERE sendTo = 0`, [], (e, r) => {
+					if(e){
+						res.send(JSON.stringify({
+							"status": 500,
+							"message": `Errpr ${e}`
+						}))
+					}else{
+						res.send(JSON.stringify({
+							"status": 200,
+							"messaage": r
+						}))
+					}
+				})
+			})
+		}else{
+			this.database.serialize(() => {
+				this.database.get(`SELECT * FROM chats WHERE sendTo = ? AND sendFrom = ?`, [idT, idF], (e, r) => {
+					if(e){
+						res.send(JSON.stringify({
+							"status": 500,
+							"message": `Errpr ${e}`
+						}))
+					}else{
+						res.send(JSON.stringify({
+							"status": 200,
+							"messaage": r
+						}))
+					}
+				})
+			})
+		}
 	}
 }
 
