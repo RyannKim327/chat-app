@@ -12,9 +12,13 @@
   "author": "RyannKim327",
   "license": "ISC",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "body-parser": "^1.20.1",
     "express": "^4.18.2",
+    "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
-    "youtubei.js": "^1.4.5"
+    "youtube-music-api": "^1.0.6",
+    "youtubei.js": "^1.4.5",
+    "ytdl-core": "^4.11.5"
   }
 }
