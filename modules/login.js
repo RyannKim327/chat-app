@@ -1,6 +1,5 @@
 const fs = require("fs")
 const enc = require("./../utils/encrypt")
-const database = require("./../database/db")
 
 const num = (nth) => {
 	let pos = ""
@@ -27,19 +26,17 @@ const num = (nth) => {
 module.exports = (app, body) => {	
 	app.post("/login", body, (req, res) => {
 		let date = new Date()
+		let db = JSON.parse(fs.readFileSync("data.json", "utf-8"))
 		let user = req.body.username.replace(/\s/gi, "_")
 		let pass = enc(req.body.password)
+		let reply_id = -1
+		let msg_id = db.chats.length + 1
 		let json = {
 			exists: false
 		}
 		let usr = user.toLowerCase()
-		let db = new database()
 		if(db.users[usr] == undefined){
-			let id = db.getTotalUsers(res, {
-				"$username": user,
-				"$password": pass
-			})
-			db.addUser(res, )
+			let id = Object.keys(db.users).length || 1
 			db.users[usr] = {
 				id,
 				username: user,
@@ -50,7 +47,7 @@ module.exports = (app, body) => {
 			db.chats.push({
 				id: msg_id,
 				user: "Welcome Bot",
-				txt: `Welcome to Chatapp ${user}, you're the ${num(id == 1 ? 1 : (id + 1))} member here. Enjoy your staying here.`,
+				txt: `Welcome to Chatapp ${user}, you're the ${num(id + 1)} member here. Enjoy your staying here.`,
 				time: date.getTime(),
 				reply: reply_id
 			})
