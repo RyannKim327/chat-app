@@ -10,7 +10,7 @@ ffmpegs.setFfmpegPath(ffmpeg.path)
 module.exports = async (msg_id, user, date, title, oldM) => {
 	try{
 		await yt.initalize()
-		let search = await yt.search(title.replace(/[^\w\s]/gi, ''))
+		let search = await yt.search(title.replace(/[^\w\s]/gi, ''), "video")
 		if(search.content.length <= 0){
 			const json = JSON.parse(fs.readFileSync("data.json"))
 			json.chats[msg_id - 1] = {
@@ -37,7 +37,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		}
 		const url  = `https://www.youtube.com/watch?v=${search.content[0].videoId}`
 		const strm =  ytdl(url, {
-			"quality": "lowest"
+			"quality": "lowestaudio"
 		})
 		const info = await ytdl.getInfo(url)
 		fs.createWriteStream(`audio/${info.videoDetails.title.replace(/\s/gi, "_")}.mp3`)
