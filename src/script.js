@@ -258,8 +258,12 @@ let setColors = (theme_name) => {
 	theme_name = theme_name.toLowerCase()	
 	if(colors[theme_name] != undefined){
 		const root = document.querySelector(":root").style
+		let position = "center"
+		if(colors[theme_name]['background-position'])
+			position = colors[theme_name]['background-position']
 		root.setProperty("--body-background", `${colors[theme_name]["body-background"]}`)
 		root.setProperty("--body-img-background", `url(${colors[theme_name]["body-img-background"]})`)
+		root.setProperty("--background-position", `${position}`)
 		root.setProperty("--body-color", `${colors[theme_name]["body-color"]}`)
 		root.setProperty("--base-background", `${colors[theme_name]["base-background"]}50`)
 		root.setProperty("--reply-background", `${colors[theme_name]["reply-background"]}`)

@@ -3,6 +3,7 @@
 	--body-background: #fafbfc;
 	--body-img-background: "";
 	--body-color: #000000;
+	--background-position: center;
 	--base-background: #aaabac;
 	--reply-background: #5a5b5c;
 	--reply-color: #ffffff;
@@ -27,7 +28,7 @@ body{
 	background-color: var(--body-background);
 	background-image: var(--body-img-background);
 	background-repeat: no-repeat;
-	background-position: var(backgoung-position);
+	background-position: var(--background-position);
 	background-size: 120%;
 	color: var(--body-color);
 }
