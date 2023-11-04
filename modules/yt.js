@@ -40,11 +40,12 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		})
 		const info = await ytdl.getInfo(url)
 		ffmpegs(strm).audioBitrate(96).save(name).on("end", () => {
+			
 			return json.chats.append({
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
-				"txt": `The music was updated to ${info.}`,
+				"txt": `The music was updated to ${info.videoDetails.title}`,
 				"time": date.getTime(),
 				"reply": -1
 			})
