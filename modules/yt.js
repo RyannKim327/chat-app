@@ -34,7 +34,8 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 				"reply": -1
 			})
 		}
-
+		const url  = `https://www.youtube.com/watch?v=${music.content[0].videoId}`
+		
 	}catch(e){
 		return json.chats.append({
 			"id": msg_id,
