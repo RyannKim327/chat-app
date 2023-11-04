@@ -11,10 +11,10 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 	const json = JSON.parse(fs.readFileSync("data.json"))
 	try{
 
-	}catch{
+	}catch(e){
 		return json.chats.append({
-			"user": "Joanne_",
-            "txt": "!play",
+			"user": "Music Bot",
+            "txt": e.message,
             "time": 1696728132832,
             "reply": -1
 		})
