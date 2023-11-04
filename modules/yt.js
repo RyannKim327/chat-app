@@ -9,8 +9,9 @@ ffmpegs.setFfmpegPath(ffmpeg.path)
 
 module.exports = async (msg_id, user, date, title, oldM) => {
 	const json = JSON.parse(fs.readFileSync("data.json"))
-	const name = `${__dirname}/`
+	const name = `${__dirname}/../audio/${title}.mp3`
 	try{
+		const file = fs.
 		await yt.initalize()
 		let search = yt.search(title)
 	}catch(e){
