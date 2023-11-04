@@ -40,8 +40,8 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		})
 		const info = await ytdl.getInfo(url)
 		ffmpegs(strm).audioBitrate(96).save(name).on("end", () => {
-			const n2 = ``
-			if(fs.existsSync(``))
+			const n2 = `${__dirname}/../audio/${oldM}.mp3`
+			if(fs.existsSync(n2))
 			return json.chats[msg_id]({
 				"id": msg_id,
 				"user": "Music",
