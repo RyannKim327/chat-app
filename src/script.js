@@ -159,13 +159,13 @@ async function startFetch(){
 				}
 				li += ""
 				id("lists").innerHTML = li
-			}).catch(e => {
-				console.log(`Error ${e}`)
-			})
-		}catch(e){}
-		if(_db == {}){
-			id("chats").innerHTML = "<div id='loading'> </div>"
-		}
+			}
+		}).catch(e => {
+			console.log(`Error ${e}`)
+		})
+	}catch(e){}
+	if(_db == {}){
+		id("chats").innerHTML = "<div id='loading'> </div>"
 	}
 }
 function input(){
