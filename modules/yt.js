@@ -44,23 +44,23 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			if(fs.existsSync(n2)){
 				fs.unlink(n2, (e) => {})
 			}
-			return json.chats[msg_id]({
+			return json.chats[msg_id] = {
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
 				"txt": `The music was updated to ${info.videoDetails.title}`,
 				"time": date.getTime(),
 				"reply": -1
-			})
+			}
 		})
 	}catch(e){
-		return json.chats[msg_id]({
+		return json.chats[msg_id] = {
 			"id": msg_id,
 			"user": "Music",
 			"rank": "bot",
             "txt": e.message,
             "time": date.getTime(),
             "reply": -1
-		})
+		}
 	}
 }
