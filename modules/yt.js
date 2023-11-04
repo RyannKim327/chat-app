@@ -14,7 +14,16 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		const file = fs.createWriteStream(`audio/${title}.mp3`)
 		await yt.initalize()
 		let search = await yt.search(title.replace(/[^\w\s]/gi, ''))
-		if(search.length )
+		if(search.length <= 0){
+			return json.chats.append({
+				"id": msg_id,
+				"user": "Music",
+				"rank": "bot",
+				"txt": "Music not found",
+				"time": date.getTime(),
+				"reply": -1
+			})
+		}
 	}catch(e){
 		return json.chats.append({
 			"id": msg_id,
