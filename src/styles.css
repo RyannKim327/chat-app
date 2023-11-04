@@ -26,6 +26,9 @@
 body{
 	background-color: var(--body-background);
 	background-image: var(--body-img-background);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
 	color: var(--body-color);
 }
 
