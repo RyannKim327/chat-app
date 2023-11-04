@@ -13,6 +13,7 @@ let users_db
 let loopAllowance = 5
 let music = ""
 let old_music = ""
+let oldChats = ""
 
 if(getCookie("username") != ""){
 	let _login = id("login")
@@ -95,6 +96,7 @@ async function startFetch(){
 	}
 	try{
 		await fetch('/check').then(r => r.json()).then(get => {
+			if(oldChats == )
 			let li = ""
 			let l = get.lists.chats
 			music = get.lists.music
