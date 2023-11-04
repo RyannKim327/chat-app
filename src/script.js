@@ -307,26 +307,27 @@ window.onload = () => {
 		loopAllowance = 5
 	}
 	setTimeout(() => {
-	audio.ontimeupdate = () => {
-		let dur = audio.currentTime
-		let secs = Math.floor(dur % 60)
-		let mins = Math.floor(dur / 60)
-		dur %= 60
-		let hrs = Math.floor(dur / 60)
-		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${old_music.replace(/_/gi, " ")}`
-		if((audio.duration <= audio.currentTime) && isLooping && loopAllowance > 1){
-			setTimeout(() => {
-				audio.play()	
-				loopAllowance--
-			}, 500)
+		audio.ontimeupdate = () => {
+			let dur = audio.currentTime
+			let secs = Math.floor(dur % 60)
+			let mins = Math.floor(dur / 60)
+			dur %= 60
+			let hrs = Math.floor(dur / 60)
+			id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${old_music.replace(/_/gi, " ")}`
+			if((audio.duration <= audio.currentTime) && isLooping && loopAllowance > 1){
+				setTimeout(() => {
+					audio.play()	
+					loopAllowance--
+				}, 500)
+			}
+			if(audio.paused){
+				id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>"
+			}else{
+				id("play").innerHTML = "<i class='fa-solid fa-pause fa-2xs'></i>"
+			}
+			setDur()
 		}
-		if(audio.paused){
-			id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>"
-		}else{
-			id("play").innerHTML = "<i class='fa-solid fa-pause fa-2xs'></i>"
-		}
-		setDur()
-	}
+	})
 	audio.addEventListener("ended", () => {
 		id("play").innerHTML = "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>"
 	})
