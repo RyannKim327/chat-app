@@ -13,7 +13,10 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 
 	}catch{
 		return json.chats.append({
-			
+			"user": "Joanne_",
+            "txt": "!play",
+            "time": 1696728132832,
+            "reply": -1
 		})
 	}
 }
