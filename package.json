@@ -18,7 +18,6 @@
     "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
     "youtube-music-api": "^1.0.6",
-    "youtubei.js": "^1.4.5",
     "ytdl-core": "^4.11.5"
   }
 }
