@@ -99,7 +99,6 @@ async function startFetch(){
 			if(oldChats != JSON.stringify(get)){
 				oldChats = JSON.stringify(get)
 				id("notif").play()
-			}
 				let li = ""
 				let l = get.lists.chats
 				music = get.lists.music
@@ -167,6 +166,7 @@ async function startFetch(){
 		if(_db == {}){
 			id("chats").innerHTML = "<div id='loading'> </div>"
 		}
+	}
 }
 function input(){
 	let chat = id("chats")
