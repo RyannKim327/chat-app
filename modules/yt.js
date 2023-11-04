@@ -40,8 +40,8 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		})
 		const info = await ytdl.getInfo(url)
 		fs.createWriteStream(`audio/${info.videoDetails.title}.mp3`)
+		const name = `${__dirname}/../audio/${info.videoDetails.title}.mp3`
 		ffmpegs(strm).audioBitrate(96).save(name).on("end", () => {
-			const name = `${__dirname}/../audio/${title}.mp3`
 			const n2 = `${__dirname}/../audio/${oldM}.mp3`
 			if(fs.existsSync(n2)){
 				fs.unlink(n2, (e) => {})
