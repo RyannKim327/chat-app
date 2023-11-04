@@ -73,7 +73,7 @@ let colors = {
 	},
 	"yellow": {
 		"body-background": "#eaecad",
-		"": "",
+		"body-img-background": "https://img.freepik.com/premium-photo/mobile-smartphone-speech-bubble-chat-yellow-background-online-live-chat-chatting-application-communication-digital-media-website-social-network-3d-rendering-illustration_20693-1057.jpg?w=826",
 		"body-color": "#000000",
 		"base-background": "#eeee4c",
 		"reply-background": "#ffff5e",
