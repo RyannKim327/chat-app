@@ -58,6 +58,7 @@ let colors = {
 	},
 	"red": {
 		"body-background": "#ecadad",
+		"body-img-background": "https://img.freepik.com/free-photo/top-view-education-day-concept-with-copy-space_23-2148779746.jpg?w=740&t=st=1699140115~exp=1699140715~hmac=bec0adfc1d2d163e053df649105c0f60185326f1b7c92de1ed1c4a1b051521e6",
 		"body-color": "#9e0000",
 		"base-background": "#ee4c4c",
 		"reply-background": "#ff5e5e",
