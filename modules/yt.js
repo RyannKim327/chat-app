@@ -35,10 +35,11 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			})
 		}
 		const url  = `https://www.youtube.com/watch?v=${music.content[0].videoId}`
-		const strm = await ytdl(url, {
+		const strm =  ytdl(url, {
 			"quality": "lowestaudio"
 		})
-		const info = 
+		const info = await ytdl.getInfo(url)
+
 	}catch(e){
 		return json.chats.append({
 			"id": msg_id,
