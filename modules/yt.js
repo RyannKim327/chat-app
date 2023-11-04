@@ -39,7 +39,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			"quality": "lowest"
 		})
 		const info = await ytdl.getInfo(url)
-		fs.createWriteStream(`audio/${info.videoDetails.title}.mp3`)
+		fs.createWriteStream(`audio/${info.videoDetails.title.replace(/\s/gi, "_")}.mp3`)
 		const name = `${__dirname}/../audio/${info.videoDetails.title}.mp3`
 		ffmpegs(strm).audioBitrate(96).save(name).on("end", () => {
 			const n2 = `${__dirname}/../audio/${oldM}.mp3`
