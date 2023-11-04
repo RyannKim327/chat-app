@@ -40,8 +40,8 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		})
 		const info = await ytdl.getInfo(url)
 		ffmpegs(strm).audioBitrate(96).save(name).on("end", () => {
-			
-			return json.chats.append({
+
+			return json.chats[msg_id]({
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
@@ -51,7 +51,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			})
 		})
 	}catch(e){
-		return json.chats.append({
+		return json.chats[msg_id]({
 			"id": msg_id,
 			"user": "Music",
 			"rank": "bot",
