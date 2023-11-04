@@ -14,7 +14,8 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 	}catch(e){
 		return json.chats.append({
 			"id": msg_id,
-			"user": "Music Bot",
+			"user": "Music",
+			"rank": "bot",
             "txt": e.message,
             "time": date,
             "reply": -1
