@@ -28,14 +28,13 @@ body{
 	background-image: var(--body-img-background);
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: cover;
+	background-size: 120%;
 	color: var(--body-color);
-	height: 100vh;
 }
 
 .form{
 	background-color: var(--base-background);
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(5px);
 	margin: 0.5em;
 	padding: 0.75em;
 	border-radius: 0.25em;
