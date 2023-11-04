@@ -156,7 +156,7 @@ async function startFetch(){
 			li += ""
 			id("lists").innerHTML = li
 		}).catch(e => {
-			console.log(`${e}`)
+			console.log(`Error ${e}`)
 		})
 	}catch(e){}
 	if(_db == {}){
