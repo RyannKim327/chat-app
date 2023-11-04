@@ -35,7 +35,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			}
 			return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 		}
-		const url  = `https://www.youtube.com/watch?v=${music.content[0].videoId}`
+		const url  = `https://www.youtube.com/watch?v=${search.content[0].videoId}`
 		const strm =  ytdl(url, {
 			"quality": "lowest"
 		})
