@@ -13,7 +13,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		await yt.initalize()
 		let search = await yt.search(title.replace(/[^\w\s]/gi, ''))
 		if(search.content.length <= 0){
-			json.chats[msg_id] = {
+			json.chats[msg_id - 1] = {
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
@@ -24,7 +24,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 		}
 		if(search.content[0].videoId == undefined){
-			json.chats[msg_id] = {
+			json.chats[msg_id - 1] = {
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
@@ -46,7 +46,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			if(fs.existsSync(n2)){
 				fs.unlink(n2, (e) => {})
 			}
-			json.chats[msg_id] = {
+			json.chats[msg_id - 1] = {
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
