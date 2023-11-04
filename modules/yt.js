@@ -66,6 +66,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
             "time": date.getTime(),
             "reply": -1
 		}
+		console.error(e)
 		return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 	}
 }
