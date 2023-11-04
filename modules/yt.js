@@ -8,5 +8,9 @@ const ffmpegs = require('fluent-ffmpeg')
 ffmpegs.setFfmpegPath(ffmpeg.path)
 
 module.exports = async (msg_id, user, date, title, oldM) => {
+	try{
 
+	}catch(
+		retu
+	)
 }
