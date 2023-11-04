@@ -8,7 +8,7 @@ const ffmpegs = require('fluent-ffmpeg')
 ffmpegs.setFfmpegPath(ffmpeg.path)
 
 module.exports = async (msg_id, user, date, title, oldM) => {
-	const json = 
+	const json = JSON.parse(fs.readFileSync("data.json"))
 	try{
 
 	}catch{
