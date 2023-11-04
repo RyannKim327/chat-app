@@ -348,7 +348,7 @@ window.onkeydown = (e) => {
 	}
 }
 
-function changeAudio(){
+function changeAudio(repload=false){
 	let audio = document.getElementById("audio")
 	audio.src = `/res/${music}.mp3`
 	loopAllowance = 5
@@ -364,6 +364,9 @@ function changeAudio(){
 		clearReply()
 	}, 100)
 	setDur()
+	if(repload){
+		
+	}
 }
 
 function setDur(){
