@@ -96,7 +96,10 @@ async function startFetch(){
 	}
 	try{
 		await fetch('/check').then(r => r.json()).then(get => {
-			if(oldChats == )
+			if(oldChats != JSON.stringify(get)){
+				oldChats = JSON.stringify(get)
+				
+			}
 			let li = ""
 			let l = get.lists.chats
 			music = get.lists.music
