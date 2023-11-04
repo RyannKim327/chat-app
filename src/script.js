@@ -362,7 +362,7 @@ function changeAudio(){
 	old_music = music
 	setTimeout(() => {
 		audio.play()
-	}, )
+	}, 1000)
 	setTimeout(() => {
 		clearReply()
 	}, 100)
