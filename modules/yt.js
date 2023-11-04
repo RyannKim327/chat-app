@@ -12,6 +12,8 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 	try{
 
 	}catch{
-		return json.chats
+		return json.chats.append({
+			
+		})
 	}
 }
