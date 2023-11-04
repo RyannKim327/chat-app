@@ -24,7 +24,17 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 				"reply": -1
 			})
 		}
-		
+		if(search[0].url == undefined){
+			return json.chats.append({
+				"id": msg_id,
+				"user": "Music",
+				"rank": "bot",
+				"txt": "Music not found, please check your query add some singer on your title",
+				"time": date.getTime(),
+				"reply": -1
+			})
+		}
+
 	}catch(e){
 		return json.chats.append({
 			"id": msg_id,
