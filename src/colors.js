@@ -33,7 +33,7 @@ let colors = {
 	},
 	"green": {
 		"body-background": "#adecad",
-		"body-color": "#009000",
+		"body-color": "#00ff00",
 		"body-img-background": "https://png.pngtree.com/background/20210715/original/pngtree-dark-and-green-overlap-layer-line-style-technology-vector-background-with-picture-image_1255219.jpg",
 		"base-background": "#4cee4c",
 		"reply-background": "#5eff5e",
