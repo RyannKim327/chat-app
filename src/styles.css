@@ -208,6 +208,9 @@ audio{
 }
 
 @media only screen and (max-width: 768px) {
+	body{
+		background-size: cover;
+	}
 	::-webkit-scrollbar{
 		width: 0.25em;
 	}
