@@ -306,6 +306,7 @@ window.onload = () => {
 		id("loop").title = isLooping ? "Looping" : "Single Loop"
 		loopAllowance = 5
 	}
+	setTimeout(() => {
 	audio.ontimeupdate = () => {
 		let dur = audio.currentTime
 		let secs = Math.floor(dur % 60)
