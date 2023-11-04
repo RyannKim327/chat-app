@@ -1,9 +1,0 @@
-{
-  "runOnStart": true,
-  "updateInterval": 15,
-  "logging": false,
-  "silent": true,
-  "commitMessage": "{ts.locale.date} {ts.locale.time} [Autogit]",
-  "locale": "en-US",
-  "timeZone": "Asia/Manila"
-}
