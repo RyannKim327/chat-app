@@ -73,6 +73,7 @@ let colors = {
 	},
 	"yellow": {
 		"body-background": "#eaecad",
+		"": "",
 		"body-color": "#000000",
 		"base-background": "#eeee4c",
 		"reply-background": "#ffff5e",
