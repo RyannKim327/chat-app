@@ -44,6 +44,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		const name = `${__dirname}/../audio/${info.videoDetails.title.replace(/\s/gi, "_")}.mp3`
 		ffmpegs(strm).audioBitrate(96).save(name).on("end", () => {
 			const n2 = `${__dirname}/../audio/${oldM}.mp3`
+			const json = JSON.parse(fs.readFileSync("data.json"))
 			if(fs.existsSync(n2)){
 				fs.unlink(n2, (e) => {})
 			}
@@ -59,6 +60,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 		})
 	}catch(e){
+		const json = JSON.parse(fs.readFileSync("data.json"))
 		json.chats[msg_id - 1] = {
 			"id": msg_id,
 			"user": "Music",
