@@ -24,6 +24,7 @@
 
 body{
 	background-color: var(--body-background);
+	background-image: url(var(--body-img-background));
 	color: var(--body-color);
 }
 
