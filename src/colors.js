@@ -16,6 +16,7 @@ let colors = {
 	},
 	"default": {
 		"body-background": "#fafbfc",
+		"body-img-background": "https://img.freepik.com/premium-photo/abstract-background-layout-whatsapp-phone-application-with-chat-profile-web-3d-rendering_368797-242.jpg?w=996",
 		"body-color": "#000000",
 		"base-background": "#aaabac",
 		"reply-background": "#5a5b5c",
