@@ -52,7 +52,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
-				"txt": `A music requested by ${user} was now updated to ${info.videoDetails.title} `,
+				"txt": `A music requested by ${user} was now updated to ${info.videoDetails.title} :reload:`,
 				"time": date.getTime(),
 				"reply": -1
 			}
