@@ -25,7 +25,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			}
 			return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 		}
-		if(search.content[0].videoID == undefined){
+		if(search.content[0].videoId == undefined){
 			json.chats[msg_id] = {
 				"id": msg_id,
 				"user": "Music",
