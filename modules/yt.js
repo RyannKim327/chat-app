@@ -8,6 +8,7 @@ const ffmpegs = require('fluent-ffmpeg')
 ffmpegs.setFfmpegPath(ffmpeg.path)
 
 module.exports = async (msg_id, user, date, title, oldM) => {
+	const time = new Date()
 	const json = JSON.parse(fs.readFileSync("data.json"))
 	try{
 
@@ -15,8 +16,8 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		return json.chats.append({
 			"user": "Music Bot",
             "txt": e.message,
-            "time": 1696728132832,
-            "reply": -1
+            "time": time,
+            "reply": msg_id
 		})
 	}
 }
