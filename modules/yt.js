@@ -23,7 +23,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 				"time": date.getTime(),
 				"reply": -1
 			}
-			return fs.writeFileSync("data.json", JSON.stringify(json), "")
+			return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 		}
 		if(search.content[0].videoID == undefined){
 			json.chats[msg_id] = {
@@ -34,6 +34,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 				"time": date.getTime(),
 				"reply": -1
 			}
+			return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 		}
 		const url  = `https://www.youtube.com/watch?v=${music.content[0].videoId}`
 		const strm =  ytdl(url, {
@@ -53,9 +54,11 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 				"time": date.getTime(),
 				"reply": -1
 			}
+			json.music = info.videoDetails.title
+			return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 		})
 	}catch(e){
-		return json.chats[msg_id] = {
+		json.chats[msg_id] = {
 			"id": msg_id,
 			"user": "Music",
 			"rank": "bot",
@@ -63,5 +66,6 @@ module.exports = async (msg_id, user, date, title, oldM) => {
             "time": date.getTime(),
             "reply": -1
 		}
+		return fs.writeFileSync("data.json", JSON.stringify(json), "utf-8")
 	}
 }
