@@ -39,7 +39,9 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			"quality": "lowestaudio"
 		})
 		const info = await ytdl.getInfo(url)
-		ffmpegs(strm).audioBitrate(96).save(name)
+		ffmpegs(strm).audioBitrate(96).save(name).on("end", () => {
+			
+		})
 	}catch(e){
 		return json.chats.append({
 			"id": msg_id,
