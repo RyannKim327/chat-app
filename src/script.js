@@ -364,6 +364,7 @@ function changeAudio(){
 		clearReply()
 	}, 100)
 	setDur()
+	audio.play()
 }
 
 function setDur(){
