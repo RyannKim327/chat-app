@@ -361,9 +361,6 @@ function changeAudio(){
 	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
 	old_music = music
 	setTimeout(() => {
-		audio.play()
-	}, 1000)
-	setTimeout(() => {
 		clearReply()
 	}, 100)
 	setDur()
