@@ -12,7 +12,6 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 	try{
 		await yt.initalize()
 		let search = yt.search(title)
-		
 	}catch(e){
 		return json.chats.append({
 			"id": msg_id,
