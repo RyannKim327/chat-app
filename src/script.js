@@ -261,7 +261,7 @@ let setColors = (theme_name) => {
 		root.setProperty("--body-background", `${colors[theme_name]["body-background"]}`)
 		root.setProperty("--body-img-background", `url(${colors[theme_name]["body-img-background"]})`)
 		root.setProperty("--body-color", `${colors[theme_name]["body-color"]}`)
-		root.setProperty("--base-background", `${colors[theme_name]["base-background"]}`)
+		root.setProperty("--base-background", `${colors[theme_name]["base-background"]}50`)
 		root.setProperty("--reply-background", `${colors[theme_name]["reply-background"]}`)
 		root.setProperty("--reply-color", `${colors[theme_name]["reply-color"]}`)
 		root.setProperty("--input-background", `${colors[theme_name]["input-background"]}`)

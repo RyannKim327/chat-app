@@ -3,7 +3,7 @@ let colors = {
 		"body-background": "#131320",
 		"body-img-background": "https://img.freepik.com/free-vector/chat-bot-mobile-chatting-isometric-concept_107791-286.jpg?w=826&t=st=1699139344~exp=1699139944~hmac=64a11c24b5787016bf80047157d35cf24cbea902493302c03ab50100caaa5f3e",
 		"body-color": "#ffffff",
-		"base-background": "#30305050",
+		"base-background": "#303050",
 		"reply-background": "#99131320",
 		"reply-color": "#ffffff",
 		"input-background": "#131320",
