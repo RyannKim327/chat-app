@@ -10,6 +10,8 @@ ffmpegs.setFfmpegPath(ffmpeg.path)
 module.exports = async (msg_id, user, date, title, oldM) => {
 	const json = JSON.parse(fs.readFileSync("data.json"))
 	try{
+		await yt.initalize()
+		let search = yt.search(title)
 		
 	}catch(e){
 		return json.chats.append({
