@@ -15,7 +15,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		await yt.initalize()
 		let search = await yt.search(title.replace(/[^\w\s]/gi, ''))
 		if(search.content.length <= 0){
-			return json.chats.append({
+			return json.chats[msg_id]({
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
@@ -25,7 +25,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 			})
 		}
 		if(search.content[0].videoID == undefined){
-			return json.chats.append({
+			return json.chats[msg_id]({
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
@@ -40,7 +40,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 		})
 		const info = await ytdl.getInfo(url)
 		ffmpegs(strm).audioBitrate(96).save(name).on("end", () => {
-
+			if(fs.)
 			return json.chats[msg_id]({
 				"id": msg_id,
 				"user": "Music",
