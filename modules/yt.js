@@ -11,7 +11,6 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 	const json = JSON.parse(fs.readFileSync("data.json"))
 	const name = `${__dirname}/../audio/${title}.mp3`
 	try{
-		const file = fs.createWriteStream(`audio/${title}.mp3`)
 		await yt.initalize()
 		let search = await yt.search(title.replace(/[^\w\s]/gi, ''))
 		if(search.content.length <= 0){
