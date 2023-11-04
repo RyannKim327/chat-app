@@ -52,7 +52,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
-				"txt": `The music was updated to ${info.videoDetails.title}`,
+				"txt": `A music The music was updated to ${info.videoDetails.title}`,
 				"time": date.getTime(),
 				"reply": -1
 			}
