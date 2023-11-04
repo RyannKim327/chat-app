@@ -98,75 +98,75 @@ async function startFetch(){
 		await fetch('/check').then(r => r.json()).then(get => {
 			if(oldChats != JSON.stringify(get)){
 				oldChats = JSON.stringify(get)
-				id("notif")
+				id("notif").play()
 			}
-			let li = ""
-			let l = get.lists.chats
-			music = get.lists.music
-			let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
-			users_db = get.lists.users
-			_db = l
-			let audio = id("audio")
-			let dur = audio.currentTime
-			let secs = Math.floor(dur % 60)
-			let mins = Math.floor(dur / 60)
-			dur %= 60
-			let hrs = Math.floor(dur / 60)
-			//id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${get.lists.music.replace(/_/gi, " ")}`
-			setDur()
-			let j = 0
-			for(let i = l.length - 1; i >= 0 && j < 25; i--){
-				let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
-				let msg = l[i].txt.replace("\<", "&lt;").replace("\>", "&gt;")
-				let user = l[i].user
-				let date = new Date(l[i].time)
-				let time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
-				let ranks = ""
-				let odd = ((i % 2) == 0) ? "odd" : "even"
-				if(get.lists.users[user.toLowerCase()] != undefined){
-					ranks = `[${get.lists.users[user.toLowerCase()].rank}]`
-				}
-				if(l[i].rank != undefined){
-					ranks = `[${l[i].rank}]`
-				}
-				if(gex.test(msg)){
-					msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
-				}
-				if(ranks.includes("bot")){
-					msg = msg.replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio(true)' class='rload'>Reload</label>")
-				}
-				if(l[i].reply < 0){
-					if(credentials.username.toLowerCase() == user.toLowerCase()){
-						li += `<p class="chats you" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
-					}else{
-						li += `<p class="name">${user} ${ranks}: <label class="time">[${time}]</labe></p><p class="chats" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+				let li = ""
+				let l = get.lists.chats
+				music = get.lists.music
+				let usrRank = get.lists.users[credentials.username.toLowerCase()].rank
+				users_db = get.lists.users
+				_db = l
+				let audio = id("audio")
+				let dur = audio.currentTime
+				let secs = Math.floor(dur % 60)
+				let mins = Math.floor(dur / 60)
+				dur %= 60
+				let hrs = Math.floor(dur / 60)
+				//id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${get.lists.music.replace(/_/gi, " ")}`
+				setDur()
+				let j = 0
+				for(let i = l.length - 1; i >= 0 && j < 25; i--){
+					let gex = /https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
+					let msg = l[i].txt.replace("\<", "&lt;").replace("\>", "&gt;")
+					let user = l[i].user
+					let date = new Date(l[i].time)
+					let time = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+					let ranks = ""
+					let odd = ((i % 2) == 0) ? "odd" : "even"
+					if(get.lists.users[user.toLowerCase()] != undefined){
+						ranks = `[${get.lists.users[user.toLowerCase()].rank}]`
 					}
-				}else{
-					let r_id = l[i].reply
-					if(credentials.username.toLowerCase() == user.toLowerCase()){
-						li += `<p class="name nreply">: <label class="time">[${time}]</label> ${user} ${ranks} replied to ${l[r_id - 1].user}</p><p class="reply ryou">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio(true)' class='rload'>Reload</label>")}</p><p class="chats you _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+					if(l[i].rank != undefined){
+						ranks = `[${l[i].rank}]`
+					}
+					if(gex.test(msg)){
+						msg = msg.replace(msg.match(gex)[0] ,`<a href="${msg.match(gex)[0]}" target="_blank">${msg.match(gex)[0]}</a>`)
+					}
+					if(ranks.includes("bot")){
+						msg = msg.replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio(true)' class='rload'>Reload</label>")
+					}
+					if(l[i].reply < 0){
+						if(credentials.username.toLowerCase() == user.toLowerCase()){
+							li += `<p class="chats you" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						}else{
+							li += `<p class="name">${user} ${ranks}: <label class="time">[${time}]</labe></p><p class="chats" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						}
 					}else{
-						li += `<p class="name">${user} ${ranks} replied to ${l[r_id - 1].user}: <label class="time">[${time}]</label></p><p class="reply">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio(true)' class='rload'>Reload</label>")}</p><p class="chats _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						let r_id = l[i].reply
+						if(credentials.username.toLowerCase() == user.toLowerCase()){
+							li += `<p class="name nreply">: <label class="time">[${time}]</label> ${user} ${ranks} replied to ${l[r_id - 1].user}</p><p class="reply ryou">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio(true)' class='rload'>Reload</label>")}</p><p class="chats you _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						}else{
+							li += `<p class="name">${user} ${ranks} replied to ${l[r_id - 1].user}: <label class="time">[${time}]</label></p><p class="reply">${l[r_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "<label onclick='changeAudio(true)' class='rload'>Reload</label>")}</p><p class="chats _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
+						}
+					}
+					j++
+				}
+				if(l.length < 1){
+					if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && (usrRank != "admin" && usrRank != "moderator")){
+						id("chats").style.display = "none"
+					}else{
+						id("chats").style.display = "inline"
 					}
 				}
-				j++
-			}
-			if(l.length < 1){
-				if((l[l.length - 2].user == credentials.username && l[l.length - 1].user == credentials.username) && (usrRank != "admin" && usrRank != "moderator")){
-					id("chats").style.display = "none"
-				}else{
-					id("chats").style.display = "inline"
-				}
-			}
-			li += ""
-			id("lists").innerHTML = li
-		}).catch(e => {
-			console.log(`Error ${e}`)
-		})
-	}catch(e){}
-	if(_db == {}){
-		id("chats").innerHTML = "<div id='loading'> </div>"
-	}
+				li += ""
+				id("lists").innerHTML = li
+			}).catch(e => {
+				console.log(`Error ${e}`)
+			})
+		}catch(e){}
+		if(_db == {}){
+			id("chats").innerHTML = "<div id='loading'> </div>"
+		}
 }
 function input(){
 	let chat = id("chats")
