@@ -1,6 +1,5 @@
-node_modules
+node_modules/
 .replit
 replit.nix
 audio/
 data.json
-.autogit
