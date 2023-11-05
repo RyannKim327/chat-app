@@ -28,6 +28,9 @@ body{
 	background-color: var(--body-background);
 	background-image: var(--body-img-background);
 	color: var(--body-color);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
 }
 
 .container{
@@ -49,7 +52,7 @@ body{
 	border-radius: .5em;
 }
 
-.container > .form > .input, .container > .form > input{
+.container > .form > .input{
 	display: flex;
 	flex-direction: row;
 	/* border: 1px var(--body-color) solid; */
@@ -67,4 +70,9 @@ body{
 
 .container > .form > input{
 	text-align: center;
+	border-radius: .5em;
+	padding: 0 .5em;
+	font-size: large;
+	box-shadow: 3px 3px 5px var(--body-color);
+	margin: .75em 0;
 }
