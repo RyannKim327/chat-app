@@ -144,14 +144,18 @@ audio{
 	margin-bottom: -0.5em;
 	font-weight: bold;
 	opacity: .75;
-	height: 1em;
-	overflow: hidden;
+	height: 2em;
+	outline: ;
 }
 
 .container > .form > #cform{
 	 display: flex;
 	 flex-direction: column;
 	 height: 10vh;
+}
+
+#lists .you, #lists .ryou, #lists .nreply{
+	align-self: flex-end;
 }
 
 .container > .form > #cform > #reply{
