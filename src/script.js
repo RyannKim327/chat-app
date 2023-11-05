@@ -145,7 +145,7 @@ async function startFetch(){
 						let r_id = l[i].reply
 						let rep = ""
 						const reply_ = l[r_id - 1].txt
-						for(let r = 0; (r < reply_.length || r < 50); r++){
+						for(let r = 0; (r < reply_.length && r < 100); r++){
 							rep += reply_[r]
 						}
 						if(credentials.username.toLowerCase() == user.toLowerCase()){
