@@ -111,6 +111,8 @@ audio{
 .container > .form > #cform{
 	 display: flex;
 	 flex-direction: column;
+	 height: 10vh;
+	 padding: .5em 0;
 }
 
 .container > .form > #cform > #reply{
@@ -131,4 +133,5 @@ audio{
 	border: 1px var(--body-color) solid;
 	border-radius: .5em;
 	padding: .5em;
+	align-self: self-end;
 }
