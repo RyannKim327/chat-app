@@ -28,8 +28,8 @@ body{
 	background-color: var(--body-background);
 	background-image: var(--body-img-background);
 	color: var(--body-color);
+	background-size: contain;
 	background-repeat: no-repeat;
-	background-size: cover;
 	background-position: center;
 }
 
