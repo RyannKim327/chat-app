@@ -108,12 +108,19 @@ audio{
 	height: 80vh;
 }
 
-.container > #cform{
+.container > .form > #cform{
 	 display: flex;
 	 flex-direction: column;
+}
+
+.container > .form > #cform > #reply{
+	background-color: var(--reply-background);
 }
 
 .container > .form > #cform > input{
 	width: 100%;
 	background-color: transparent;
+	border: 1px var(--body-color) solid;
+	border-radius: .5em;
+	padding: .5em;
 }
