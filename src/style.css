@@ -18,7 +18,7 @@
 *{
 	margin: 0;
 	padding: 0;
-	box-sizing: 0;
+	box-sizing: border-box;
 	border: 0;
 	user-select: none;
 	outline: 0;
@@ -35,8 +35,9 @@ body{
 	flex-direction: column;
 }
 
-.container > .input{
+.container > .form > .input{
 	display: flex;
 	flex-direction: row;
-	border: 1px var();
+	border: 1px var(--body-color) solid;
+
 }
