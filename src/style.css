@@ -4,7 +4,7 @@
 	--body-img-background: url("https://img.freepik.com/premium-photo/abstract-background-layout-whatsapp-phone-application-with-chat-profile-web-3d-rendering_368797-242.jpg?w=996");
 	--body-color: #000000;
 	--background-position: center;
-	--base-background: #aaabac;
+	--base-background: #fafbfc50;
 	--reply-background: #5a5b5c;
 	--reply-color: #ffffff;
 	--input-background: #131320;
@@ -41,7 +41,7 @@ body{
 
 .container > .form{
 	background-color: var(--base-background);
-	backdrop-filter: blur(10);
+	backdrop-filter: blur(10px);
 	width: 50%;
 	box-shadow: 3px 3px 5px var(--body-color);
 	margin: 1em;
@@ -57,6 +57,7 @@ body{
 	padding: 0 .5em;
 	font-size: large;
 	box-shadow: 3px 3px 5px var(--body-color);
+	margin: .75em 0;
 }
 
 .container > .form > .input > input{
