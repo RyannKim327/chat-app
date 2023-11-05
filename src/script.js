@@ -225,6 +225,7 @@ function reply_it(_msg_id_){
 	reply_id = _msg_id_
 	id("reply").textContent = `${_db[reply_id - 1].user}: ${_db[reply_id - 1].txt.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "").replace(/:tab:/g, "").replace(/:reload:/gi, "").substring(0, 500)}`
 	id("reply").style.display = "block"
+	id("reply").style.overflowY = "hidden"
 	id("chats").focus()
 }
 function clearReply(){
