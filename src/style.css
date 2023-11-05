@@ -176,3 +176,9 @@ audio{
 	border-radius: .5em;
 	padding: .5em;
 }
+
+::-webkit-scrollbar{
+	width: .25em;
+	background-color: var(--body-color);
+	border-radius: 50%;
+}
