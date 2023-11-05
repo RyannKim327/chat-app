@@ -141,6 +141,7 @@ audio{
 	padding: 0.25em 0.5em;
 	margin: 0.25em 0;
 	color: var(--chat-color);
+	text-align: left;
 }
 
 #lists .reply{
@@ -151,11 +152,13 @@ audio{
 	font-weight: bold;
 	opacity: .75;
 	height: 2em;
+	text-align: left;
 }
 
 
 #lists .you, #lists .ryou, #lists .nreply{
 	align-self: flex-end;
+	text-align: right;
 }
 
 #lists .chats a{
@@ -166,13 +169,13 @@ audio{
 #lists .you{
 	background-color: var(--you-background);
 	color: var(--you-color);
+	text-align: right;
 }
 
 #lists .you a{
 	font-weight: bold;
 	color: var(--you-color);
 }
-
 
 .container > .form > #cform{
 	 display: flex;
