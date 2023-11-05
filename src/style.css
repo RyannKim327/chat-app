@@ -256,7 +256,10 @@ audio{
 	.container > .left, .container > .right{
 		width: 100%;
 	}
-	
+	.container > .left {
+		position: absolute;
+		z-index: 1;
+	}
 	#close{
 		display: block;
 	}
