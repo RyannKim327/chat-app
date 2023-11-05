@@ -33,11 +33,18 @@ body{
 .container{
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+}
+
+.container > .form{
+	width: 50%;
 }
 
 .container > .form > .input{
 	display: flex;
 	flex-direction: row;
 	border: 1px var(--body-color) solid;
-
+	border-radius: .5em;
+	padding: 0 .5em;
 }
+
