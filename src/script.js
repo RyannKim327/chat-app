@@ -301,7 +301,8 @@ window.onload = () => {
 	dur %= 60
 	let hrs = Math.floor(dur / 60)
 	old_music = music
-	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
+	id("music_time").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: `
+	id("music_title").textContent = `${music.replace(/_/gi, " ")}`
 	setDur()
 	id("play").innerHTML = (audio.paused) ? "<i class='fa-solid fa-play fa-2xs fa-beat-fade'></i>" : "<i class='fa-solid fa-pause fa-2xs'></i>"
 	id("play").onclick = () => {
