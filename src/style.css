@@ -88,11 +88,12 @@ audio{
 	flex-direction: row;
 }
 
+
+
 .container > .left{
-	align-self: flex-start;
-	width: 45%;
+	align-self: self-start;
 }
 
 .container > .right{
-	align-self: flex-end;
+	align-self: self-end;
 }
