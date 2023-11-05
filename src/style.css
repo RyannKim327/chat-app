@@ -75,6 +75,7 @@ body{
 	font-size: large;
 	box-shadow: 3px 3px 5px var(--body-color);
 	margin: .75em 0;
+	color: var();
 }
 
 audio{
