@@ -138,14 +138,14 @@ audio{
 }
 
 #lists .reply{
+	display: block;
 	background-color: var(--reply-background);
 	color: var(--reply-color);
 	margin-bottom: -0.5em;
 	font-weight: bold;
 	opacity: .75;
-	padding: 2em;
-	max-height: 2em;
-	overflow-y: hidden;
+	height: 1em;
+	overflow: hidden;
 }
 
 .container > .form > #cform{
