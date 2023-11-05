@@ -98,5 +98,5 @@ audio{
 }
 
 .container > .right{
-	align-self: self-end;
+	align-self: self-start;
 }
