@@ -136,6 +136,12 @@ audio{
 	color: var(--chat-color);
 }
 
+#lists .reply{
+	display: ;
+	overflow: hidden;
+	max-lines: 2;
+	max-height: 2em;
+}
 
 .container > .form > #cform{
 	 display: flex;
