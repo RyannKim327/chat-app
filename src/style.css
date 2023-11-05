@@ -137,8 +137,8 @@ audio{
 }
 
 #lists .reply{
-	max-lines: 2;
-	max-height: 2em;
+	height: 2em;
+	overflow-y: hidden !important;
 }
 
 .container > .form > #cform{
