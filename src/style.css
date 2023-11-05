@@ -34,6 +34,8 @@ body{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	justify-items: center;
+	align-items: center;
 }
 
 .container > .form{
@@ -51,5 +53,6 @@ body{
 }
 
 .container > .form > .input > input{
+	background-color: transparent;
 	width: 100%;
 }
