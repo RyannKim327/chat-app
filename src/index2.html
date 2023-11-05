@@ -57,7 +57,10 @@
 				<!-- <label id="showAudioo" onclick="audio()">Audio</label> -->
 				<p id="myname" onclick="logout()"></p>
 				<div class="musicPanel">
-					<marquee id="music_title"></marquee>
+					<span style="display: flex; flex-direction: row;">
+						<p id="time"></p>
+						<marquee id="music_title"></marquee>
+					</span>
 					<audio id="audio" controls></audio>
 					<audio id="notif" controls src="/externals/notif.mp3"></audio>
 				</div>
