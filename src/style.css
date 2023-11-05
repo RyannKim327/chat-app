@@ -121,6 +121,7 @@ audio{
 	font-variant: small-caps;
 	font-size: x-small;
 	font-weight: bold;
+	text-align: left;
 }
 
 #lists .chats, #lists .reply{
@@ -137,8 +138,11 @@ audio{
 }
 
 #lists .reply{
-	height: 2em;
-	overflow-y: hidden !important;
+	background-color: var(--reply-background);
+	color: var(--reply-color);
+	margin-bottom: -0.5em;
+	font-weight: bold;
+	
 }
 
 .container > .form > #cform{
