@@ -329,7 +329,8 @@ window.onload = () => {
 		let mins = Math.floor(dur / 60)
 		dur %= 60
 		let hrs = Math.floor(dur / 60)
-		id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${old_music.replace(/_/gi, " ")}`
+		id("music_time").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: `
+		id("music_title").textContent = `${old_music.replace(/_/gi, " ")}`
 		if((audio.duration <= audio.currentTime) && isLooping && loopAllowance > 1){
 			setTimeout(() => {
 				audio.play()	
@@ -375,7 +376,8 @@ function changeAudio(reload=false){
 	let mins = Math.floor(dur / 60)
 	dur %= 60
 	let hrs = Math.floor(dur / 60)
-	id("music_title").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: ${music.replace(/_/gi, " ")}`
+	id("music_time").textContent = `Now Playing [${hrs} : ${mins} : ${secs}]: `
+	id("music_title").textContent = `${music.replace(/_/gi, " ")}`
 	old_music = music
 	setTimeout(() => {
 		clearReply()
