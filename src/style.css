@@ -115,6 +115,12 @@ audio{
 
 .container > .form > #cform > #reply{
 	background-color: var(--reply-background);
+	color: var(--reply-color);
+	max-lines: 2;
+	max-height: 2em;
+	overflow: hidden;
+	border-radius: .5em;
+	pad
 }
 
 .container > .form > #cform > input{
