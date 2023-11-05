@@ -88,8 +88,10 @@ audio{
 	flex-direction: row;
 }
 
-.container > .form > .musicPanel{}
-
+.container > .form > .musicPanel > p{
+	margin: 0 .5em;
+	cursor: pointer;
+}
 
 .container{
 	display: flex;
