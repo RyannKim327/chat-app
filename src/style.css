@@ -109,5 +109,11 @@ audio{
 }
 
 .container > #cform{
-	 
+	 display: flex;
+	 flex-direction: column;
+}
+
+.container > .form > #cform > input{
+	width: 100%;
+	background-color: transparent;
 }
