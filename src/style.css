@@ -1,0 +1,26 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+:root{
+	--body-background: #fafbfc;
+	--body-img-background: "";
+	--body-color: #000000;
+	--background-position: center;
+	--base-background: #aaabac;
+	--reply-background: #5a5b5c;
+	--reply-color: #ffffff;
+	--input-background: #131320;
+	--input-color: #ffffff;
+	--chat-color: #000000;
+	--you-background: #131320;
+	--you-color: #ffffff;
+	--audio-progress-background: #131320;
+	--audio-progress-color: #fafbfc;
+}
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: 0;
+	border: 0;
+	user-select: none;
+	outline: 0;
+}
+
