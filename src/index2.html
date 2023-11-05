@@ -13,13 +13,13 @@
 				<h1>Welcome to Chatapp</h1>
 				<span class="input">
 					<label>Username: </label>
-					<input type="text">
+					<input type="text" id="username" onkeyup="check()" placeholder="Atleast 5 characters long">
 				</span>
 				<span class="input">
 					<label>Password: </label>
-					<input type="text">
+					<input type="password" name="password" id="password" onkeyup="check()" placeholder="Atleast 8 characters long">
 				</span>
-				<input type="submit" value="Login">
+				<input type="hidden" id="_login" value="Proceed" onclick="login()">
 			</div>
 			<div class="form left">
 				<h1>Rules</h1>
