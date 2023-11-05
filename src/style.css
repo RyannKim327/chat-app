@@ -32,5 +32,11 @@ body{
 
 .container{
 	display: flex;
+	flex-direction: column;
+}
+
+.container > .input{
+	display: flex;
 	flex-direction: row;
+	border: 1px var();
 }
