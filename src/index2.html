@@ -23,7 +23,20 @@
 			</div>
 			<div class="form">
 				<label id="showAudioo" onclick="audio()">Audio</label>
-				p#myname
+				<p id="myname" onclick="logout()"></p>
+				<div class="musicPanel">
+					<p id="music_title"></p>
+					<audio id="audio" controls></audio>
+					<audio id="notif" controls src="/externals/notif.mp3"></audio>
+				</div>
+				<div class="musicPanel">
+					<p id="play" title="Play"><i class="fa-solid fa-play fa-2xs fa-beat-fade"></i></p>
+					<p id="loop" title="Single Play"><i class="fa-solid fa-arrow-right fa-2xs"></i></p>
+					<div class="baseProgress">
+						<p id="audio_progress"></p>
+					</div>
+				</div>
+				<div id="lists"></div>
 			</div>
 		</div>
 	</body>
