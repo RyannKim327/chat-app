@@ -49,7 +49,7 @@ body{
 	border-radius: .5em;
 }
 
-.container > .form > .input{
+.container > .form > .input, .container > .form > input{
 	display: flex;
 	flex-direction: row;
 	/* border: 1px var(--body-color) solid; */
@@ -60,7 +60,11 @@ body{
 	margin: .75em 0;
 }
 
-.container > .form > .input > input{
+.container > .form > .input > input, .container > .form > input{
 	background-color: transparent;
 	width: 100%;
+}
+
+.container > .form > input{
+	text-align: center;
 }
