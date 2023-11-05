@@ -253,6 +253,10 @@ audio{
 	body{
 		background-size: cover;
 	}
+	.container > .left, .container > .right{
+		width: 100%;
+	}
+	
 	#close{
 		display: block;
 	}
