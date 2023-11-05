@@ -88,6 +88,9 @@ audio{
 	flex-direction: row;
 }
 
+.container > .form > .musicPanel{}
+
+
 .container{
 	display: flex;
 	flex-direction: row;
@@ -177,8 +180,39 @@ audio{
 	padding: .5em;
 }
 
+.rload{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.baseProgress{
+	background-color: var(--audio-progress-background);
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: 1em;
+}
+
+#audio_progress{
+	background-color: var(--audio-progress-color);
+	color: var(--audio-progress-background);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	font-weight: bolder;
+	font-size: xx-small;
+	height: 100%;
+	border-radius: 1em;
+	padding: 0 0.1em;
+	box-sizing: border-box;
+}
+
 ::-webkit-scrollbar{
 	width: .25em;
-	background-color: var(--body-color);
-	border-radius: 50%;
+	background-color: var(--audio-progress-background);
+	border-radius: 50px;
+}
+::-webkit-scrollbar-thumb{
+	background-color: var(--audio-progress-color);
 }
