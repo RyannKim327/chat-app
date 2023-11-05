@@ -97,10 +97,12 @@ audio{
 .container{
 	display: flex;
 	flex-direction: row;
+	align-items: baseline;
 }
 
 .container > .left{
 	align-self: self-start;
+	width: 35%;
 }
 
 .container > .right{
@@ -108,6 +110,7 @@ audio{
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+	box-sizing: border-box	;
 }
 
 .container > .right > #lists{
