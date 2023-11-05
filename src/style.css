@@ -3,7 +3,7 @@
 	--body-background: #fafbfc;
 	--body-img-background: url("https://img.freepik.com/premium-photo/abstract-background-layout-whatsapp-phone-application-with-chat-profile-web-3d-rendering_368797-242.jpg?w=996");
 	--body-color: #000000;
-	--background-position: center;
+	--background-position: right;
 	--base-background: #fafbfc50;
 	--reply-background: #5a5b5c;
 	--reply-color: #ffffff;
@@ -28,9 +28,9 @@ body{
 	background-color: var(--body-background);
 	background-image: var(--body-img-background);
 	color: var(--body-color);
-	background-size: contain;
+	background-size: 200%;
 	background-repeat: no-repeat;
-	background-position: center;
+	background-position: var(--background-position);
 }
 
 .container{
