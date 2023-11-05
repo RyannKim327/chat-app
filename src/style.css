@@ -75,7 +75,7 @@ body{
 	font-size: large;
 	box-shadow: 3px 3px 5px var(--body-color);
 	margin: .75em 0;
-	color: var();
+	color: var(--body-color);
 }
 
 audio{
@@ -181,6 +181,7 @@ audio{
 	border: 1px var(--body-color) solid;
 	border-radius: .5em;
 	padding: .5em;
+	color: var(--body-color);
 }
 
 .rload{
