@@ -117,10 +117,12 @@ audio{
 	background-color: var(--reply-background);
 	color: var(--reply-color);
 	max-lines: 2;
-	max-height: 2em;
+	max-height: 3em;
 	overflow: hidden;
 	border-radius: .5em;
-	pad
+	padding: .5em;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 .container > .form > #cform > input{
