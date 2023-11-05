@@ -41,7 +41,10 @@ body{
 
 .container > .form{
 	width: 50%;
-	box-shadow: 15px 15px 5px var(--body-color);
+	box-shadow: 3px 3px 5px var(--body-color);
+	margin: 1em;
+	padding: .5em;
+	border-radius: .5em;
 }
 
 .container > .form > .input{
