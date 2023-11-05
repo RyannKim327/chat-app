@@ -36,10 +36,12 @@ body{
 	justify-content: center;
 	justify-items: center;
 	align-items: center;
+	text-align: center;
 }
 
 .container > .form{
 	width: 50%;
+	box-shadow: 15px 15px 5px var(--body-color);
 }
 
 .container > .form > .input{
