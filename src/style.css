@@ -1,7 +1,7 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 :root{
 	--body-background: #fafbfc;
-	--body-img-background: "";
+	--body-img-background: url("https://img.freepik.com/premium-photo/abstract-background-layout-whatsapp-phone-application-with-chat-profile-web-3d-rendering_368797-242.jpg?w=996");
 	--body-color: #000000;
 	--background-position: center;
 	--base-background: #aaabac;
@@ -40,6 +40,8 @@ body{
 }
 
 .container > .form{
+	background-color: var(--base-background);
+	backdrop-filter: blur(10);
 	width: 50%;
 	box-shadow: 3px 3px 5px var(--body-color);
 	margin: 1em;
