@@ -112,14 +112,14 @@ audio{
 	 display: flex;
 	 flex-direction: column;
 	 height: 10vh;
-	 padding: .5em 0;
+	 al
 }
 
 .container > .form > #cform > #reply{
 	background-color: var(--reply-background);
 	color: var(--reply-color);
-	max-lines: 2;
-	max-height: 3em;
+	max-lines: 1;
+	max-height: 2em;
 	overflow: hidden;
 	border-radius: .5em;
 	padding: .5em;
@@ -133,5 +133,5 @@ audio{
 	border: 1px var(--body-color) solid;
 	border-radius: .5em;
 	padding: .5em;
-	align-self: self-end;
+	align-self: flex-end;
 }
