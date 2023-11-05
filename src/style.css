@@ -106,6 +106,7 @@ audio{
 
 .container > .right > #lists{
 	height: 75vh;
+	overflow-y: scroll;
 }
 
 .container > .form > #cform{
@@ -132,5 +133,4 @@ audio{
 	border: 1px var(--body-color) solid;
 	border-radius: .5em;
 	padding: .5em;
-	align-self: flex-end;
 }
