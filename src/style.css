@@ -76,3 +76,14 @@ body{
 	box-shadow: 3px 3px 5px var(--body-color);
 	margin: .75em 0;
 }
+
+audio{
+	display: none;
+	width: 0;
+	height: 0;
+}
+
+.container > .form > .musicPanel{
+	display: flex;
+	flex-direction: row;
+}
