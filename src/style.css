@@ -87,3 +87,7 @@ audio{
 	display: flex;
 	flex-direction: row;
 }
+
+.container > .right{
+	align-self: flex-end;
+}
