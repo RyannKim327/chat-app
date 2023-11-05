@@ -236,6 +236,10 @@ audio{
 	box-sizing: border-box;
 }
 
+#close{
+	display: none;
+}
+
 ::-webkit-scrollbar{
 	width: .25em;
 	background-color: var(--audio-progress-background);
@@ -243,4 +247,13 @@ audio{
 }
 ::-webkit-scrollbar-thumb{
 	background-color: var(--audio-progress-color);
+}
+
+@media only screen and (max-width: 1000px) {
+	body{
+		background-size: cover;
+	}
+	#close{
+		display: block;
+	}
 }
