@@ -100,5 +100,10 @@ audio{
 .container > .right{
 	align-self: self-start;
 	width: 100%;
-	
+	display: flex;
+	flex-direction: column;
+}
+
+.container > .right > #lists{
+	height: 80vh;
 }
