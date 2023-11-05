@@ -153,6 +153,27 @@ audio{
 	height: 2em;
 }
 
+
+#lists .you, #lists .ryou, #lists .nreply{
+	align-self: flex-end;
+}
+
+#lists .chats a{
+	font-weight: bold;
+	color: var(--chat-color);
+}
+
+#lists .you{
+	background-color: var(--you-background);
+	color: var(--you-color);
+}
+
+#lists .you a{
+	font-weight: bold;
+	color: var(--you-color);
+}
+
+
 .container > .form > #cform{
 	 display: flex;
 	 flex-direction: column;
