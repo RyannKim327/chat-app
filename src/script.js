@@ -145,7 +145,9 @@ async function startFetch(){
 						let r_id = l[i].reply
 						let rep = ""
 						const reply_ = l[r_id - 1].txt
-						for(let r = 0; r < )
+						for(let r = 0; (r < reply_.length || r < 50); r++){
+							rep += reply_[r]
+						}
 						if(credentials.username.toLowerCase() == user.toLowerCase()){
 							li += `<p class="name nreply">: <label class="time">[${time}]</label> ${user} ${ranks} replied to ${l[r_id - 1].user}</p><p class="reply ryou">${rep.replace("\<", "&lt;").replace("\>", "&gt;").replace(/:newline:/g, "<br>").replace(/:tab:/g, "&emsp;").replace(/:reload:/gi, "")}</p><p class="chats you _reply" title="${time}" onclick="reply_it(${l[i].id})">${msg}</p>`
 						}else{
