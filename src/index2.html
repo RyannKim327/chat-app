@@ -9,9 +9,17 @@
 	</head>
 	<body>
 		<div class="container">
-			<div id="login" class="form" style="display: none;">
+			<div class="form left">
+				<h1>Rules</h1>
+				<blockquote>
+					&emsp;The main rule here, is to avoid illegal transaction, I only allow here to communicate with others anonymously, but not to scam them,
+					it is for us to create a better environment for all, as well as to create an environment which is not too much toxic.
+					Another is to avoid bad words, let's communicate with others with love and respect.
+				</blockquote>
+			</div>
+			<div id="login" class="form">
 				<h1>Welcome to Chatapp</h1>
-				<span class="input">
+				<span class="input">	
 					<label>Username: </label>
 					<input type="text" id="username" onkeyup="check()" placeholder="Atleast 5 characters long">
 				</span>
@@ -21,15 +29,7 @@
 				</span>
 				<input type="hidden" id="_login" value="Proceed" onclick="login()">
 			</div>
-			<div class="form left">
-				<h1>Rules</h1>
-				<blockquote>
-					&emsp;The main rule here, is to avoid illegal transaction, I only allow here to communicate with others anonymously, but not to scam them,
-					it is for us to create a better environment for all, as well as to create an environment which is not too much toxic.
-					Another is to avoid bad words, let's communicate with others with love and respect.
-				</blockquote>
-			</div>
-			<div class="form right">
+			<div class="form right" id="chat" style="display: none;">
 				<!-- <label id="showAudioo" onclick="audio()">Audio</label> -->
 				<p id="myname" onclick="logout()"></p>
 				<div class="musicPanel">
