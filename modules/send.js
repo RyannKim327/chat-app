@@ -24,7 +24,7 @@ module.exports = (app, body) => {
 		let user = req.body.username
 		let txt = req.body.txt
 		let reply_id = -1
-		let bad = /(tanga|bobo|gago|ulol|olol|ulul|olul|tangina)\b/i
+		let bad = /(tanga|bobo|gago|ulol|olol|ulul|olul|tangina|yawa)\b/i
 		let msg_id = db.chats.length + 1
 		let json = {}
 		if(req.body.reply_id != undefined)
@@ -60,7 +60,7 @@ module.exports = (app, body) => {
 							"id": 1,
 							"user": "Welcome",
 							"rank": "bot",
-							"txt": "Greetings!!!:newline::tab:So first of all, thank you for visiting this nonsense platform, but still I'm hoping that one of these days, I will going to improve this. BTW, please avoid some spams, for those also who wanted to see the chats of others, I only gather the last 25 latest messages from different people, so that, expect that this message will be gone soon. Regarding to the music command, it is still in progression of development as the feature of this application, so that we were hoping that one day we can fix the bug regarding this.:newline::newline:*Warnings*:newline:I would like to warn Mr. Kenneth Perez if ever that he still trying to create a new account to ban his device to our platform. This is to make this platform better and appropriate to all of us. Also I want him to warn to avoid to use the name of Mr. Carl Andrew Castanas, just to be noticed.:newline::newline:*Updates*:newline:So as of now, I think I already fixed the minor issues regarding the music command of this platform. So, once you've reload the page, or clicked the reload text, it will automatically reload the audio, and starts to play.:newline::newline:*Commands*:newline:1. Music Command:newline:!play [song title]:newline:2. Themes:newline:!theme [theme color]:newline:-> Color Available [dark, default, green, monokai, red, yellow]",
+							"txt": "Welcome user, thank you for having you here. Enjoy.",
 							"time": date.getTime(),
 							"reply": -1
 						}
