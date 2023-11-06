@@ -102,7 +102,6 @@ audio{
 
 .container > .left{
 	align-self: self-start;
-	width: 35%;
 }
 
 .container > .right{
