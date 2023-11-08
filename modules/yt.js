@@ -52,7 +52,7 @@ module.exports = async (msg_id, user, date, title, oldM) => {
 				"id": msg_id,
 				"user": "Music",
 				"rank": "bot",
-				"txt": `A music requested by ${user} was now updated to ${info.videoDetails.title} :reload: \n\nYoutube Link: https://www.youtube.com/watch?v=${search.content[0].videoId}`,
+				"txt": `A music requested by ${user} was now updated to ${info.videoDetails.title} :reload: :newline::newline:Youtube Link: https://www.youtube.com/watch?v=${search.content[0].videoId}`,
 				"time": date.getTime(),
 				"reply": -1
 			}
