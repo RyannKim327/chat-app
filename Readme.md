@@ -1,7 +1,9 @@
 ### Sample Chat App with ExpressJS, NodeJS
 #### MPOP Reverse II (Ryann Kim Sesgundo)
+
 ---
 > This is just a simple web based so-called application that update everytime. I also added some user credentials here like using of cookies, to avoid multiple accounts, and also the admin clear chat command, ban a user, and unban user. To avoid spams, I use the if last two chat, no input method, so that the spam may be prevented.
+
 ---
 ### What's added:
 1. Make it simple design with responsive UI
