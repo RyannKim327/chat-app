@@ -1,0 +1,54 @@
+*{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: none;
+	user-select: none;
+}
+
+main{
+	display: grid;
+	grid-auto-flow: column;
+	grid-gap: .5em;
+	grid-template-areas:
+	"header header header"
+	"rules panel panel"
+	"footer footer footer";
+}
+
+main > * {
+	border: 1px red solid;
+}
+
+header{
+	grid-area: header;
+}
+
+#rules{
+	grid-area: rules;
+	max-width: 50%;
+	overflow: scroll;
+}
+
+#panel{
+	grid-area: panel;
+}
+
+#panel > *{
+	display: flex;
+	flex-direction: column;
+}
+
+footer{
+	grid-area: footer;
+}
+
+.input{
+	box-shadow: 3px 3px 5px #90000000;
+
+}
+
+.input > *{
+	background-color: transparent;
+	border: 0;
+}

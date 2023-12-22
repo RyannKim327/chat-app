@@ -31,7 +31,7 @@ let ranks = (score) => {
 }
 
 app.get("/", (req, res) => {
-	res.sendFile(`${__dirname}/src/index2.html`)
+	res.sendFile(`${__dirname}/src/index3.html`)
 })
 
 app.get("/sitemap", (req, res) => {

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<link rel="stylesheet" href="externals/style3.css">
+	</head>
+	<body>
+		<main>
+			<header>
+				<h2>Welcome to chatapp</h2>
+				<h4 id="username"></h4>
+			</header>
+			<div id="rules">
+				<h2>Rules</h2>
+				<ol style="text-align: left; margin-left: 25px;">
+					<li>No Badwords</li>
+					<li>Respect each member</li>
+					<li>Don't share any personal information</li>
+					<li>Don't use the platforms for illegal transactions</li>
+					<li>Don't share any kind of links, specially pornographic urls</li>
+					<li>Don't fall in love with other members [masasaktan ka lang]</li>
+					<li>Don't use the name of other people just to notify the admin or moderator</li>
+				</ol>
+				<h2>Commands</h2>
+				<ol style="text-align: left; margin-left: 25px">
+					<li>!play [song title]</li>
+					<li>!theme [theme name]</li>
+				</ol>
+				<h2>Available themes</h2>
+				<ol style="text-align: left; margin-left: 25px">
+					<li>default</li>
+					<li>dark</li>
+					<li>green</li>
+					<li>yellow</li>
+					<li>red</li>
+					<li>monokai</li>
+				</ol>
+				<h3 id="close" onclick="removeleft()">Close</h3>
+			</div>
+			<div id="panel">
+				<div id="login">
+					<span class="input">
+						<input type="text" id="username" placeholder="Please enter your username">
+					</span>
+					<span class="input">
+						<input type="password" id="password" placeholder="Please enter your password">
+					</span>
+					<input type="hidden" id="_login" value="Login" onclick="login()">
+				</div>
+			</div>
+			<footer>
+				<h3>Developed By RyannKim327</h3>
+			</footer>
+		</main>
+	</body>
+	<script src="externals/script.js"></script>
+</html>
