@@ -6,6 +6,7 @@
 
 ---
 ### What's added:
+
 1. Make it simple design with responsive UI
 2. Fixed minor issues such as the spam alers
 3. Added no bad words ban account
@@ -37,6 +38,7 @@
 
 ---
 ### Credits
+
 1. ChatGPT - for telling me kung saan ako nagkulang
 2. John Paul Caigas - for suggesting about the url
 3. Mark Kevin Manalo - for recruitments for alpha test
@@ -44,6 +46,7 @@
 
 ---
 ### Issue Fixed before the first release
+
 1. Undefined req.body in ExpressJS
 
 ---
@@ -64,9 +67,24 @@ npm install body-parser
 npm install fs
 ```
 
-**Youtubei.js**
+**youtube-music-api**
 ```Bash
-npm install youtubei.js
+npm install youtube-music-api
+```
+
+**ytdl-core**
+```Bash
+npm install ytdl-core
+```
+
+**@ffmpeg-installer/ffmpeg**
+```Bash
+npm install @ffmpeg-installer/ffmpeg
+```
+
+**fluent-ffmpeg**
+```Bash
+npm install fluent-ffmpeg
 ```
 
 ---
@@ -103,12 +121,16 @@ app.get("/", (req, res) => {
 <link rel="stylesheet" href="/source/styles.css">
 ```
 > You may also use the script here. Same method as this example. The logic behindi this program is to use the API method to get the data from the server of the website, and call it thru the fetch method. In this case, the backend and the frontend connects to each other. I use JSON as database of the program, to easily manage thru nosql method. If every that you want to use this project, just add the audio folder, which is excluded to this repository.
+
 ---
 ### Soon to be added
 1. Multiple theme (monokai and default with other editor based themes).
 2. Loading from no message.
+
 ---
 > Wanna be one of us, kindly join with us by clicking the link, attached to this repository.
+
 ---
 ### Disclaimer
+
 > This program is developed to enhance my knowledge, regarding in web development, also to enhance and to expand my knowledge in programming. This program also helps me not just to look for what I know, but to seek more. The development is still in progress, if ever you wanted to join with us, [kindly go to this link](https://chatapp.mpoprevii.repl.co). Also, we are open for the idea if you see anything, that may help us to improve the platform, specially the security features for all users.
