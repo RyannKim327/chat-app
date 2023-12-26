@@ -10,7 +10,7 @@
 		<main>
 			<header>
 				<h2>Welcome to chatapp</h2>
-				<h4 id="username"></h4>
+				<h4 id="username">MPOP Reverse II</h4>
 			</header>
 			<div id="rules">
 				<h2>Rules</h2>
@@ -41,13 +41,20 @@
 			</div>
 			<div id="panel">
 				<div id="login">
+					<h3 id="panelTitle">Login Panel</h3>
 					<span class="input">
+						<i class="fa-solid fa-user"></i>
 						<input type="text" id="username" placeholder="Please enter your username">
 					</span>
 					<span class="input">
+						<i class="fa-solid fa-lock"></i>
 						<input type="password" id="password" placeholder="Please enter your password">
+						<i class="fa-solid fa-eye" id="showPassword"></i>
 					</span>
 					<input type="hidden" id="_login" value="Login" onclick="login()">
+				</div>
+				<div id="chats">
+					a
 				</div>
 			</div>
 			<footer>
@@ -56,4 +63,19 @@
 		</main>
 	</body>
 	<script src="externals/script.js"></script>
+	<script>
+		let showPassword = document.getElementById("showPassword")
+		showPassword.onclick = (e) => {
+			let password = document.getElementById("password")
+            if (password.type === "password") {
+                password.type = "text"
+				showPassword.classList.add("fa-regular")
+				showPassword.classList.remove("fa-solid")
+            } else {
+                password.type = "password"
+				showPassword.classList.add("fa-solid")
+				showPassword.classList.remove("fa-regular")
+            }
+		}
+	</script>
 </html>

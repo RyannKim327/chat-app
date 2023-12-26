@@ -20,3 +20,5 @@ let	getCookie = (__name__) => {
 	}
 	return ""
 }
+
+export default { setCookie, getCookie }

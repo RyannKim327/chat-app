@@ -1,3 +1,6 @@
+import cookies from "./cookies"
+import colors from "./colors"
+
 let id = (_name_) => {
 	return document.getElementById(_name_)
 }

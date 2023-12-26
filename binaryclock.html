@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<style>
+			div{
+				display: grid;
+				grid-template-areas: 
+				"h8 m2 m32 s4 e"
+				"h4 m1 m16 s2 s32"
+				"h2 m0 m8 s1 s16"
+				"h1 h16 m4 s0 s8";
+				grid-gap: .5em;
+			}
+			div > p{
+				border: 1px black solid;
+				text-align: center;
+				vertical-align: middle;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<p class="p" id="h1" style="grid-area: h1;">1</p>
+			<p class="p" id="h2" style="grid-area: h2;">2</p>
+			<p class="p" id="h4" style="grid-area: h4;">4</p>
+			<p class="p" id="h8" style="grid-area: h8;">8</p>
+			<p class="p" id="h16" style="grid-area: h16;">16</p>
+			<p class="p" id="m0" style="grid-area: m0;">0</p>
+			<p class="p" id="m1" style="grid-area: m1;">1</p>
+			<p class="p" id="m2" style="grid-area: m2;">2</p>
+			<p class="p" id="m4" style="grid-area: m4;">4</p>
+			<p class="p" id="m8" style="grid-area: m8;">8</p>
+			<p class="p" id="m16" style="grid-area: m16;">16</p>
+			<p class="p" id="m32" style="grid-area: m32;">32</p>
+			<p class="p" id="s0" style="grid-area: s0;">0</p>
+			<p class="p" id="s1" style="grid-area: s1;">1</p>
+			<p class="p" id="s2" style="grid-area: s2;">2</p>
+			<p class="p" id="s4" style="grid-area: s4;">4</p>
+			<p class="p" id="s8" style="grid-area: s8;">8</p>
+			<p class="p" id="s16" style="grid-area: s16;">16</p>
+			<p class="p" id="s32" style="grid-area: s32;">32</p>
+			<p class="p" id="e" style="grid-area: e;"></p>
+		</div>
+	</body>
+
+	<script>
+		const a = (b) => { return document.getElementById(b) }
+		setInterval(() => {
+			const y = document.getElementsByClassName("p")
+			for(let x = 0; x < y.length; x++){
+				y[x].style.backgroundColor = "transparent"
+				y[x].style.color = "#000000"
+			}
+			const time = new Date()
+			const hr = time.getHours()
+			const min = time.getMinutes()
+			const sec = time.getSeconds()
+			
+			if(Math.floor(hr / 12) == 1){
+				a("h1").style.backgroundColor = "#333333"
+				a("h1").style.color = "#ffffff"
+			}
+			if(Math.floor(sec / 60) == 1){
+				a("h1").style.backgroundColor = "#333333"
+				a("h1").style.color = "#ffffff"
+			}
+			console.log(hr % 12)
+		}, 1000);
+	</script>
+</html>

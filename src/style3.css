@@ -1,3 +1,4 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
 *{
 	margin: 0;
 	padding: 0;
@@ -26,8 +27,8 @@ header{
 
 #rules{
 	grid-area: rules;
-	max-width: 50%;
 	overflow: scroll;
+	font-size: x-small;
 }
 
 #panel{
@@ -41,14 +42,39 @@ header{
 
 footer{
 	grid-area: footer;
+	text-align: center;
+}
+
+#username{
+	margin: 0 .5em;
+}
+
+#panelTitle{
+	text-align: center;
 }
 
 .input{
 	box-shadow: 3px 3px 5px #90000000;
-
+	border: 1px #000000 solid;
+	border-radius: .25em;
+	margin: .25em .25em;
+	padding: 0 .25em; /* v h */
+	display: flex;
+	flex-direction: row;
+	box-sizing: border-box;
 }
 
 .input > *{
 	background-color: transparent;
 	border: 0;
+}
+
+.input > input{
+	background-color: transparent;
+    width: 100%;
+	margin: 0 .25em;
+}
+
+.input > #showPassword{
+	cursor: pointer;
 }
