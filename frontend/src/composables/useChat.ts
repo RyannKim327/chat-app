@@ -1,400 +1,512 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from "vue"
 
-export interface User {
-  id: string
-  username: string
-  email: string
-  avatar: string
-  status: 'online' | 'offline' | 'away'
-  statusText?: string
+import { api, errorMessage } from "../lib/api"
+import { socketClient } from "../lib/socket"
+import { useAuth } from "./useAuth"
+import type { Channel, Message, Report, User } from "../interfaces"
+
+const channels = ref<Channel[]>([])
+const users = ref<User[]>([])
+const onlineIds = ref<string[]>([])
+const messages = ref<Message[]>([])
+const threadMessages = ref<Message[]>([])
+const activeChannelId = ref<string>("global")
+const activeParentId = ref<string | null>(null)
+const typingUsers = ref<Record<string, string[]>>({})
+const pendingIds = ref<string[]>([])
+const loading = ref(false)
+const error = ref<string | null>(null)
+
+let unsubscribe: (() => void) | null = null
+let typingSentAt = 0
+
+const TYPING_TIMEOUT = 4000
+
+function upsertMessage(list: Message[], message: Message) {
+  const index = list.findIndex((item) => item.id === message.id)
+
+  if (index === -1) list.push(message)
+  else list.splice(index, 1, message)
 }
 
-export interface Channel {
-  id: string
-  name: string
-  description: string
-  type: 'global' | 'group'
-  createdById?: string
-  createdAt: string
-  memberCount: number
+function dropMessage(list: Message[], id: string) {
+  const index = list.findIndex((item) => item.id === id)
+  if (index !== -1) list.splice(index, 1)
 }
 
-export interface Message {
-  id: string
-  channelId: string
-  senderId: string
-  senderName: string
-  senderAvatar: string
-  content: string
-  timestamp: string // ISO string
-  isSystem?: boolean
-}
+export function useChat() {
+  const { currentUser } = useAuth()
 
-// Seed mock data if not in localStorage
-const MOCK_USERS: User[] = [
-  { id: 'u1', username: 'Sarah Connor', email: 'sarah@usapp.io', avatar: '👩‍💻', status: 'online', statusText: 'Coding in Vue...' },
-  { id: 'u2', username: 'Neo', email: 'neo@usapp.io', avatar: '🕶️', status: 'online', statusText: 'Follow the white rabbit' },
-  { id: 'u3', username: 'Jarvis', email: 'jarvis@usapp.io', avatar: '🤖', status: 'online', statusText: 'At your service.' },
-  { id: 'u4', username: 'Penny', email: 'penny@usapp.io', avatar: '🥯', status: 'away', statusText: 'Baking some bread' },
-]
+  const activeChannel = computed(
+    () => channels.value.find((channel) => channel.id === activeChannelId.value) ?? null,
+  )
 
-const MOCK_CHANNELS: Channel[] = [
-  { id: 'global', name: 'Global Chat', description: 'The main lobby for everyone to hang out and talk about anything.', type: 'global', createdAt: new Date().toISOString(), memberCount: 5 },
-  { id: 'tech-talk', name: 'Tech Talk', description: 'Share coding tips, framework debates, and the future of AI.', type: 'group', createdAt: new Date().toISOString(), memberCount: 3 },
-  { id: 'gaming', name: 'Gaming Zone', description: 'Co-op match making, speedruns, and game recommendations.', type: 'group', createdAt: new Date().toISOString(), memberCount: 2 }
-]
+  const threadParent = computed(() =>
+    activeParentId.value
+      ? (messages.value.find((item) => item.id === activeParentId.value) ?? null)
+      : null,
+  )
 
-const MOCK_MESSAGES: Message[] = [
-  {
-    id: 'm1',
-    channelId: 'global',
-    senderId: 'system',
-    senderName: 'System',
-    senderAvatar: '⚙️',
-    content: 'Welcome to UsApp! Feel free to chat here or join/create custom groups in the sidebar.',
-    timestamp: new Date(Date.now() - 3600000 * 2).toISOString(),
-    isSystem: true
-  },
-  {
-    id: 'm2',
-    channelId: 'global',
-    senderId: 'u3',
-    senderName: 'Jarvis',
-    senderAvatar: '🤖',
-    content: 'Hello everyone! I am Jarvis, a simulated assistant here to keep you company.',
-    timestamp: new Date(Date.now() - 3600000 * 1.8).toISOString()
-  },
-  {
-    id: 'm3',
-    channelId: 'global',
-    senderId: 'u1',
-    senderName: 'Sarah Connor',
-    senderAvatar: '👩‍💻',
-    content: 'Hey Jarvis! Working on a new Vue web application today. The client-side state is running beautifully.',
-    timestamp: new Date(Date.now() - 3600000 * 1.5).toISOString()
-  },
-  {
-    id: 'm4',
-    channelId: 'tech-talk',
-    senderId: 'u1',
-    senderName: 'Sarah Connor',
-    senderAvatar: '👩‍💻',
-    content: 'Vue 3 composition API combined with Tailwind CSS makes prototyping super fast.',
-    timestamp: new Date(Date.now() - 3600000 * 3).toISOString()
-  },
-  {
-    id: 'm5',
-    channelId: 'tech-talk',
-    senderId: 'u2',
-    senderName: 'Neo',
-    senderAvatar: '🕶️',
-    content: 'Indeed. It feels like bending the rules of the Matrix.',
-    timestamp: new Date(Date.now() - 3600000 * 2.8).toISOString()
-  }
-]
+  const visibleMessages = computed(() =>
+    activeParentId.value ? threadMessages.value : messages.value,
+  )
 
-export const useChat = () => {
-  const currentUser = ref<User | null>(null)
-  const channels = ref<Channel[]>([])
-  const messages = ref<Message[]>([])
-  const activeChannelId = ref<string>('global')
-  const onlineUsers = ref<User[]>([])
+  const onlineUsers = computed(() =>
+    users.value.filter((user) => onlineIds.value.includes(user.id)),
+  )
 
-  // Load from LocalStorage
-  const initializeState = () => {
-    if (typeof window === 'undefined') return
+  const isMember = computed(() => activeChannel.value?.joined ?? false)
 
-    // 1. Get users
-    const storedUsers = localStorage.getItem('usapp_users')
-    if (!storedUsers) {
-      localStorage.setItem('usapp_users', JSON.stringify(MOCK_USERS))
-    }
+  const canAccess = computed(() => {
+    const channel = activeChannel.value
 
-    // 2. Get channels
-    const storedChannels = localStorage.getItem('usapp_channels')
-    if (storedChannels) {
-      channels.value = JSON.parse(storedChannels)
-    } else {
-      channels.value = MOCK_CHANNELS
-      localStorage.setItem('usapp_channels', JSON.stringify(MOCK_CHANNELS))
-    }
+    if (!channel) return false
 
-    // 3. Get messages
-    const storedMessages = localStorage.getItem('usapp_messages')
-    if (storedMessages) {
-      messages.value = JSON.parse(storedMessages)
-    } else {
-      messages.value = MOCK_MESSAGES
-      localStorage.setItem('usapp_messages', JSON.stringify(MOCK_MESSAGES))
-    }
+    return channel.type === "global" || channel.joined
+  })
 
-    // 4. Get active user session
-    const storedActiveUser = localStorage.getItem('usapp_active_user')
-    if (storedActiveUser) {
-      currentUser.value = JSON.parse(storedActiveUser)
-    }
-
-    // 5. Populate online users (mock users + current user if logged in)
-    const allUsers: User[] = JSON.parse(localStorage.getItem('usapp_users') || '[]')
-    onlineUsers.value = allUsers.filter(u => u.id !== currentUser.value?.id)
+  function canManage(channel: Channel) {
+    if (!currentUser.value) return false
+    return (
+      currentUser.value.role === "admin" || channel.createdBy === currentUser.value.id
+    )
   }
 
-  // Save specific datasets to localStorage
-  const saveChannels = () => {
-    localStorage.setItem('usapp_channels', JSON.stringify(channels.value))
+  async function loadChannels() {
+    try {
+      const { data } = await api.get<{ channels: Channel[] }>("/channels")
+      channels.value = data.channels
+      error.value = null
+    } catch (err) {
+      error.value = errorMessage(err, "Could not load channels")
+    }
   }
 
-  const saveMessages = () => {
-    localStorage.setItem('usapp_messages', JSON.stringify(messages.value))
+  async function loadUsers() {
+    try {
+      const { data } = await api.get<{ users: User[] }>("/users")
+      users.value = data.users
+    } catch {
+      /* the user list is decorative, ignore failures */
+    }
   }
 
-  // Actions
-  const login = (email: string, password: string): { success: boolean; error?: string } => {
-    const allUsers: User[] = JSON.parse(localStorage.getItem('usapp_users') || '[]')
-    const foundUser = allUsers.find(u => u.email.toLowerCase() === email.toLowerCase())
-    if (!foundUser) {
-      return { success: false, error: 'User with this email not found. Please register first!' }
+  async function loadMessages(channelId = activeChannelId.value, parent = "root") {
+    loading.value = true
+
+    const channel = channels.value.find((item) => item.id === channelId)
+
+    if (channel && channel.type !== "global" && !channel.joined) {
+      if (parent === "root") messages.value = []
+      else threadMessages.value = []
+
+      error.value = null
+      loading.value = false
+      return
     }
 
-    // Update status to online
-    foundUser.status = 'online'
-    currentUser.value = foundUser
-    localStorage.setItem('usapp_active_user', JSON.stringify(foundUser))
+    try {
+      const { data } = await api.get<{ messages: Message[] }>(
+        `/channels/${channelId}/messages`,
+        { params: { parent } },
+      )
 
-    // Update in all users
-    const updatedUsers = allUsers.map(u => u.id === foundUser.id ? foundUser : u)
-    localStorage.setItem('usapp_users', JSON.stringify(updatedUsers))
+      if (parent === "root") messages.value = data.messages
+      else threadMessages.value = data.messages
 
-    // Refresh online list
-    onlineUsers.value = updatedUsers.filter(u => u.id !== foundUser.id)
-
-    return { success: true }
+      error.value = null
+    } catch (err) {
+      error.value = errorMessage(err, "Could not load messages")
+    } finally {
+      loading.value = false
+    }
   }
 
-  const register = (username: string, email: string, avatar: string): { success: boolean; error?: string } => {
-    const allUsers: User[] = JSON.parse(localStorage.getItem('usapp_users') || '[]')
-    
-    // Check if email already exists
-    if (allUsers.some(u => u.email.toLowerCase() === email.toLowerCase())) {
-      return { success: false, error: 'Email is already registered.' }
-    }
-    // Check if username already exists
-    if (allUsers.some(u => u.username.toLowerCase() === username.toLowerCase())) {
-      return { success: false, error: 'Username is already taken.' }
-    }
+  async function selectChannel(channelId: string) {
+    activeChannelId.value = channelId
+    activeParentId.value = null
+    threadMessages.value = []
+    messages.value = []
 
-    const newUser: User = {
-      id: 'u_' + Date.now(),
-      username,
-      email,
-      avatar,
-      status: 'online',
-      statusText: 'Hey there! I am using UsApp.'
-    }
+    socketClient.send({ type: "subscribe", channelId })
 
-    allUsers.push(newUser)
-    localStorage.setItem('usapp_users', JSON.stringify(allUsers))
-
-    // Auto login
-    currentUser.value = newUser
-    localStorage.setItem('usapp_active_user', JSON.stringify(newUser))
-
-    // Refresh online list
-    onlineUsers.value = allUsers.filter(u => u.id !== newUser.id)
-
-    // Add join message to Global Chat
-    addSystemMessage('global', `${username} has joined the workspace! Welcome! 👋`)
-
-    return { success: true }
+    await loadMessages(channelId, "root")
   }
 
-  const logout = () => {
-    if (currentUser.value) {
-      const allUsers: User[] = JSON.parse(localStorage.getItem('usapp_users') || '[]')
-      const updatedUsers = allUsers.map(u => {
-        if (u.id === currentUser.value?.id) {
-          return { ...u, status: 'offline' as const }
-        }
-        return u
+  async function openThread(messageId: string | null) {
+    activeParentId.value = messageId
+
+    if (!messageId) {
+      threadMessages.value = []
+      return
+    }
+
+    threadMessages.value = []
+    await loadMessages(activeChannelId.value, messageId)
+  }
+
+  function replaceChannel(channel: Channel) {
+    const index = channels.value.findIndex((item) => item.id === channel.id)
+
+    if (index === -1) channels.value.push(channel)
+    else channels.value.splice(index, 1, channel)
+  }
+
+  async function createChannel(name: string, description: string, emoji: string) {
+    try {
+      const { data } = await api.post<{ channel: Channel }>("/channels", {
+        name,
+        description,
+        emoji,
       })
-      localStorage.setItem('usapp_users', JSON.stringify(updatedUsers))
-    }
 
-    currentUser.value = null
-    localStorage.removeItem('usapp_active_user')
-    activeChannelId.value = 'global'
+      replaceChannel(data.channel)
+      await selectChannel(data.channel.id)
+
+      return { success: true as const, channel: data.channel }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
+    }
   }
 
-  const sendMessage = (channelId: string, content: string) => {
-    if (!currentUser.value) return
-
-    const newMessage: Message = {
-      id: 'm_' + Date.now(),
-      channelId,
-      senderId: currentUser.value.id,
-      senderName: currentUser.value.username,
-      senderAvatar: currentUser.value.avatar,
-      content,
-      timestamp: new Date().toISOString()
+  async function updateChannel(channelId: string, patch: Partial<Channel>) {
+    try {
+      const { data } = await api.patch<{ channel: Channel }>(`/channels/${channelId}`, patch)
+      replaceChannel(data.channel)
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
     }
-
-    messages.value.push(newMessage)
-    saveMessages()
-
-    // Trigger mock response after a delay
-    triggerMockResponse(channelId, content)
   }
 
-  const addSystemMessage = (channelId: string, content: string) => {
-    const newMessage: Message = {
-      id: 'm_sys_' + Date.now(),
-      channelId,
-      senderId: 'system',
-      senderName: 'System',
-      senderAvatar: '⚙️',
-      content,
-      timestamp: new Date().toISOString(),
-      isSystem: true
+  async function deleteChannel(channelId: string) {
+    try {
+      await api.delete(`/channels/${channelId}`)
+
+      channels.value = channels.value.filter((channel) => channel.id !== channelId)
+
+      if (activeChannelId.value === channelId) {
+        const fallback = channels.value[0]
+        if (fallback) await selectChannel(fallback.id)
+      }
+
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
     }
-    messages.value.push(newMessage)
-    saveMessages()
   }
 
-  const createChannel = (name: string, description: string): Channel => {
-    const cleanName = name.trim().startsWith('#') ? name.trim() : `# ${name.trim()}`
-    const newChannel: Channel = {
-      id: 'chan_' + Date.now(),
-      name: cleanName,
-      description: description || 'No description provided.',
-      type: 'group',
-      createdById: currentUser.value?.id || 'system',
+  async function joinChannel(channelId: string) {
+    try {
+      const { data } = await api.post<{ channel: Channel }>(`/channels/${channelId}/join`)
+      replaceChannel(data.channel)
+
+      if (channelId === activeChannelId.value) {
+        socketClient.send({ type: "subscribe", channelId })
+        await loadMessages(channelId, "root")
+      }
+
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
+    }
+  }
+
+  async function leaveChannel(channelId: string) {
+    try {
+      const { data } = await api.post<{ channel: Channel }>(`/channels/${channelId}/leave`)
+      replaceChannel(data.channel)
+
+      socketClient.send({ type: "unsubscribe", channelId })
+      activeParentId.value = null
+      threadMessages.value = []
+      messages.value = []
+
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
+    }
+  }
+
+  function markPending(id: string, pending: boolean) {
+    const index = pendingIds.value.indexOf(id)
+
+    if (pending && index === -1) pendingIds.value.push(id)
+    if (!pending && index !== -1) pendingIds.value.splice(index, 1)
+  }
+
+  async function sendMessage(content: string, parentMessage: string | null = null) {
+    const user = currentUser.value
+
+    if (!user || !content.trim()) return { success: false as const, error: "Nothing to send" }
+
+    const optimistic: Message = {
+      id: `pending_${Date.now()}`,
+      channelId: activeChannelId.value,
+      sender: user,
+      content: content.trim(),
+      parentMessage,
+      replyCount: 0,
+      reactions: [],
+      editedAt: null,
       createdAt: new Date().toISOString(),
-      memberCount: 1
     }
 
-    channels.value.push(newChannel)
-    saveChannels()
+    markPending(optimistic.id, true)
 
-    // Add system message about channel creation
-    addSystemMessage(newChannel.id, `${currentUser.value?.username || 'Someone'} created this channel: "${name}". Welcome! 🎉`)
+    if (parentMessage) threadMessages.value.push(optimistic)
+    else messages.value.push(optimistic)
 
-    // Select this channel
-    activeChannelId.value = newChannel.id
+    try {
+      const { data } = await api.post<{ message: Message }>(
+        `/channels/${activeChannelId.value}/messages`,
+        { content: content.trim(), parentMessage },
+      )
 
-    // Trigger initial bot greeting in the group
-    setTimeout(() => {
-      const bots = onlineUsers.value.filter(u => u.id.startsWith('u')) // u1, u2, u3 are seed bots
-      if (bots.length > 0) {
-        const randomBot = bots[Math.floor(Math.random() * bots.length)]
-        const welcomeMessage: Message = {
-          id: 'm_bot_' + Date.now(),
-          channelId: newChannel.id,
-          senderId: randomBot.id,
-          senderName: randomBot.username,
-          senderAvatar: randomBot.avatar,
-          content: `Awesome! Thanks for creating ${name}. Let's see what this space is about! 💡`,
-          timestamp: new Date().toISOString()
-        }
-        messages.value.push(welcomeMessage)
-        saveMessages()
-      }
-    }, 1200)
+      const list = parentMessage ? threadMessages.value : messages.value
+      const index = list.findIndex((item) => item.id === optimistic.id)
 
-    return newChannel
+      if (index !== -1) list.splice(index, 1, data.message)
+      else upsertMessage(list, data.message)
+
+      markPending(optimistic.id, false)
+
+      if (parentMessage) bumpReplyCount(parentMessage, data.message.replyCount)
+
+      return { success: true as const, message: data.message }
+    } catch (err) {
+      dropMessage(parentMessage ? threadMessages.value : messages.value, optimistic.id)
+      markPending(optimistic.id, false)
+      return { success: false as const, error: errorMessage(err) }
+    }
   }
 
-  // Active channel helper
-  const activeChannel = computed(() => {
-    return channels.value.find(c => c.id === activeChannelId.value) || channels.value[0]
-  })
-
-  // Messages in active channel
-  const activeChannelMessages = computed(() => {
-    return messages.value.filter(m => m.channelId === activeChannelId.value)
-  })
-
-  // Simulation Bot Response
-  const triggerMockResponse = (channelId: string, userMessage: string) => {
-    if (typeof window === 'undefined') return
-
-    const bots = onlineUsers.value.filter(u => ['u1', 'u2', 'u3', 'u4'].includes(u.id))
-    if (bots.length === 0) return
-
-    const randomBot = bots[Math.floor(Math.random() * bots.length)]
-
-    setTimeout(() => {
-      let replyContent = ''
-      const lowerMsg = userMessage.toLowerCase()
-
-      if (channelId === 'global') {
-        if (lowerMsg.includes('hello') || lowerMsg.includes('hi ') || lowerMsg.includes('hey')) {
-          replyContent = `Hey ${currentUser.value?.username || 'there'}! Hope you are having a fantastic day! What are you working on? 😊`
-        } else if (lowerMsg.includes('how are you')) {
-          replyContent = `I am doing great, just chatting around! Thanks for asking. How about yourself?`
-        } else if (lowerMsg.includes('bye') || lowerMsg.includes('goodnight')) {
-          replyContent = `Catch you later! Have a good one! 👋`
-        } else {
-          const generalReplies = [
-            `That's interesting! Tell me more about it.`,
-            `Ah, I see! Very cool.`,
-            `UsApp feels so responsive, don't you think? Love the sidebar styling.`,
-            `Wait, did you see the group chat creator? It updates instantly!`,
-            `Haha, true! 😂`,
-            `Let's invite some more people to check out this awesome UI.`
-          ]
-          replyContent = generalReplies[Math.floor(Math.random() * generalReplies.length)]
-        }
-      } else if (channelId === 'tech-talk') {
-        if (lowerMsg.includes('vue') || lowerMsg.includes('nuxt')) {
-          replyContent = `Nuxt SSR and hybrid rendering is such a game changer. The folder-based routing makes pages a breeze.`
-        } else if (lowerMsg.includes('tailwind') || lowerMsg.includes('css')) {
-          replyContent = `Tailwind is perfect for prototyping. Customizing with classes like backdrop-blur and border-white/20 is clean.`
-        } else if (lowerMsg.includes('react') || lowerMsg.includes('angular')) {
-          replyContent = `Vue's reactivity system (using Proxies) is so intuitive. Once you use computed() and watch(), you can't go back!`
-        } else {
-          const techReplies = [
-            `Have you tried using the new CSS container queries? They are widely supported now.`,
-            `Local state management with Composition API is super lightweight for chat apps.`,
-            `Clean code is self-documenting code. That's why we structure composables nicely!`,
-            `I've been playing around with Vite, it's blazing fast.`
-          ]
-          replyContent = techReplies[Math.floor(Math.random() * techReplies.length)]
-        }
-      } else {
-        replyContent = `Hey, this custom channel ${activeChannel.value?.name || 'group'} is nice! Glad to be here with you.`
-      }
-
-      const botMessage: Message = {
-        id: 'm_reply_' + Date.now(),
-        channelId,
-        senderId: randomBot.id,
-        senderName: randomBot.username,
-        senderAvatar: randomBot.avatar,
-        content: replyContent,
-        timestamp: new Date().toISOString()
-      }
-
-      messages.value.push(botMessage)
-      saveMessages()
-    }, 1500)
+  function bumpReplyCount(parentId: string, count: number) {
+    const parent = messages.value.find((item) => item.id === parentId)
+    if (parent) parent.replyCount = count
   }
 
-  // Initialize on composable creation
-  initializeState()
+  async function editMessage(messageId: string, content: string) {
+    try {
+      const { data } = await api.patch<{ message: Message }>(`/messages/${messageId}`, {
+        content,
+      })
+
+      upsertMessage(messages.value, data.message)
+      upsertMessage(threadMessages.value, data.message)
+
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
+    }
+  }
+
+  async function deleteMessage(messageId: string) {
+    try {
+      await api.delete(`/messages/${messageId}`)
+
+      dropMessage(messages.value, messageId)
+      dropMessage(threadMessages.value, messageId)
+
+      await loadMessages(activeChannelId.value, activeParentId.value ?? "root")
+
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
+    }
+  }
+
+  async function toggleReaction(messageId: string, emoji: string) {
+    try {
+      const { data } = await api.post<{ message: Message }>(
+        `/messages/${messageId}/reactions`,
+        { emoji },
+      )
+
+      upsertMessage(messages.value, data.message)
+      upsertMessage(threadMessages.value, data.message)
+
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
+    }
+  }
+
+  async function reportMessage(messageId: string, reason: string) {
+    try {
+      await api.post(`/messages/${messageId}/reports`, { reason })
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
+    }
+  }
+
+  async function loadReports(channelId?: string) {
+    try {
+      const { data } = await api.get<{ reports: Report[] }>("/reports", {
+        params: channelId ? { channelId } : undefined,
+      })
+
+      return data.reports
+    } catch (err) {
+      error.value = errorMessage(err, "Could not load reports")
+      return []
+    }
+  }
+
+  async function resolveReport(reportId: string) {
+    try {
+      await api.post(`/reports/${reportId}/resolve`)
+      return { success: true as const }
+    } catch (err) {
+      return { success: false as const, error: errorMessage(err) }
+    }
+  }
+
+  function notifyTyping() {
+    const now = Date.now()
+    if (now - typingSentAt < 1500) return
+
+    typingSentAt = now
+    socketClient.send({ type: "typing", channelId: activeChannelId.value })
+  }
+
+  function handleEvent(event: import("../interfaces").ServerEvent) {
+    if (event.type === "presence") {
+      onlineIds.value = event.online ?? []
+      return
+    }
+
+    if (event.type === "channel:created" && event.channel) {
+      replaceChannel(event.channel)
+      return
+    }
+
+    if (event.type === "channel:updated" && event.channel) {
+      replaceChannel(event.channel)
+      return
+    }
+
+    if (event.type === "channel:deleted" && event.channelId) {
+      channels.value = channels.value.filter((channel) => channel.id !== event.channelId)
+      return
+    }
+
+    if (event.channelId !== activeChannelId.value) return
+    if (!canAccess.value) return
+
+    if (event.type === "message:new" && event.message) {
+      const incoming = event.message
+
+      if (incoming.parentMessage === activeParentId.value && activeParentId.value) {
+        upsertMessage(threadMessages.value, incoming)
+      } else if (incoming.parentMessage === null) {
+        upsertMessage(messages.value, incoming)
+      }
+
+      return
+    }
+
+    if (event.type === "message:update" && event.message) {
+      upsertMessage(messages.value, event.message)
+      upsertMessage(threadMessages.value, event.message)
+      return
+    }
+
+    if (event.type === "reaction:update" && event.message) {
+      upsertMessage(messages.value, event.message)
+      upsertMessage(threadMessages.value, event.message)
+      return
+    }
+
+    if (event.type === "message:delete" && event.messageId) {
+      dropMessage(messages.value, event.messageId)
+      dropMessage(threadMessages.value, event.messageId)
+      return
+    }
+
+    if (event.type === "typing" && event.userId && event.userId !== currentUser.value?.id) {
+      const list = typingUsers.value[event.channelId!] ?? []
+
+      if (!list.includes(event.username!)) {
+        typingUsers.value = {
+          ...typingUsers.value,
+          [event.channelId!]: [...list, event.username!],
+        }
+      }
+
+      window.setTimeout(() => {
+        const current = typingUsers.value[event.channelId!] ?? []
+        typingUsers.value = {
+          ...typingUsers.value,
+          [event.channelId!]: current.filter((name) => name !== event.username),
+        }
+      }, TYPING_TIMEOUT)
+    }
+  }
+
+  function start() {
+    unsubscribe?.()
+    unsubscribe = socketClient.subscribe(handleEvent)
+    socketClient.connect()
+  }
+
+  function stop() {
+    unsubscribe?.()
+    unsubscribe = null
+  }
+
+  async function initialize() {
+    await Promise.all([loadChannels(), loadUsers()])
+
+    const fallback = channels.value.find((channel) => channel.joined) ?? channels.value[0]
+
+    if (fallback && fallback.id !== activeChannelId.value) {
+      await selectChannel(fallback.id)
+    } else if (channels.value.length) {
+      await loadMessages()
+    }
+  }
 
   return {
-    currentUser,
     channels,
+    users,
     messages,
+    threadMessages,
     activeChannelId,
-    onlineUsers,
+    activeParentId,
+    threadParent,
+    visibleMessages,
     activeChannel,
-    activeChannelMessages,
-    login,
-    register,
-    logout,
-    sendMessage,
+    onlineUsers,
+    onlineIds,
+    typingUsers,
+    pendingIds,
+    loading,
+    error,
+    isMember,
+    canAccess,
+    canManage,
+    initialize,
+    start,
+    stop,
+    loadChannels,
+    loadUsers,
+    loadMessages,
+    loadReports,
+    selectChannel,
+    openThread,
     createChannel,
-    initializeState
+    updateChannel,
+    deleteChannel,
+    joinChannel,
+    leaveChannel,
+    sendMessage,
+    editMessage,
+    deleteMessage,
+    toggleReaction,
+    reportMessage,
+    resolveReport,
+    notifyTyping,
   }
 }

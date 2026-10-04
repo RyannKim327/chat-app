@@ -1,103 +1,165 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+import ThemeToggle from "../components/ThemeToggle.vue";
+import { useAuth } from "../composables/useAuth";
+
+const router = useRouter();
+const { login, loading } = useAuth();
+
+const username = ref("");
+const password = ref("");
+const error = ref<string | null>(null);
+
+async function submit() {
+  error.value = null;
+
+  const result = await login(username.value.trim(), password.value);
+
+  if (result.success) {
+    await router.push("/chat");
+    return;
+  }
+
+  error.value = result.error ?? "Could not log you in";
+}
+</script>
+
 <template>
-  <div class="flex flex-col h-full w-full items-center p-6 overflow-y-auto scrollbar-none">
+  <div class="flex h-full w-full items-center justify-center overflow-y-auto p-6 scrollbar-none">
     <div
-      class="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900/60 p-10 backdrop-blur-xl shadow-2xl"
+      class="relative w-full max-w-md rounded-3xl border border-line bg-surface/70 p-10 backdrop-blur-xl"
     >
-      <!-- Logo -->
-      <div class="mb-8 flex flex-col items-center">
-        <div
-          class="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl border border-slate-700 bg-slate-800"
-        >
-          <span class="text-3xl font-black text-cyan-400">U</span>
-        </div>
 
-        <h1 class="text-3xl font-bold text-white">
-          Welcome Back
-        </h1>
+      <!-- Theme -->
 
-        <p class="mt-2 text-center text-slate-400">
-          Sign in to continue joining anonymous community discussions.
-        </p>
+      <div class="absolute right-6 top-6">
+        <ThemeToggle />
       </div>
 
+      <!-- Header -->
+
+      <div class="mb-8 flex flex-col items-center">
+
+        <div
+          class="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl border border-line bg-surface-2"
+        >
+          <span class="text-3xl font-black text-ink">
+            U
+          </span>
+        </div>
+
+        <h1 class="text-3xl font-bold tracking-tight text-ink">
+          Welcome back
+        </h1>
+
+        <p class="mt-2 text-center text-sm text-muted">
+          Sign in to continue joining anonymous community discussions.
+        </p>
+
+      </div>
+
+      <!-- Error -->
+
+      <p
+        v-if="error"
+        role="alert"
+        class="mb-5 rounded-xl border border-line-strong bg-surface-2 px-4 py-3 text-sm font-medium text-ink"
+      >
+        {{ error }}
+      </p>
+
       <!-- Form -->
-      <form class="space-y-5">
-        <!-- Email -->
+
+      <form
+        class="space-y-5"
+        @submit.prevent="submit"
+      >
+
         <div>
-          <label class="mb-2 block text-sm font-medium text-slate-300">
+
+          <label
+            for="username"
+            class="mb-2 block text-sm font-medium text-muted"
+          >
             Username
           </label>
 
           <input
+            id="username"
+            v-model="username"
             type="text"
-            class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+            autocomplete="username"
+            required
+            :disabled="loading"
+            class="w-full rounded-xl border border-line bg-bg px-4 py-3 text-ink outline-none transition placeholder:text-faint focus:border-line-strong focus:ring-2 focus:ring-line-strong/30 disabled:opacity-50"
           />
+
         </div>
 
-        <!-- Password -->
         <div>
-          <label class="mb-2 block text-sm font-medium text-slate-300">
+
+          <label
+            for="password"
+            class="mb-2 block text-sm font-medium text-muted"
+          >
             Password
           </label>
 
           <input
+            id="password"
+            v-model="password"
             type="password"
-            class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+            autocomplete="current-password"
+            required
+            :disabled="loading"
+            class="w-full rounded-xl border border-line bg-bg px-4 py-3 text-ink outline-none transition placeholder:text-faint focus:border-line-strong focus:ring-2 focus:ring-line-strong/30 disabled:opacity-50"
           />
+
         </div>
 
-        <!-- Remember Me -->
-        <div class="flex items-center justify-between text-sm">
-          <label class="flex cursor-pointer items-center gap-2 text-slate-400">
-            <input
-              type="checkbox"
-              class="rounded border-slate-600 bg-slate-900"
-            />
-
-            Remember me
-          </label>
-
-          <button
-            type="button"
-            class="text-cyan-400 transition hover:text-cyan-300"
-          >
-            Forgot password?
-          </button>
-        </div>
-
-        <!-- Login -->
         <button
           type="submit"
-          class="w-full rounded-xl bg-cyan-500 py-3 text-lg font-semibold transition hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/30 active:scale-[0.98]"
+          :disabled="loading"
+          class="w-full rounded-xl bg-accent py-3 text-lg font-semibold text-accent-ink transition hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Login
+          {{ loading ? "Signing in…" : "Login" }}
         </button>
+
       </form>
 
       <!-- Divider -->
-      <div class="my-8 flex items-center gap-4">
-        <div class="h-px flex-1 bg-slate-800"></div>
 
-        <span class="text-sm text-slate-500">
-          OR
+      <div class="my-8 flex items-center gap-4">
+
+        <div class="h-px flex-1 bg-line" />
+
+        <span class="text-xs uppercase tracking-widest text-faint">
+          or
         </span>
 
-        <div class="h-px flex-1 bg-slate-800"></div>
+        <div class="h-px flex-1 bg-line" />
+
       </div>
 
       <!-- Register -->
+
       <div class="text-center">
-        <span class="text-slate-400">
+
+        <span class="text-sm text-muted">
           Don't have an account?
         </span>
 
         <RouterLink
           to="/register"
-          class="ml-2 font-medium text-cyan-400 transition hover:text-cyan-300"
+          class="ml-2 font-medium text-ink underline underline-offset-4 transition hover:opacity-70"
         >
           Create one
         </RouterLink>
+
       </div>
+
     </div>
   </div>
 </template>

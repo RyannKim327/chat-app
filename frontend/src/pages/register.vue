@@ -1,144 +1,240 @@
 <script setup lang="ts">
-  import axios from "axios"
-  import { onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
-  const avatars = ref([]);
+import ThemeToggle from "../components/ThemeToggle.vue";
+import { api } from "../lib/api";
+import { useAuth } from "../composables/useAuth";
 
-  const selectedAvatar = ref(avatars[0]);
+const router = useRouter();
+const { register, loading } = useAuth();
 
-  const username = ref("");
-  const password = ref("");
-  const verifyPassword = ref("");
+const avatars = ref<string[]>([]);
+const selectedAvatar = ref("");
+const username = ref("");
+const password = ref("");
+const verifyPassword = ref("");
+const error = ref<string | null>(null);
+const avatarError = ref<string | null>(null);
 
-  function register() {
-    console.log({
-      avatar: selectedAvatar.value,
-      username: username.value,
-      password: password.value,
-      verifyPassword: verifyPassword.value,
-    });
+onMounted(async () => {
+  try {
+    const { data } = await api.get<string[]>("/avatars")
+    avatars.value = data
+    selectedAvatar.value = data[0] ?? ""
+  } catch {
+    avatarError.value = "Could not load avatars, is the backend running?"
+  }
+});
+
+async function submit() {
+  error.value = null
+
+  if (password.value !== verifyPassword.value) {
+    error.value = "Those passwords do not match"
+    return
   }
 
-  onMounted(async () => {
-    const { data } = await axios.get("http://localhost:3000/avatars")
-    avatars.value = data
-  })
+  if (password.value.length < 6) {
+    error.value = "Password needs to be at least 6 characters"
+    return
+  }
 
+  const result = await register(username.value.trim(), password.value, selectedAvatar.value)
+
+  if (result.success) {
+    await router.push("/chat")
+    return
+  }
+
+  error.value = result.error ?? "Could not create your account"
+}
 </script>
 
 <template>
-  <div class="flex flex-col h-full w-full items-center px-6 py-10 overflow-y-auto scrollbar-none">
+  <div class="flex h-full w-full items-center justify-center overflow-y-auto px-6 py-10 scrollbar-none">
     <div
-      class="w-full max-w-xl rounded-3xl border border-slate-800 bg-slate-900/60 p-10 backdrop-blur-xl shadow-2xl"
+      class="relative w-full max-w-xl rounded-3xl border border-line bg-surface/70 p-10 backdrop-blur-xl"
     >
+
+      <!-- Theme -->
+
+      <div class="absolute right-6 top-6">
+        <ThemeToggle />
+      </div>
+
       <!-- Header -->
+
       <div class="text-center">
+
         <div
-          class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl border border-slate-700 bg-slate-800"
+          class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl border border-line bg-surface-2"
         >
-          <span class="text-3xl font-black text-cyan-400">
-            {{ selectedAvatar }}
+          <span class="text-3xl">
+            {{ selectedAvatar || "?" }}
           </span>
         </div>
 
-        <h1 class="text-3xl font-bold">
+        <h1 class="text-3xl font-bold tracking-tight text-ink">
           Create your account
         </h1>
 
-        <p class="mt-2 text-slate-400">
+        <p class="mt-2 text-sm text-muted">
           Choose an anonymous avatar and start joining community discussions.
         </p>
+
       </div>
 
-      <!-- Avatar Picker -->
+      <!-- Avatars -->
+
       <div class="mt-8">
-        <label class="mb-3 block text-sm font-medium text-slate-300">
+
+        <label class="mb-3 block text-sm font-medium text-muted">
           Choose your avatar
         </label>
 
-        <div class="grid grid-cols-4 sm:grid-cols-8 gap-5">
+        <p
+          v-if="avatarError"
+          class="mb-3 text-xs text-faint"
+        >
+          {{ avatarError }}
+        </p>
+
+        <div class="grid grid-cols-8 gap-3">
+
           <button
             v-for="avatar in avatars"
             :key="avatar"
             type="button"
             @click="selectedAvatar = avatar"
             :class="[
-              'flex h-13 w-13 items-center justify-center rounded-lg border text-[1rem] transition-all duration-200',
+              'flex h-12 w-12 items-center justify-center rounded-lg border text-xl transition-all duration-200',
               selectedAvatar === avatar
-                ? 'border-cyan-500 bg-cyan-500/10 ring-2 ring-cyan-500 shadow-lg shadow-cyan-500/20 scale-105'
-                : 'border-slate-700 bg-slate-800 hover:border-slate-500 hover:scale-105'
+                ? 'border-ink bg-surface-2 ring-2 ring-line-strong scale-105'
+                : 'border-line bg-surface hover:border-line-strong hover:scale-105'
             ]"
           >
             {{ avatar }}
           </button>
+
         </div>
+
       </div>
 
+      <!-- Error -->
+
+      <p
+        v-if="error"
+        role="alert"
+        class="mt-6 rounded-xl border border-line-strong bg-surface-2 px-4 py-3 text-sm font-medium text-ink"
+      >
+        {{ error }}
+      </p>
+
       <!-- Form -->
+
       <form
         class="mt-8 space-y-5"
-        @submit.prevent="register"
+        @submit.prevent="submit"
       >
+
         <div>
-          <label class="mb-2 block text-sm font-medium text-slate-300">
+
+          <label
+            for="username"
+            class="mb-2 block text-sm font-medium text-muted"
+          >
             Username
           </label>
 
           <input
+            id="username"
             v-model="username"
             type="text"
-            placeholder="Choose a username"
-            class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+            autocomplete="username"
+            required
+            minlength="3"
+            maxlength="24"
+            pattern="[a-zA-Z0-9_\-]+"
+            :disabled="loading"
+            title="3-24 characters: letters, numbers, _ or -"
+            placeholder="Letters, numbers, _ or -"
+            class="w-full rounded-xl border border-line bg-bg px-4 py-3 text-ink outline-none transition placeholder:text-faint focus:border-line-strong focus:ring-2 focus:ring-line-strong/30 disabled:opacity-50"
           />
+
         </div>
 
         <div>
-          <label class="mb-2 block text-sm font-medium text-slate-300">
+
+          <label
+            for="password"
+            class="mb-2 block text-sm font-medium text-muted"
+          >
             Password
           </label>
 
           <input
+            id="password"
             v-model="password"
             type="password"
-            placeholder="Password"
-            class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+            autocomplete="new-password"
+            required
+            minlength="6"
+            :disabled="loading"
+            placeholder="At least 6 characters"
+            class="w-full rounded-xl border border-line bg-bg px-4 py-3 text-ink outline-none transition placeholder:text-faint focus:border-line-strong focus:ring-2 focus:ring-line-strong/30 disabled:opacity-50"
           />
+
         </div>
 
         <div>
-          <label class="mb-2 block text-sm font-medium text-slate-300">
-            Verify Password
+
+          <label
+            for="verify"
+            class="mb-2 block text-sm font-medium text-muted"
+          >
+            Verify password
           </label>
 
           <input
+            id="verify"
             v-model="verifyPassword"
             type="password"
-            placeholder="Confirm password"
-            class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+            autocomplete="new-password"
+            required
+            :disabled="loading"
+            class="w-full rounded-xl border border-line bg-bg px-4 py-3 text-ink outline-none transition placeholder:text-faint focus:border-line-strong focus:ring-2 focus:ring-line-strong/30 disabled:opacity-50"
           />
+
         </div>
 
         <button
           type="submit"
-          class="w-full rounded-xl bg-cyan-500 py-3 text-lg font-semibold transition hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/30 active:scale-[0.98]"
+          :disabled="loading || !selectedAvatar"
+          class="w-full rounded-xl bg-accent py-3 text-lg font-semibold text-accent-ink transition hover:opacity-90 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Create Account
+          {{ loading ? "Creating…" : "Create account" }}
         </button>
+
       </form>
 
       <!-- Footer -->
+
       <div class="mt-8 text-center">
-        <span class="text-slate-400">
+
+        <span class="text-sm text-muted">
           Already have an account?
         </span>
 
         <RouterLink
           to="/login"
-          class="ml-2 font-medium text-cyan-400 transition hover:text-cyan-300"
+          class="ml-2 font-medium text-ink underline underline-offset-4 transition hover:opacity-70"
         >
           Login
         </RouterLink>
+
       </div>
+
     </div>
   </div>
 </template>

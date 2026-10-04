@@ -1,60 +1,91 @@
 <script setup lang="ts">
 import ChatMessage from "./ChatMessage.vue";
 
-import type { Message, User } from "../interfaces";
+import type { Message } from "../interfaces";
 
 const props = defineProps<{
   messages: Message[];
-  users: User[];
+  currentUserId: string;
+  isAdmin: boolean;
+  pendingIds: string[];
+  threadParent?: Message | null;
 }>();
 
 const emit = defineEmits<{
-  (e: "reply", id: number): void;
-  (e: "report", id: number): void;
-  (e: "react", payload: { id: number; emoji: string }): void;
+  (e: "reply", id: string): void;
+  (e: "report", id: string): void;
+  (e: "react", payload: { id: string; emoji: string }): void;
+  (e: "thread", id: string): void;
+  (e: "edit", payload: { id: string; content: string }): void;
+  (e: "delete", id: string): void;
 }>();
 
-function getUser(id: number) {
+function findReply(message: Message): Message | null {
+  if (!message.parentMessage) return null
+
   return (
-    props.users.find((u) => u.id === id) ??
-    ({
-      id: 0,
-      avatar: "❓",
-      username: "Unknown",
-      online: false,
-      role: "member",
-    } as User)
-  );
-}
-
-function getReply(message: Message) {
-  if (message.replyTo == null) return null;
-
-  const reply = props.messages.find((m) => m.id === message.replyTo);
-
-  if (!reply) return null;
-
-  const user = getUser(reply.userId);
-
-  return {
-    username: user.username,
-    avatar: user.avatar,
-    content: reply.content,
-  };
+    props.threadParent ??
+    props.messages.find((item) => item.id === message.parentMessage) ??
+    null
+  )
 }
 </script>
 
 <template>
-  <div class="flex h-full flex-col gap-6 overflow-y-auto p-6 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-100">
+  <div class="flex h-full flex-col gap-6 overflow-y-auto p-6 scrollbar-thin">
+    <!-- Thread parent pinned above replies -->
+
+    <div
+      v-if="threadParent"
+      class="rounded-2xl border border-line bg-surface/60 p-4"
+    >
+
+      <div class="mb-3 flex items-center justify-between">
+
+        <span class="text-xs font-semibold uppercase tracking-widest text-faint">
+          Thread
+        </span>
+
+        <button
+          @click="emit('thread', threadParent.id)"
+          class="text-xs text-muted transition hover:text-ink"
+        >
+          Close ✕
+        </button>
+
+      </div>
+
+      <ChatMessage
+        :message="threadParent"
+        :current-user-id="currentUserId"
+        :is-admin="isAdmin"
+        :pending-ids="pendingIds"
+        @reply="emit('reply', $event)"
+        @report="emit('report', $event)"
+        @react="(payload) => emit('react', payload)"
+        @thread="emit('thread', $event)"
+        @edit="emit('edit', $event)"
+        @delete="emit('delete', $event)"
+      />
+
+    </div>
+
+    <!-- Feed -->
+
     <ChatMessage
       v-for="message in messages"
       :key="message.id"
       :message="message"
-      :user="getUser(message.userId)"
-      :reply="getReply(message)"
+      :current-user-id="currentUserId"
+      :is-admin="isAdmin"
+      :pending-ids="pendingIds"
+      :reply="findReply(message)"
       @reply="emit('reply', $event)"
       @report="emit('report', $event)"
-      @react="emit('react', $event)"
+      @react="(payload) => emit('react', payload)"
+      @thread="emit('thread', $event)"
+      @edit="emit('edit', $event)"
+      @delete="emit('delete', $event)"
     />
   </div>
 </template>

@@ -1,23 +1,35 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Us-APP API — Fastify + JSON file store",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "tsx src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsx watch src/index.ts",
+    "start:once": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "db:reset": "node -e \"require('node:fs').rmSync('db/us-app.json',{force:true});console.log('database reset, it will reseed on next boot')\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
     "@fastify/websocket": "^11.2.0",
-    "@types/node": "^26.0.1",
+    "bcryptjs": "^3.0.3",
     "fastify": "^5.8.5",
-    "ormyx": "^0.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "fastify-plugin": "^6.0.0",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.6.4",
+    "@types/ws": "^8.18.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
   }
 }

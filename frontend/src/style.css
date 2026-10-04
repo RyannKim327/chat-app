@@ -1,1 +1,198 @@
 @import "tailwindcss";
+
+/*
+  Monochrome design tokens.
+
+  Dark mode (default)  -> charcoal black canvas, dirty white ink
+  Light mode (html.light) -> dirty white canvas, charcoal black ink
+
+  Only two tones exist. Every surface, border and label is a step between
+  them, so swapping modes never introduces a new hue.
+*/
+
+:root {
+  --bg: #101012;
+  --surface: #161619;
+  --surface-2: #1e1e22;
+  --line: #2a2a2f;
+  --line-strong: #3d3d45;
+
+  --ink: #f2f2ef;
+  --ink-muted: #a3a3aa;
+  --ink-faint: #70707a;
+
+  --accent: #f2f2ef;
+  --accent-ink: #101012;
+
+  --ring: rgb(242 242 239 / 0.45);
+  --bloom-a: rgb(242 242 239 / 0.07);
+  --bloom-b: rgb(242 242 239 / 0.05);
+  color-scheme: dark;
+}
+
+html.light {
+  --bg: #f2f1ec;
+  --surface: #faf9f5;
+  --surface-2: #e8e7e1;
+  --line: #dcdbd4;
+  --line-strong: #bfbeb6;
+
+  --ink: #141416;
+  --ink-muted: #55555c;
+  --ink-faint: #83838b;
+
+  --accent: #141416;
+  --accent-ink: #f2f2ef;
+
+  --ring: rgb(20 20 22 / 0.35);
+  --bloom-a: rgb(20 20 22 / 0.07);
+  --bloom-b: rgb(20 20 22 / 0.05);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-ink: var(--ink);
+  --color-muted: var(--ink-muted);
+  --color-faint: var(--ink-faint);
+
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    background-color: var(--bg);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--ink);
+    color: var(--bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--ink-faint);
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--line-strong);
+    border-radius: 9999px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--ink-faint);
+  }
+}
+
+/* App shell keeps the canvas full bleed and hides page level overflow. */
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
+}
+
+/* Ambient depth without hue: two very soft neutral blooms. */
+.app-canvas {
+  position: relative;
+  isolation: isolate;
+}
+
+.app-canvas::before,
+.app-canvas::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 9999px;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.app-canvas::before {
+  top: -12rem;
+  left: -12rem;
+  width: 34rem;
+  height: 34rem;
+  background: var(--bloom-a);
+}
+
+.app-canvas::after {
+  right: -12rem;
+  bottom: -12rem;
+  width: 30rem;
+  height: 30rem;
+  background: var(--bloom-b);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

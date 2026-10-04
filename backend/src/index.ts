@@ -1,75 +1,69 @@
-import Faslify, { fastify, RouteGenericInterface } from "fastify"
-import websocket, { WebSocket } from "@fastify/websocket"
+import Fastify, { type FastifyError } from "fastify"
 import cors from "@fastify/cors"
-import { ormyx } from "ormyx"
+import websocket from "@fastify/websocket"
+import type { WebSocket } from "ws"
 
-import SocketControl from './websocket.ts'
+import { env, isProd } from "./env.ts"
+import { initStore } from "./db/store.ts"
+import { authPlugin } from "./plugins/auth.ts"
+import { attachSocket } from "./ws/attach.ts"
 
-import index from './endpoints'
-import avatars from "./endpoints/avatars.ts"
-import create_user from "./endpoints/create-user.ts"
+import authRoutes from "./routes/auth.ts"
+import channelRoutes from "./routes/channels.ts"
+import messageRoutes from "./routes/messages.ts"
+import moderationRoutes from "./routes/moderation.ts"
+import userRoutes from "./routes/users.ts"
 
-const app = Faslify()
-const db = ormyx("testmode", "us-app")
-const PORT = 3000
+const app = Fastify({
+  logger: { level: isProd ? "info" : "debug" },
+})
 
+await initStore(env.dbFile)
 
-// TODO: Cors setup
 await app.register(cors, {
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    'Content-Type', 'Authorization'
-  ],
+  // In development we reflect the caller's origin so the Vite dev server can
+  // move ports freely. Production is pinned to CLIENT_URL.
+  origin: isProd ? env.clientUrl : true,
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   credentials: true,
-  maxAge: 86400
 })
 
-
-// TODO: To setup information about the used databased (ormyx)
-db.create("users", {
-  "id": "string",
-  "avatar": "string",
-  "username": "string",
-  "password": "string"
-}, {
-  unique: "id",
-  autoincrement: false
+await app.register(websocket, {
+  options: { maxPayload: 64 * 1024 },
 })
 
-db.create("groups", {
-  "owner": "string",
-  "members": "string"
-})
+await app.register(authPlugin)
 
-db.create("messages", {
-  "message": "string",
-  "user": "string",
-  "group": "number"
-})
+app.setErrorHandler((error: FastifyError, request, reply) => {
+  const status = error.statusCode ?? 500
 
-db.create("reports", {
-  "message": "number",
-  "violation": "string"
-})
-
-// TODO: App Registry, endpoints and websockets
-await app.register(websocket)
-
-app.get("/", index)
-
-app.get('/avatars', avatars)
-
-app.post('/register', create_user)
-
-app.get('/ws', { websocket: true }, (socket: WebSocket) => {
-  SocketControl(socket, db)
-})
-
-await app.listen({ port: PORT }, (err, addr) => {
-  if (err) {
-    console.error(err)
-    return
+  if (status >= 500) {
+    request.log.error(error)
+    return reply.code(status).send({ error: "Something went wrong on our side" })
   }
-  console.log(`Running on ${addr}`)
+
+  return reply.code(status).send({ error: error.message || "Bad request" })
 })
+
+app.get("/api/health", async () => ({ ok: true, db: env.dbFile }))
+
+await app.register(
+  async (api) => {
+    await api.register(authRoutes)
+    await api.register(channelRoutes)
+    await api.register(messageRoutes)
+    await api.register(moderationRoutes)
+    await api.register(userRoutes)
+  },
+  { prefix: "/api/v1" },
+)
+
+app.get("/ws", { websocket: true }, (socket: WebSocket, request) => {
+  const token = (request.query as { token?: string } | undefined)?.token
+
+  attachSocket(socket, token)
+})
+
+await app.listen({ port: env.port, host: env.host })
+
+app.log.info(`database: ${env.dbFile}`)

@@ -25,3 +25,6 @@ logs
 
 *.ormyx
 *.dat
+
+# JSON database (regenerated on boot, seeded automatically)
+backend/db/

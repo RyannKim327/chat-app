@@ -4,7 +4,28 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <meta name="description" content="Us-APP — anonymous community discussion rooms." />
+    <title>Us-APP — Anonymous Communities</title>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("usapp_theme")
+          var light =
+            stored === "light" ||
+            (stored !== "dark" &&
+              window.matchMedia("(prefers-color-scheme: light)").matches)
+
+          if (light) document.documentElement.classList.add("light")
+
+          var theme = light
+            ? { bg: "#f2f1ec", fg: "#141416" }
+            : { bg: "#101012", fg: "#f2f2ef" }
+
+          document.documentElement.style.backgroundColor = theme.bg
+          document.documentElement.style.color = theme.fg
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="app"></div>

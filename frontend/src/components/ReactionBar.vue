@@ -3,19 +3,15 @@ import type { Reaction } from "../interfaces";
 
 defineProps<{
   reactions: Reaction[];
+  currentUserId: string;
+  anyReacted?: boolean;
 }>();
 
 const emit = defineEmits<{
   (e: "react", emoji: string): void;
 }>();
 
-const availableReactions = [
-  "👍",
-  "❤️",
-  "😂",
-  "🔥",
-  "👀",
-];
+const availableReactions = ["👍", "❤️", "😂", "🔥", "👀"];
 </script>
 
 <template>
@@ -25,10 +21,17 @@ const availableReactions = [
       v-for="reaction in reactions"
       :key="reaction.emoji"
       @click="emit('react', reaction.emoji)"
-      class="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-sm transition hover:border-cyan-500 hover:bg-slate-700"
+      :class="[
+        'flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition',
+        reaction.users.includes(currentUserId)
+          ? 'border-line-strong bg-surface-2 text-ink'
+          : 'border-line bg-transparent text-muted hover:border-line-strong hover:text-ink'
+      ]"
     >
-      {{ reaction.emoji }}
-      {{ reaction.count }}
+      <span>{{ reaction.emoji }}</span>
+      <span class="tabular-nums">
+        {{ reaction.count }}
+      </span>
     </button>
 
     <div class="flex gap-1">
@@ -37,7 +40,11 @@ const availableReactions = [
         v-for="emoji in availableReactions"
         :key="emoji"
         @click="emit('react', emoji)"
-        class="rounded-full p-1 opacity-60 transition hover:bg-slate-700 hover:opacity-100"
+        :title="`React with ${emoji}`"
+        :class="[
+          'rounded-full p-1 transition hover:bg-surface-2',
+          anyReacted ? 'opacity-70 hover:opacity-100' : 'opacity-40 hover:opacity-100'
+        ]"
       >
         {{ emoji }}
       </button>
